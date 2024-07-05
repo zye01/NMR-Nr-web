@@ -173,13 +173,9 @@ def load_data(state):
 def initiate_state(state):
     if 'funcs' not in state:
         state.funcs = st_nh3()
-    if 'nh3_db' not in state:
         state.nh3_db = state.funcs.db
-    if 'nh3_df' not in state:
         state.nh3_df = state.nh3_db.read_data()
-    if 'first_date' not in state:
         state.first_date = state.nh3_df['st'].min()
-    if 'last_date' not in state:
         state.last_date = state.nh3_df['ed'].max()
     state.autoload = True
 
