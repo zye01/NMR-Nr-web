@@ -18,8 +18,11 @@ class nh3_database:
 
     def read_data(self,start_date=None,end_date=None,sources=None,methods=None):
         if not os.path.isfile(self.db_dfile):
-            print('Database file not found')
-            return None
+            print('Database file not found, read from web')
+            url = 'https://drive.google.com/file/d/18W5VeYeads31dL26KggTKjiZcG_HvcBE/view?usp=sharing'
+            url_for_pandas = url.replace("/edit?usp=share_link", "/export?format=csv")
+            df = pd.read_csv(url_for_pandas)
+            return df
         df = pd.read_csv(self.db_dfile,header=0)
         df = self.process_datetime(df)
 
