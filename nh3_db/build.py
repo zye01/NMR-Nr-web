@@ -22,6 +22,7 @@ class nh3_database:
             url = 'https://drive.google.com/file/d/18W5VeYeads31dL26KggTKjiZcG_HvcBE/view?usp=sharing'
             url='https://drive.google.com/uc?id=' + url.split('/')[-2]
             df = pd.read_csv(url)
+            df = self.process_datetime(df)
             return df
         df = pd.read_csv(self.db_dfile,header=0)
         df = self.process_datetime(df)
