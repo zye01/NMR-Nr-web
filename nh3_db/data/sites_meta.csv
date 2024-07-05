@@ -1,0 +1,133 @@
+sid,sname,lat,lon,alt,country,station_setting,land_use,source
+TR0001R,Cubuk II,40.5,33,1169,Turkey,,,1
+SK0006R,Starina,49.05,22.266667,345,Slovakia,,,1
+SK0004R,Stará Lesná,49.15,20.283333,808,Slovakia,,,1
+SI0008R,Iskrba,45.566667,14.866667,520,Slovenia,,,1
+SE0014R,Råö,57.394,11.914,5,Sweden,,,1
+SE0022R,Norunda Stenen,60.0858,17.50528,45,Sweden,Rural,Forest,1
+SE0020R,Hallahus,56.0429,13.148,190,Sweden,Rural,,1
+SE0012R,Aspvreten,58.8,17.383333,20,Sweden,,,1
+SE0011R,Vavihill,56.016667,13.15,175,Sweden,,,1
+SE0005R,Bredkälen,63.85,15.333333,404,Sweden,,,1
+SE0002R,Rörvik,57.416667,11.933333,10,Sweden,,,1
+RU0014R,Pushkinskie Gory,57,28.9,103,Russian Federation,,,1
+PL0005R,Diabla Gora,54.15,22.066667,157,Poland,,,1
+NO0977R,Tjeldbergodden,63.416149,8.758665,90,Norway,,,1
+NO0797R,Lardal,59.466667,9.85,210,Norway,,,1
+NO0796R,Valle,59.052311,7.566513,250,Norway,,,1
+LV0010R,Rucava,56.161944,21.173056,18,Latvia,,,1
+NO0091R,Søgne,58.116667,7.850001,15,Norway,,,1
+NO0090R,Andøya,69.278333,16.011666,380,Norway,,,1
+LT0015R,Preila,55.37611111,21.03055556,5,Lithuania,,,1
+NO0056R,Hurdal,60.372386,11.078142,300,Norway,,,1
+NO0055R,Karasjok,69.466667,25.216667,333,Norway,,,1
+NO0047R,Svanvik,69.45,30.033333,30,Norway,,,1
+NO0044R,Nordmoen,60.266667,11.1,200,Norway,,,1
+NO0043R,Prestebakke,59,11.533333,160,Norway,,,1
+NO0041R,Osen,61.25,11.783333,440,Norway,,,1
+NO0039R,Kårvatn,62.783333,8.883333,210,Norway,,,1
+NO0030R,Jergul,69.45,24.6,255,Norway,,,1
+NO0015R,Tustervatn,65.833333,13.916667,439,Norway,,,1
+NO0008R,Skreådalen,58.816667,6.716667,475,Norway,,,1
+NO0002R,Birkenes II,58.38853,8.252,219,Norway,Rural,Forest,1
+NO0001R,Birkenes,58.383333,8.25,190,Norway,Rural,Forest,1
+NL0091R,De Zilk,52.3,4.5,4,Netherlands,,,1
+NL0011R,Cabauw Zijdeweg,51.970278,4.926389,1,Netherlands,,,1
+NL0007R,Eibergen,52.083333,6.566667,20,Netherlands,,,1
+NL0002R,Witteveen,52.816667,6.666667,18,Netherlands,,,1
+MD0013R,Leova II,46.4884,28.2835,166,"Moldova, Republic of",,,1
+LV0016R,Zoseni,57.135278,25.905556,188,Latvia,,,1
+IT0004R,Ispra,45.8,8.633333,209,Italy,Rural,Other,1
+IT0001R,Montelibretti,42.1,12.633333,48,Italy,,,1
+HU0002R,K-puszta,46.966667,19.583333,125,Hungary,Rural,Forest,1
+HU0003R,Farkasfa,46.91,16.32,312,Hungary,Rural,Forest,1
+FI0017R,Virolahti II,60.526667,27.686111,4,Finland,,,1
+GB1055R,Chilbolton Observatory,51.149617,-1.438228,78,United Kingdom,Rural,,1
+GB0091R,Banchory,57.076667,-2.534444,120,United Kingdom,,,1
+GB0054R,Glen Saugh,56.907222,-2.559167,85,United Kingdom,,,1
+GB0048R,Auchencorth Moss,55.79216,-3.2429,260,United Kingdom,,,1
+DE0009R,Zingst,54.4368,12.7249,1,Germany,Coastal,Grassland,1
+GB0036R,Harwell,51.573056,-1.316667,137,United Kingdom,,,1
+GB0016R,Glen Dye,56.9675,-2.588889,85,United Kingdom,,,1
+GB0014R,High Muffles,54.334444,-0.8075,267,United Kingdom,,,1
+GB0013R,Yarner Wood,50.596389,-3.713056,119,United Kingdom,,,1
+GB0006R,Lough Navar,54.443056,-7.87,126,United Kingdom,,,1
+FR0015R,La Tardière,46.65,-0.75,133,France,,,1
+FR0013R,Peyrusse Vieille,43.616667,0.183333,200,France,,,1
+FR0009R,Revin,49.9,4.633333,390,France,,,1
+DE0007R,Neuglobsow,53.166667,13.033333,62,Germany,,,1
+FI0050R,Hyytiälä,61.85,24.283333,181,Finland,Rural,Forest,1
+FI0037R,Ähtäri II,62.583333,24.183333,180,Finland,,,1
+FI0036R,Pallas (Matorova),68,24.23722222,340,Finland,Rural,Forest,1
+DE0001R,Westerland,54.925556,8.309722,12,Germany,Coastal,Grassland,1
+FI0022R,Oulanka,66.320278,29.401667,310,Finland,,,1
+FI0018R,Virolahti III,60.53002,27.66754,4,Finland,,,1
+FI0009R,Utö,59.779167,21.377222,7,Finland,,,1
+ES1778R,Montseny,41.766667,2.35,700,Spain,,,1
+ES0014R,Els Torms,41.39389,0.73472,470,Spain,,,1
+CZ0003R,Kosetice (NOAK),49.573394,15.080278,535,Czechia,Rural,Agricultural,1
+ES0011R,Barcarrota,38.47278,-6.92361,393,Spain,,,1
+ES0009R,Campisabalos,41.281111,-3.142778,1360,Spain,,,1
+ES0008R,Niembro,43.43917,-4.85,134,Spain,,,1
+ES0007R,Víznar,37.23722,-3.53417,1230,Spain,,,1
+ES0001R,San Pablo de los Montes,39.547778,-4.348611,917,Spain,,,1
+DK0041R,Lille Valby,55.686944,12.126111,10,Denmark,,,1
+DK0031R,Ulborg,56.290424,8.427486,10,Denmark,,,1
+DK0012R,Risoe,55.693588,12.085797,3,Denmark,,,1
+DK0008R,Anholt,56.716667,11.516667,40,Denmark,,,1
+DK0005R,Keldsnor,54.746495,10.73616,10,Denmark,,,1
+DK0003R,Tange,56.35,9.6,13,Denmark,,,1
+DE0008R,Schmücke,50.65,10.766667,937,Germany,,,1
+CH0005R,Rigi,47.0675,8.463889,1031,Switzerland,,,1
+DE0003R,Schauinsland,47.914722,7.908611,1205,Germany,,,1
+DE0002R,Waldhof,52.802222,10.759444,74,Germany,,,1
+CZ0001R,Svratouch,49.733333,16.05,737,Czechia,,,1
+CH0002R,Payerne,46.813056,6.944722,489,Switzerland,,,1
+CH0053R,Beromünster,47.18961391,8.175433684,797,Switzerland,Rural,Agricultural,1
+BE0014R,Koksijde,51.12092,2.65854,4,Belgium,Coastal,Grassland,1
+AT0002R,Illmitz,47.76666641,16.76666641,117,Austria,Rural,Grassland,1
+DK-01,DK-Anholt,56.71733185,11.52069781,40,Denmark,Rural,Coastal,2
+DK-02,DK-Frederiksborg,55.94701243,12.33784863,,Denmark,Rural,Forest,2
+DK-03,DK-Føllesberg,54.74675981,10.73617253,10,Denmark,Rural,Coastal,2
+DK-04,DK-Lille_Valby,55.69491709,12.12831909,10,Denmark,Rural,Grassland,2
+DK-05,DK-Linned,55.19885126,8.952687192,,Denmark,Rural,Forest,2
+DK-06,DK-Lyngby,55.77769887,12.48329946,,Denmark,Urban,Urban park,2
+DK-07,DK-Læsø,57.25526837,11.0116107,,Denmark,Rural,Coastal,2
+DK-08,DK-Odden,55.73908245,10.91192268,,Denmark,Rural,Coastal,2
+DK-09,DK-Risø,55.69500374,12.09052127,3,Denmark,Rural,Coastal,2
+DK-10,DK-Tange,56.35396124,9.603139562,13,Denmark,Rural,Forest,2
+DK-11,DK-Ulborg,56.29213202,8.428331539,10,Denmark,Rural,Forest,2
+FR-Agr,FR-Agr,48.1,-1.7,33,France,,City,3
+FR-Alo,FR-Alo,47.9,-2.7,116,France,,Cropland,3
+FR-Aur,FR-Aur,43.5,1.1,245,France,,Cropland,3
+FR-Big,FR-Big,47.9,-2.7,99,France,,Cropland,3
+FR-Bil,FR-Bil,44.5,-1,36,France,,Forest,3
+FR-Boi,FR-Boi,48.2,-2.1,102,France,,Cropland,3
+FR-Bre,FR-Bre,48.1,-1.9,51,France,,Cropland,3
+FR-Chn,FR-Chn,47.8,-2.9,67,France,,Cropland,3
+FR-Cht,FR-Cht,48.1,-1.8,62,France,,Cropland,3
+FR-EFL,FR-EFL,48.1,-1.8,41,France,,Cropland,3
+FR-Fgs,FR-Fgs,48.4,-1.2,164,France,,Forest,3
+FR-Fon,FR-Fon,48.4,2.8,116,France,,Forest,3
+FR-Gri,FR-Gri,48.8,2,122,France,,Cropland,3
+FR-Hes,FR-Hes,48.7,7,322,France,,Forest,3
+FR-Ker,FR-Ker,48.1,-4,164,France,,Cropland,3
+FR-Laq,FR-Laq,45.6,2.7,1030,France,,Grassland,3
+FR-Lbr,FR-Lbr,44.7,-0.9,37,France,,Forest,3
+FR-LDM,FR-LDM,48.4,-1.2,140,France,,Peatland,3
+FR-Naz,FR-Naz,48,-2.8,124,France,,Cropland,3
+FR-Org,FR-Org,48.8,3.1,139,France,,Cropland,3
+FR-OS2,FR-OS2,48.3,1.2,195,France,,Cropland,3
+FR-Pue,FR-Pue,43.7,3.6,310,France,,Forest,3
+FR-Qui,FR-Qui,48,-4.1,36,France,,City,3
+FR-Uni,FR-Uni,48.1,-2,98,France,,Cropland,3
+NL10131,Vredepeel-Vredeweg,51.54052,5.85307,,Holland,Regional background,,4
+NL10235,Huijbergen-Vennekenstraat,51.434443,4.359835,,Holland,Regional background,,4
+NL10243,De Rips-Blaarpeelweg,51.547469,5.838202,,Holland,Regional background,,4
+NL10244,De Rips-Klotterpeellaan,51.535901,5.808593,,Holland,Regional background,,4
+NL10444,De Zilk-Vogelaarsdreef,52.296556,4.510817,,Holland,Regional background,,4
+NL10538,Wieringerwerf-Medembli,52.803657,5.050509,,Holland,Regional background,,4
+NL10633,Zegveld-Oude Meije,52.13795,4.83819,,Holland,Regional background,,4
+NL10722,Eibergen-Lintveldseweg,52.091801,6.605367,,Holland,Regional background,,4
+NL10738,Wekerom-Riemterdijk,52.111621,5.708419,,Holland,Regional background,,4
+NL10929,Valthermond-Noorderdiep,52.875725,6.932432,,Holland,Regional background,,4

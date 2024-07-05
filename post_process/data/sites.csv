@@ -1,0 +1,12 @@
+sid,sname,lat,lon,alt,country,station_setting,land_use,source,ebas_id,obs_id
+SE0014R,Råö,57.394,11.914,5.0,Sweden,,,1,SE0014R,SE0014R
+SE0022R,Norunda Stenen,60.0858,17.50528,45.0,Sweden,Rural,Forest,1,SE0022R,SE0022R
+SE0020R,Hallahus,56.0429,13.148,190.0,Sweden,Rural,,1,SE0020R,SE0020R
+NO0001R,Birkenes,58.383333,8.25,190.0,Norway,Rural,Forest,1,NO0002R,NO0002R
+DK-09,DK-Risø,55.69500374,12.09052127,3.0,Denmark,Rural,Coastal,2,DK0012R,DK0012R
+DK-10,DK-Tange,56.35396124,9.603139562,13.0,Denmark,Rural,Forest,2,DK0003R,DK0003R
+DK-11,DK-Ulborg,56.29213202,8.428331539,10.0,Denmark,Rural,Forest,2,DK0031R,DK0031R
+NL10131,Vredepeel-Vredeweg,51.54052,5.85307,,Holland,Regional background,,4,None,NL10131
+NL10444,De Zilk-Vogelaarsdreef,52.296556,4.510817,,Holland,Regional background,,4,None,NL10444
+NL10633,Zegveld-Oude Meije,52.13795,4.83819,,Holland,Regional background,,4,None,NL10633
+NL10738,Wekerom-Riemterdijk,52.111621,5.708419,,Holland,Regional background,,4,None,NL10738
