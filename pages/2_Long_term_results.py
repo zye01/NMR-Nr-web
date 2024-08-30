@@ -182,9 +182,9 @@ def plot_landuse_pie(state,infile,cm,label):
     # hide the legend
     fig.update_traces(textposition='inside')
     fig.update_layout(uniformtext_minsize=12, uniformtext_mode='hide')
-    fig.update_layout(showlegend=False)
+    fig.update_layout(showlegend=True)
     # title in the middle
-    fig.update_layout(title_x=0.5,title_xanchor='center',)
+    fig.update_layout(title_x=0.5,title_xanchor='center')
     # fig.update_layout(height=250)
 
     cm.plotly_chart(fig, use_container_width=True)
