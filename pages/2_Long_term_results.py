@@ -55,7 +55,6 @@ def run():
         # Time series
         if state.no_obs:
             st.markdown(f'##### No observations available at {state.sname} for {state.par}.')
-        print_available_stations(state, st)
 
         plot_time_series(state, st)
         plot_ts_diff(state,st)
@@ -429,6 +428,7 @@ def plot_ts_bias(state, cm):
 
 def plot_time_series(state, cm):
     cm.markdown('### Time series of all runs')
+    print_available_stations(state, cm)
     fig = go.Figure()
     fig.update_layout(
         template = 'plotly_white'
