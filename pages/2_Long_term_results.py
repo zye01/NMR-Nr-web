@@ -300,7 +300,7 @@ def get_diurnal_data(state):
 
 
     if state.no_obs or state.dths.min() > 1:
-        st.markdown(f'##### No observations for diurnal cycle available at {state.sname} for {state.par} in 2019.')
+        st.markdown(f'##### No observations for diurnal cycle available at {state.sname} for {state.par}.')
         
         state.df_dc = state.df_dc_sim
         state.df_dc_sn = state.df_dc_sn_sim
