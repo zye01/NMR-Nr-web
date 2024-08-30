@@ -57,8 +57,8 @@ def run():
             st.markdown(f'##### No observations available at {state.sname} for {state.par}.')
 
         plot_time_series(state, st)
-        plot_ts_diff(state,st)
         plot_ts_bias(state,st)
+        plot_ts_diff(state,st)
         # plot_metrics(state,st)
 
     with tab2:
@@ -333,7 +333,8 @@ def get_diurnal_diff(state):
 def plot_ts_diff(state, cm):
     # The difference between BD and noBD for each model
     cm.markdown('### BD minus noBD for each model')
-
+    if state.sid == 'All stations':
+        cm.markdown('Mean difference for all 11 stations')
     fig = go.Figure()
     fig.update_layout(
         template = 'plotly_white'
