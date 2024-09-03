@@ -125,7 +125,7 @@ def metrics_figure(state,mtr,cm):
     fig.update_layout(
         margin=dict(l=2, r=2, t=2, b=2),
         # width=1200,
-        height=200,
+        height=300,
         font=dict(size=18),
         xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
             ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
