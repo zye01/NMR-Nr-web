@@ -75,7 +75,8 @@ def print_available_stations(state, cm):
     if state.sid == 'All stations':
         stnames = ', '.join(state.available_stations)
         totst = len(state.available_stations)
-        cm.markdown(f'Observations are available for {totst} stations: {stnames}')
+        cm.markdown(f'Observations are available for {totst} stations:')
+        cm.markdown(f'{stnames}')
 
 
 
