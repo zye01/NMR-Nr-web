@@ -454,7 +454,7 @@ def plot_time_series(state, cm):
                         name=icase,
                         line=ldict,
                     ))
-        else:
+        elif icase != 'Obs':
             fig.add_trace(go.Scatter(
                         x=state.df_agg_sim['Time'],
                         y=state.df_agg_sim[icase],
@@ -627,8 +627,10 @@ def load_merged_data(state):
 
     state.no_obs = False
 
-    df_merge['st'] = np.array(pd.to_datetime(df_merge['st'],format='ISO8601'))
-    df_merge['ed'] = np.array(pd.to_datetime(df_merge['ed'],format='ISO8601'))
+    # df_merge['st'] = np.array(pd.to_datetime(df_merge['st'],format='ISO8601'))
+    df_merge['st'] = np.array(pd.to_datetime(df_merge['st'],infer_datetime_format=True))
+    # df_merge['ed'] = np.array(pd.to_datetime(df_merge['ed'],format='ISO8601'))
+    df_merge['ed'] = np.array(pd.to_datetime(df_merge['ed'],infer_datetime_format=True))
     
     if state.soid == 'All stations':
         sel_df = df_merge.copy()
