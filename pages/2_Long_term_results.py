@@ -516,6 +516,7 @@ def plot_station_map(state,cm):
 def select_data(state,cm):
     state.sel_models = cm.multiselect('Select models', models, ['DEHM','EMEP','MATCH'])
     state.par = cm.selectbox('Select component', list(par_dict.keys()))
+    state.par_sunit = par_dict[state.par]['sunit']
 
     # Select station
     state.st_options = ['All stations'] + state.stnames
@@ -610,7 +611,7 @@ def load_merged_data(state):
     # Load merged data
     dfs = []
     for yr in range(state.yrs[0],state.yrs[1]+1):
-        mergefile = os.path.join(datapath,'merged', f'All_merged_{yr}_{state.par}.csv')
+        mergefile = os.path.join(datapath,'merged', f'All_merged_{yr}_{state.par}_{state.par_sunit}.csv')
         if not os.path.exists(mergefile):
             continue
         df = pd.read_csv(mergefile, header=0)
