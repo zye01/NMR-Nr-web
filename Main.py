@@ -2,7 +2,7 @@ import streamlit as st
 
 def run():
     st.markdown("# Nordic Nature & Nitrogen")
-    st.sidebar.markdown("# Introduction")
+    # st.sidebar.markdown("# Introduction")
     main_text()
     st.session_state.autoload = True 
     
