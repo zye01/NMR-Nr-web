@@ -114,7 +114,7 @@ def plot_heatmaps(state,cm):
         )
     
     fig.update_layout(
-        margin=dict(l=2, r=2, t=2, b=2),
+        margin=dict(l=20, r=2, t=20, b=2),
         width=700,
         height=500,
         font=dict(size=18),
