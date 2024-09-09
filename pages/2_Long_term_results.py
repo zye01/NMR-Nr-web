@@ -93,13 +93,16 @@ def plot_heatmaps(state,cm):
     corr = corr.round(2)
 
     mask = np.triu(np.ones_like(corr, dtype=bool))
+    # remove null in text labels
+    labels = corr.mask(~mask).values
+    labels = np.where(labels.isnull(), '', labels)
 
     fig = go.Figure(data=go.Heatmap(
             z=corr.mask(~mask),
             x=corr.columns,
             y=corr.columns,
             colorscale='Tropic',
-            text=corr.mask(~mask).values,
+            text=labels,
             texttemplate="%{text}",
             textfont=dict(size=15),
             zmin=-1,
