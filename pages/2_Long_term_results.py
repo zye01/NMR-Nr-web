@@ -114,7 +114,7 @@ def plot_heatmaps(state,cm):
         )
     
     fig.update_layout(
-        margin=dict(l=20, r=2, t=20, b=2),
+        margin=dict(l=20, r=2, t=30, b=2),
         width=700,
         height=500,
         font=dict(size=18),
@@ -186,7 +186,7 @@ def metrics_figure(state,mtr,cm):
         ))
 
     fig.update_layout(
-        margin=dict(l=2, r=2, t=2, b=2),
+        margin=dict(l=2, r=2, t=20, b=2),
         # width=1200,
         height=300,
         font=dict(size=18),
@@ -323,7 +323,7 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None):
     fig.update_layout(
         xaxis_title='Hour',
         yaxis_title=f'{state.par} ({par_dict[state.par]["units"]})',
-        margin=dict(l=2, r=2, t=2, b=2),
+        margin=dict(l=2, r=2, t=20, b=2),
         # width=1200,
         height=400,
         legend=dict(
@@ -422,7 +422,7 @@ def plot_ts_diff(state, cm):
     fig.update_layout(
         xaxis_title='Date',
         yaxis_title=f'{state.par} difference ({par_dict[state.par]["units"]})',
-        margin=dict(l=2, r=2, t=2, b=2),
+        margin=dict(l=2, r=2, t=20, b=2),
         # width=1200,
         height=400,
         legend=dict(
@@ -470,7 +470,7 @@ def plot_ts_bias(state, cm):
     fig.update_layout(
         xaxis_title='Date',
         yaxis_title=f'{state.par} bias ({par_dict[state.par]["units"]})',
-        margin=dict(l=2, r=2, t=2, b=2),
+        margin=dict(l=2, r=2, t=20, b=2),
         # width=1200,
         height=400,
         legend=dict(
@@ -530,7 +530,7 @@ def plot_time_series(state, cm):
     fig.update_layout(
         xaxis_title='Date',
         yaxis_title=f'{state.par} ({par_dict[state.par]["units"]})',
-        margin=dict(l=2, r=2, t=2, b=2),
+        margin=dict(l=2, r=2, t=20, b=2),
         # width=1200,
         height=400,
         legend=dict(
@@ -574,7 +574,7 @@ def plot_station_map(state,cm):
                 zoom=3,
                 style='light'
             ),
-            margin=dict(l=2, r=2, t=2, b=2),
+            margin=dict(l=2, r=2, t=20, b=2),
         )
     cm.plotly_chart(fig, use_container_width=True)
 
