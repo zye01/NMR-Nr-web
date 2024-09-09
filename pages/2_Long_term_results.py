@@ -50,6 +50,8 @@ def run():
 
     tab1, tab2, tab3 = st.tabs(['Time series','Diurnal cycle', 'Metrics'])
 
+    load_data(state)
+
     with tab1:
         get_data_agg(state)
         # Time series
@@ -67,6 +69,7 @@ def run():
 
     with tab3:
         plot_metrics(state,st)
+        plot_heatmaps(state,st)
 
         if state.sid != 'All stations':
             plot_landuse(state,st)
@@ -77,6 +80,61 @@ def print_available_stations(state, cm):
         totst = len(state.available_stations)
         cm.markdown(f'Observations are available for {totst} stations:')
         cm.markdown(f'{stnames}')
+        
+def plot_heatmaps(state,cm):
+    if state.df_agg_merge is None:
+        cm.markdown('### Correlations between models')
+    else:
+        cm.markdown('### Correlations between models and observations')
+    cm.markdown('Note: diff = BD - noBD')
+
+
+    corr = get_heatmap_correlations(state)
+
+    mask = np.triu(np.ones_like(corr, dtype=bool))
+
+    fig = go.Figure(data=go.Heatmap(
+            z=corr.mask(~mask),
+            x=corr.columns,
+            y=corr.columns,
+            colorscale='Tropic',
+            text=corr.values.round(2),
+            texttemplate="%{text}",
+            textfont=dict(size=15),
+            zmin=-1,
+            zmax=1,
+            xgap=1,
+            ygap=1,
+            showscale=False,
+        ),
+        )
+    
+    fig.update_layout(
+        margin=dict(l=2, r=2, t=2, b=2),
+        width=700,
+        height=500,
+        font=dict(size=18),
+        xaxis=dict(showline=False, title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
+        yaxis=dict(showline=False, title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
+        # yaxis_autorange='reversed',
+        )
+    
+    # move x-axis to the top
+    # fig.update_xaxes(side='top')
+    cm.plotly_chart(fig)    
+
+def get_heatmap_correlations(state):
+    model_cases = [f'{model}_{run}' for model in state.sel_models for run in ['BD','noBD','diff']]
+    if state.df_agg_merge is not None:
+        for model in state.sel_models:
+            state.df_agg_merge[f'{model}_diff'] = state.df_agg_merge[f'{model}_BD'] - state.df_agg_merge[f'{model}_noBD']
+        df = state.df_agg_merge[model_cases+['Obs']]
+    else:
+        df = state.df_agg_sim[model_cases]
+
+    corr = df.corr()
+
+    return corr
 
 
 
@@ -86,7 +144,7 @@ def plot_metrics(state,cm):
         return
     
     print_available_stations(state, cm)
-    tot_obs = len(state.df_merge)
+    tot_obs = len(state.df_agg_merge)
     cm.markdown(f'Total number of observations: {tot_obs}')
 
     # Calculate metrics
@@ -151,6 +209,7 @@ def get_metrics(state):
         dict_metrics['Pearsonr'].append(metrics['Pearsonr'])
     
     state.df_metrics = pd.DataFrame.from_dict(dict_metrics)
+
 
 
 def plot_landuse(state,cm):
@@ -336,6 +395,7 @@ def plot_ts_diff(state, cm):
     cm.markdown('### BD minus noBD for each model')
     if state.sid == 'All stations':
         cm.markdown('Note: mean difference for all 11 stations')
+
     fig = go.Figure()
     fig.update_layout(
         template = 'plotly_white'
@@ -347,10 +407,9 @@ def plot_ts_diff(state, cm):
             continue
 
         # print(state.df_agg_sim)
-        diff = state.df_agg_sim[icase] - state.df_agg_sim[f'{model}_noBD']
         fig.add_trace(go.Scatter
             (   x=state.df_agg_sim['Time'],
-                y=diff,
+                y=state.df_agg_sim[f'{model}_diff'],
                 name=model,
                 line=line_props[icase],
             )
@@ -431,6 +490,7 @@ def plot_ts_bias(state, cm):
 def plot_time_series(state, cm):
     cm.markdown('### Time series of all runs')
     print_available_stations(state, cm)
+
     fig = go.Figure()
     fig.update_layout(
         template = 'plotly_white'
@@ -516,6 +576,7 @@ def plot_station_map(state,cm):
 
 def select_data(state,cm):
     state.sel_models = cm.multiselect('Select models', models, ['DEHM','EMEP','MATCH'])
+    state.time_agg = cm.selectbox('Time interval', ['Hourly','Daily','Monthly'],1)
     state.par = cm.selectbox('Select component', list(par_dict.keys()))
     state.par_sunit = par_dict[state.par]['sunit']
 
@@ -535,11 +596,9 @@ def select_data(state,cm):
         state.sid = state.sid[:-1].strip()
         state.soid = state.soid_dict[state.sid]
 
-    # Load data
-    load_data(state)
 
 def get_data_agg(state):
-    state.time_agg = st.selectbox('Time interval', ['Hourly','Daily','Monthly'],1)
+    
     if state.time_agg == 'Hourly':
         state.tagg = 'H'
     elif state.time_agg == 'Daily':
@@ -562,6 +621,9 @@ def get_data_agg(state):
         else:
             state.df_agg_merge = None
 
+    # calculate BD and noBD difference for each model
+    for imodel in state.sel_models:
+        state.df_agg_sim[f'{imodel}_diff'] = state.df_agg_sim[f'{imodel}_BD'] - state.df_agg_sim[f'{imodel}_noBD']
 
 
 def load_stations(state):
@@ -597,6 +659,7 @@ def load_simulations(state):
             df = df[['Time','Case',state.sid]]
             dfs.append(df)
     state.df_sim = pd.concat(dfs)
+    # print(state.df_sim)
     state.df_sim['Time'] = np.array(pd.to_datetime(state.df_sim['Time']))
     state.aval_simcases = list(state.df_sim['Case'].unique())
     state.df_sim = state.df_sim.pivot(index='Time', columns='Case', values=state.sid).reset_index()
@@ -614,10 +677,12 @@ def load_merged_data(state):
     for yr in range(state.yrs[0],state.yrs[1]+1):
         mergefile = os.path.join(datapath,'merged', f'All_merged_{yr}_{state.par}_{state.par_sunit}.csv')
         if not os.path.exists(mergefile):
+            print(f'{mergefile} does not exist')
             continue
         df = pd.read_csv(mergefile, header=0)
         df['ed'] = np.array(pd.to_datetime(df['ed']))
         dfs.append(df)
+    # print(dfs)
     df_merge = pd.concat(dfs)
     if df_merge.empty or ((state.soid not in df_merge.site.values) & (state.soid != 'All stations')):
         state.df_merge = None
