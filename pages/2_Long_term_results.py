@@ -90,6 +90,7 @@ def plot_heatmaps(state,cm):
 
 
     corr = get_heatmap_correlations(state)
+    corr = corr.round(2)
 
     mask = np.triu(np.ones_like(corr, dtype=bool))
 
@@ -98,7 +99,7 @@ def plot_heatmaps(state,cm):
             x=corr.columns,
             y=corr.columns,
             colorscale='Tropic',
-            text=corr.values.round(2),
+            text=corr.mask(~mask).values,
             texttemplate="%{text}",
             textfont=dict(size=15),
             zmin=-1,
