@@ -95,7 +95,7 @@ def plot_heatmaps(state,cm):
     mask = np.triu(np.ones_like(corr, dtype=bool))
     # remove null in text labels
     labels = corr.mask(~mask).values
-    labels = np.where(labels.isnull(), '', labels)
+    labels = np.where(~mask, '', labels)
 
     fig = go.Figure(data=go.Heatmap(
             z=corr.mask(~mask),
