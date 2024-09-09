@@ -50,7 +50,7 @@ def display_variables(state, cm):
     state.lai = cm.number_input('LAI (leaf area index, dimensionless)', value=2.0, format='%0.1f', step=0.5)
     state.hveg = cm.number_input('hveg (height of vegetation in m)', value=20.0, format='%0.1f', step=1.0)
     state.ustar = cm.number_input('ustar (friction velocity, m/s)', value=1.0, format='%0.1f', step=0.1)
-    state.rs = cm.number_input('r_soil (soil resistance)', value=100, format='%d')
+    state.rs = cm.number_input('r_soil (soil resistance)', value=100, format='%d', step=30)
 
 def display_no_BD(state, cm):
     cm.markdown('### no-BD (Old)')
