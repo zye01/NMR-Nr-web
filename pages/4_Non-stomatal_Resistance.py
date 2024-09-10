@@ -116,7 +116,7 @@ def lineplot(state, cm, data, diff=False):
         xaxis_title=data['x']['label'],
         margin=dict(l=2, r=2, t=30, b=2),
         # width=1200,
-        height=600,
+        height=500,
         legend=dict(
         orientation="h",
         yanchor="top",
