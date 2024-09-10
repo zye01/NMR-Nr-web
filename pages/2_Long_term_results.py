@@ -55,8 +55,8 @@ def run():
     with tab1:
         get_data_agg(state)
         # Time series
-        if state.no_obs:
-            st.markdown(f'##### No observations available at {state.sname} for {state.par}.')
+        # if state.no_obs:
+        #     st.markdown(f'##### No observations available at {state.sname} for {state.par}.')
 
         plot_time_series(state, st)
         plot_ts_bias(state,st)
@@ -80,6 +80,9 @@ def print_available_stations(state, cm):
         totst = len(state.available_stations)
         cm.markdown(f'Observations are available for {totst} stations:')
         cm.markdown(f'{stnames}')
+    else:
+        if state.no_obs:
+            cm.markdown(f'**No observations available at {state.sname} for {state.par}.**')
         
 def plot_heatmaps(state,cm):
     if state.df_agg_merge is None:
@@ -143,11 +146,11 @@ def get_heatmap_correlations(state):
 
 
 def plot_metrics(state,cm):
+    print_available_stations(state, cm)
 
     if state.no_obs:
         return
     
-    print_available_stations(state, cm)
     tot_obs = len(state.df_agg_merge)
     cm.markdown(f'Total number of observations: {tot_obs}')
 
@@ -257,7 +260,7 @@ def plot_landuse_pie(state,infile,cm,label):
 
 def plot_diurnal_cycle(state):
     c1, c2 = st.columns([1, 1])
-    c1.markdown("<h2 style='text-align: center; color: black;'>Concentrations </h2>", unsafe_allow_html=True)
+    c1.markdown("<h2 style='text-align: center; color: black;'>Diurnal </h2>", unsafe_allow_html=True)
     c2.markdown("<h2 style='text-align: center; color: black;'>BD minus noBD </h2>", unsafe_allow_html=True)
 
     # Get the range of y-axis
@@ -266,8 +269,6 @@ def plot_diurnal_cycle(state):
 
 
     # plot for the whole period
-    c1.markdown(f"<h4 style='text-align: center; color: black;'>All period</h4>", unsafe_allow_html=True)
-    c2.markdown(f"<h4 style='text-align: center; color: black;'>{'All period diff'}</h4>", unsafe_allow_html=True)
     diurnal_fig(state, c1, state.df_dc, state.dc_cases,y_range=c1_range)
     diurnal_fig(state, c2, state.df_dc_diff, state.aval_models,diff=True,y_range=c2_range)
     
@@ -330,18 +331,16 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None):
         height=400,
         legend=dict(
         orientation="h",
-        yanchor="top",
-        y=-0.1,
+        yanchor="bottom",
+        y=-0.5,
         xanchor="left",
         x=0.01,
-        font=dict(size=12)
+        font=dict(size=13)
         ),
-        xaxis=dict(domain=[0,1],showline=True, linewidth=1, linecolor='lightgrey',\
-            ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False,\
-                automargin=True),
-        yaxis=dict(domain=[0.15,0.95],showline=True, linewidth=1, linecolor='lightgrey',\
-            ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False,\
-                automargin=True),
+        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+            ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
+        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+            ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
         )
     
     if title is not None:
@@ -368,7 +367,7 @@ def get_diurnal_data(state):
 
 
     if state.no_obs or state.dths.min() > 1:
-        st.markdown(f'##### No observations for diurnal cycle available at {state.sname} for {state.par}.')
+        st.markdown(f'**No observations for diurnal cycle available at {state.sname} for {state.par}.**')
         
         state.df_dc = state.df_dc_sim
         state.df_dc_sn = state.df_dc_sn_sim
@@ -696,6 +695,7 @@ def load_merged_data(state):
         state.df_merge = None
         state.df_agg_merge = None
         state.no_obs = True
+        state.aval_cases = state.aval_simcases
         return
 
     state.no_obs = False
@@ -717,6 +717,7 @@ def load_merged_data(state):
         state.osites = sel_df['site'].unique()
         state.dths = sel_df['dtH'].unique()
         state.df_merge = sel_df.drop(columns=['site','dtH'], axis=1)
+    
     # print(state.df_merge)
     state.aval_cases = ['Obs'] + state.aval_simcases
 
