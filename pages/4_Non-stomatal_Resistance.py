@@ -52,7 +52,7 @@ def plot_for_RH(state):
     
 
 def select_variables_for_RH(state,cm):
-    ts = cm.number_input('Ts (Kelvin)', value=280.0, format='%0.1f', step=0.5)
+    ts = cm.number_input('Ts (Kelvin)', value=280.0, format='%0.1f', step=1.0)
     # rh = cm.number_input('RH (%)', value=85.0, format='%0.1f', step=2.0)
     asn = cm.number_input('asn (acidity ratio)', value=0.2, format='%0.1f', step=0.1)
     sai = cm.number_input('SAI (surface area index, dimensionless)', value=2.0, format='%0.1f', step=0.5)
@@ -62,8 +62,8 @@ def select_variables_for_RH(state,cm):
     return ts, asn, sai, ustar, hveg, rs
 
 def select_variables_for_SAI(state,cm):
-    ts = cm.number_input('Ts (Kelvin)', value=280.0, format='%0.1f', step=0.5)
-    rh = cm.number_input('RH (%)', value=85.0, format='%0.1f', step=2.0)
+    ts = cm.number_input('Ts (Kelvin)', value=280.0, format='%0.1f', step=1.0)
+    rh = cm.number_input('RH (%)', value=80.0, format='%0.1f', step=2.0)
     asn = cm.number_input('asn (acidity ratio)', value=0.2, format='%0.1f', step=0.1)
     # sai = cm.number_input('SAI (surface area index, dimensionless)', value=2.0, format='%0.1f', step=0.5)
     hveg = cm.number_input('hveg (height of vegetation in m)', value=20.0, format='%0.1f', step=1.0)
@@ -171,7 +171,7 @@ def display_results(state, cm):
 def display_variables(state, cm):
     cm.markdown('### Variables')
     state.ts = cm.number_input('Ts (Kelvin)', value=280.0, format='%0.1f', step=0.5)
-    state.rh = cm.number_input('RH (%)', value=85.0, format='%0.1f', step=2.0)
+    state.rh = cm.number_input('RH (%)', value=80.0, format='%0.1f', step=2.0)
     state.asn = cm.number_input('asn (acidity ratio)', value=0.2, format='%0.1f', step=0.1)
     state.sai = cm.number_input('SAI (surface area index, dimensionless)', value=2.0, format='%0.1f', step=0.5)
     state.hveg = cm.number_input('hveg (height of vegetation in m)', value=20.0, format='%0.1f', step=1.0)
