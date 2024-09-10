@@ -16,18 +16,41 @@ def run():
     unsafe_allow_html=True
     )
     st.title('Non-stomatal Resistance Calculations')
-    c1, c2, c3 = st.columns([1,2,1])
+    tab1, tab2 = st.tabs(['Calculations','Plots'])
 
-    
-    display_variables(state, c1)
+    with tab1:
+        c1, c2, c3 = st.columns([1,2,1])
+        display_variables(state, c1)
+        display_no_BD(state, c2)
+        display_BD(state, c2)
+        display_results(state, c3)
+        display_notes(state,st)
 
-    display_no_BD(state, c2)
+    with tab2:
+        plot_dependence(state)
 
-    display_BD(state, c2)
+def plot_dependence(state):
+    pass
 
-    display_results(state, c3)
+def calculate_old_rnc(ts, rh,asn):
+    f1 = 10*np.log(2+ts-273.15)*np.exp((100-rh)/7)/np.log(10)
+    f2 = 10**(-1.1099*asn+1.6769)
+    rns_old = min(max(10,0.0455*f1*f2),100)
+    return rns_old
 
-    display_notes(state,st)
+def calculate_new_rnc(lai, rh, ustar, hveg, rs):
+    sai_haarweg = 3.5*lai/2
+    rext = sai_haarweg*np.exp((100-rh)/12)
+    if ustar > 0:
+        rinc = min(14*lai*hveg/ustar, 1000)
+    else:
+        rinc = 1000
+
+    rns_new = 1/(1/rext+1/(rs+rinc))
+
+    return rns_new
+
+
 
 def display_results(state, cm):
     cm.markdown('### Comparisons')
@@ -58,8 +81,8 @@ def display_no_BD(state, cm):
     cm.latex(r'f1=10\times\frac{\log(2+ts-273.15)\times\exp(\frac{100-rh}{7})}{\log(10)} \\ ~~~~~~ = \underline{%.2f}' % state.f1)
     state.f2 = 10**(-1.1099*state.asn+1.6769)
     cm.latex(r'f2=10^{-1.1099\times asn+1.6769} = \underline{%.2f}' % state.f2)
-    state.rns_old = min(max(10,0.0455*state.f1*state.f2),200)
-    cm.latex(r'\large{r_{ns}} = \min(\max(10,0.0455\times f1\times f2),200) \\ ~~~~~ = \underline{%.1f} ' % state.rns_old)
+    state.rns_old = min(max(10,0.0455*state.f1*state.f2),100)
+    cm.latex(r'\large{r_{ns}} = \min(\max(10,0.0455\times f1\times f2),100) \\ ~~~~~ = \underline{%.1f} ' % state.rns_old)
 
     
 def display_BD(state, cm):
@@ -71,7 +94,7 @@ def display_BD(state, cm):
     cm.latex(r'{r_{ext}} = SAI_{Haarweg}\times\exp(\frac{100-RH}{12}) \\ ~~~~~ = \underline{%.2f}' % state.rext)
 
     if state.ustar > 0:
-        state.rinc = 14*state.lai*state.hveg/state.ustar
+        state.rinc = min(14*state.lai*state.hveg/state.ustar, 1000)
         cm.latex(r'{r_{inc}} = 14\times lai\times hveg/ustar \\ ~~~~~ = \underline{%.2f}' % state.rinc)
     else:
         state.rinc = 1000
@@ -86,6 +109,8 @@ def display_notes(state,cm):
     cm.latex(r'asn = \min(30,\frac{0.6\times so2\_con}{\max(nh3\_con,1e-10)})')
     cm.markdown('hveg = 1m for arable land and 20m for forests')
     cm.markdown('r_soil = 1000 for frozen soil, 10 for water and non-frozen wet soil, 100 for dry soil')
+    cm.markdown('r_inc in bi-dir is 1E10 for grassland.')
+    cm.markdown('sai=lai+1 for forests, sai = lai for the grassland, sai is parameterized with lai for crops in the growing season.')
     # cm.markdown('Applies when ustar > 0 ')
 
 
