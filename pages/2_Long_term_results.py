@@ -257,7 +257,7 @@ def plot_landuse_pie(state,infile,cm,label):
 
 def plot_diurnal_cycle(state):
     c1, c2 = st.columns([1, 1])
-    c1.markdown("<h2 style='text-align: center; color: black;'>Diurnal </h2>", unsafe_allow_html=True)
+    c1.markdown("<h2 style='text-align: center; color: black;'>Concentrations </h2>", unsafe_allow_html=True)
     c2.markdown("<h2 style='text-align: center; color: black;'>BD minus noBD </h2>", unsafe_allow_html=True)
 
     # Get the range of y-axis
@@ -266,6 +266,8 @@ def plot_diurnal_cycle(state):
 
 
     # plot for the whole period
+    c1.markdown(f"<h4 style='text-align: center; color: black;'>All period</h4>", unsafe_allow_html=True)
+    c2.markdown(f"<h4 style='text-align: center; color: black;'>{'All period diff'}</h4>", unsafe_allow_html=True)
     diurnal_fig(state, c1, state.df_dc, state.dc_cases,y_range=c1_range)
     diurnal_fig(state, c2, state.df_dc_diff, state.aval_models,diff=True,y_range=c2_range)
     
