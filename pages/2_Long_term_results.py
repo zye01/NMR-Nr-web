@@ -329,7 +329,7 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None):
         legend=dict(
         orientation="h",
         yanchor="top",
-        y=-0.2,
+        y=-0.1,
         xanchor="left",
         x=0.01,
         font=dict(size=12)
