@@ -38,11 +38,11 @@ def calculate_old_rnc(ts, rh,asn):
     rns_old = min(max(10,0.0455*f1*f2),100)
     return rns_old
 
-def calculate_new_rnc(lai, rh, ustar, hveg, rs):
-    sai_haarweg = 3.5*lai/2
-    rext = sai_haarweg*np.exp((100-rh)/12)
+def calculate_new_rnc(sai, rh, ustar, hveg, rs):
+    sai_haarweg = 3.5
+    rext = sai_haarweg/sai*2*np.exp((100-rh)/12)
     if ustar > 0:
-        rinc = min(14*lai*hveg/ustar, 1000)
+        rinc = min(14*sai*hveg/ustar, 1000)
     else:
         rinc = 1000
 
@@ -70,7 +70,7 @@ def display_variables(state, cm):
     state.ts = cm.number_input('Ts (Kelvin)', value=280.0, format='%0.1f', step=0.5)
     state.rh = cm.number_input('RH (%)', value=85.0, format='%0.1f', step=2.0)
     state.asn = cm.number_input('asn (acidity ratio)', value=0.2, format='%0.1f', step=0.1)
-    state.lai = cm.number_input('LAI (leaf area index, dimensionless)', value=2.0, format='%0.1f', step=0.5)
+    state.sai = cm.number_input('SAI (surface area index, dimensionless)', value=2.0, format='%0.1f', step=0.5)
     state.hveg = cm.number_input('hveg (height of vegetation in m)', value=20.0, format='%0.1f', step=1.0)
     state.ustar = cm.number_input('ustar (friction velocity, m/s)', value=1.0, format='%0.1f', step=0.1)
     state.rs = cm.number_input('r_soil (soil resistance)', value=100, format='%d', step=30)
@@ -87,15 +87,17 @@ def display_no_BD(state, cm):
     
 def display_BD(state, cm):
     cm.markdown('### BD (New)')
-    state.sai_haarweg = 3.5*state.lai/2
-    cm.latex(r'SAI_{Haarweg} = 3.5\times LAI/2 = \underline{%.1f}' % state.sai_haarweg)
+    state.sai_haarweg = 3.5
+    cm.latex(r'SAI_{Haarweg} = 3.5')
+    state.alpha_nh3 = 2
+    cm.latex(r'\alpha = 2')
 
-    state.rext = state.sai_haarweg*np.exp((100-state.rh)/12)
-    cm.latex(r'{r_{ext}} = SAI_{Haarweg}\times\exp(\frac{100-RH}{12}) \\ ~~~~~ = \underline{%.2f}' % state.rext)
+    state.rext = state.sai_haarweg/state.sai*state.alpha_nh3*np.exp((100-state.rh)/12)
+    cm.latex(r'{r_{ext}} = \frac{SAI_{Haarweg}{SAI}\times \alpha \times\exp(\frac{100-RH}{12}) \\ ~~~~~ = \underline{%.2f}' % state.rext)
 
     if state.ustar > 0:
-        state.rinc = min(14*state.lai*state.hveg/state.ustar, 1000)
-        cm.latex(r'{r_{inc}} = 14\times lai\times hveg/ustar \\ ~~~~~ = \underline{%.2f}' % state.rinc)
+        state.rinc = min(14*state.sai*state.hveg/state.ustar, 1000)
+        cm.latex(r'{r_{inc}} = 14\times sai\times hveg/ustar \\ ~~~~~ = \underline{%.2f}' % state.rinc)
     else:
         state.rinc = 1000
         cm.latex(r'{r_{inc}} = 1000')
@@ -110,7 +112,7 @@ def display_notes(state,cm):
     cm.markdown('hveg = 1m for arable land and 20m for forests')
     cm.markdown('r_soil = 1000 for frozen soil, 10 for water and non-frozen wet soil, 100 for dry soil')
     cm.markdown('r_inc in bi-dir is 1E10 for grassland.')
-    cm.markdown('sai=lai+1 for forests, sai = lai for the grassland, sai is parameterized with lai for crops in the growing season.')
+    cm.markdown('SAI=LAI+1 for forests, SAI = LAI for the grassland, sai is parameterized with LAI for crops in the growing season.')
     # cm.markdown('Applies when ustar > 0 ')
 
 
