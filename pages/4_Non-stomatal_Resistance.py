@@ -170,13 +170,13 @@ def display_results(state, cm):
 
 def display_variables(state, cm):
     cm.markdown('### Variables')
-    state.ts = cm.number_input('Ts (Kelvin)', value=280.0, format='%0.1f', step=0.5)
-    state.rh = cm.number_input('RH (%)', value=80.0, format='%0.1f', step=2.0)
-    state.asn = cm.number_input('asn (acidity ratio)', value=0.2, format='%0.1f', step=0.1)
-    state.sai = cm.number_input('SAI (surface area index, dimensionless)', value=2.0, format='%0.1f', step=0.5)
-    state.hveg = cm.number_input('hveg (height of vegetation in m)', value=20.0, format='%0.1f', step=1.0)
-    state.ustar = cm.number_input('ustar (friction velocity, m/s)', value=1.0, format='%0.1f', step=0.1)
-    state.rs = cm.number_input('r_soil (soil resistance)', value=100, format='%d', step=30)
+    state.ts = cm.number_input('Ts (Kelvin)',key='ts0', value=280.0, format='%0.1f', step=0.5)
+    state.rh = cm.number_input('RH (%)',key='rh0', value=80.0, format='%0.1f', step=2.0)
+    state.asn = cm.number_input('asn (acidity ratio)',key='asn0', value=0.2, format='%0.1f', step=0.1)
+    state.sai = cm.number_input('SAI (surface area index, dimensionless)',key='sai0', value=2.0, format='%0.1f', step=0.5)
+    state.hveg = cm.number_input('hveg (height of vegetation in m)',key='hveg0', value=20.0, format='%0.1f', step=1.0)
+    state.ustar = cm.number_input('ustar (friction velocity, m/s)',key='ustar0', value=1.0, format='%0.1f', step=0.1)
+    state.rs = cm.number_input('r_soil (soil resistance)',key='rs0', value=100, format='%d', step=30)
 
 def display_no_BD(state, cm):
     cm.markdown('### no-BD (Old)')
