@@ -36,9 +36,11 @@ def plot_dependence(state):
     plot_for_SAI(state)
 
 def plot_for_RH(state):
+    c1, c2 = st.columns([1,4])
+    ts, asn, sai, ustar, hveg, rs = select_variables_for_RH(state,c1)
+
     # generate rh data from 50 to 100, step=0.2
     rhs = np.arange(50, 100, step=0.5)
-    ts, asn, sai, ustar, hveg, rs = 280, 0.2, 2, 1, 20, 100
     rns_olds = [calculate_old_rnc(ts,rh,asn) for rh in rhs]
     rns_news = [calculate_new_rnc(sai, rh, ustar, hveg, rs) for rh in rhs]
     pdata = {
@@ -46,19 +48,44 @@ def plot_for_RH(state):
         'y2':{'label':'rns_old', 'data':rns_olds},
         'y1':{'label':'rns_new','data':rns_news},
     }
-    lineplot(state,st,pdata)
+    lineplot(state,c2,pdata)
+    
+
+def select_variables_for_RH(state,cm):
+    ts = cm.number_input('Ts (Kelvin)', value=280.0, format='%0.1f', step=0.5)
+    # rh = cm.number_input('RH (%)', value=85.0, format='%0.1f', step=2.0)
+    asn = cm.number_input('asn (acidity ratio)', value=0.2, format='%0.1f', step=0.1)
+    sai = cm.number_input('SAI (surface area index, dimensionless)', value=2.0, format='%0.1f', step=0.5)
+    hveg = cm.number_input('hveg (height of vegetation in m)', value=20.0, format='%0.1f', step=1.0)
+    ustar = cm.number_input('ustar (friction velocity, m/s)', value=1.0, format='%0.1f', step=0.1)
+    rs = cm.number_input('r_soil (soil resistance)', value=100, format='%d', step=30)
+    return ts, asn, sai, ustar, hveg, rs
+
+def select_variables_for_SAI(state,cm):
+    ts = cm.number_input('Ts (Kelvin)', value=280.0, format='%0.1f', step=0.5)
+    rh = cm.number_input('RH (%)', value=85.0, format='%0.1f', step=2.0)
+    asn = cm.number_input('asn (acidity ratio)', value=0.2, format='%0.1f', step=0.1)
+    # sai = cm.number_input('SAI (surface area index, dimensionless)', value=2.0, format='%0.1f', step=0.5)
+    hveg = cm.number_input('hveg (height of vegetation in m)', value=20.0, format='%0.1f', step=1.0)
+    ustar = cm.number_input('ustar (friction velocity, m/s)', value=1.0, format='%0.1f', step=0.1)
+    rs = cm.number_input('r_soil (soil resistance)', value=100, format='%d', step=30)
+    return ts, asn, rh, ustar, hveg, rs
+
 
 def plot_for_SAI(state):
+    c1, c2 = st.columns([1,4])
+    ts, asn, rh, ustar, hveg, rs = select_variables_for_SAI(state,c1)
+
     sais = np.arange(2, 4, step=0.05)
-    ts, asn, rh, ustar, hveg, rs = 280, 0.2, 80, 1, 20, 100
     rns_olds = [calculate_old_rnc(ts,rh,asn) for sai in sais]
     rns_news = [calculate_new_rnc(sai,rh,ustar,hveg,rs) for sai in sais]
     pdata = {
         'x':{'label':'SAI', 'data':sais},
         'y1':{'label':'rns_new', 'data':rns_news},
-        # 'y2':{'label':'rns_new','data':rns_news},
+        'y2':{'label':'rns_old','data':rns_olds},
     }
-    lineplot(state,st,pdata)
+
+    lineplot(state,c2,pdata)
 
 def lineplot(state, cm, data, diff=False):
     if diff:
@@ -85,7 +112,7 @@ def lineplot(state, cm, data, diff=False):
         xaxis_title=data['x']['label'],
         margin=dict(l=2, r=2, t=30, b=2),
         # width=1200,
-        height=400,
+        height=600,
         legend=dict(
         orientation="h",
         yanchor="top",
