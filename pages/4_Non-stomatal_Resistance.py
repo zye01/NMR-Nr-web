@@ -215,7 +215,7 @@ def display_notes(state,cm):
     cm.markdown('hveg = 1m for arable land and 20m for forests')
     cm.markdown('r_soil = 1000 for frozen soil, 10 for water and non-frozen wet soil, 100 for dry soil')
     cm.markdown('r_inc in bi-dir is 1E10 for grassland.')
-    cm.markdown('SAI=LAI+1 for forests, SAI = LAI for the grassland, sai is parameterized with LAI for crops in the growing season.')
+    cm.markdown('SAI=LAI+1 for forests, SAI = LAI for the grassland, SAI is parameterized with LAI for crops in the growing season.')
     # cm.markdown('Applies when ustar > 0 ')
 
 
