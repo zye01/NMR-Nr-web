@@ -54,21 +54,21 @@ def plot_for_RH(state):
 def select_variables_for_RH(state,cm):
     ts = cm.number_input('Ts (Kelvin)',key='ts1', value=280.0, format='%0.1f', step=1.0)
     # rh = cm.number_input('RH (%)', value=85.0, format='%0.1f', step=2.0)
-    asn = cm.number_input('asn (acidity ratio)',key='asn1', value=0.2, format='%0.1f', step=0.1)
-    sai = cm.number_input('SAI (surface area index, dimensionless)',key='sai1', value=2.0, format='%0.1f', step=0.5)
-    hveg = cm.number_input('hveg (height of vegetation in m)',key='hveg1', value=20.0, format='%0.1f', step=1.0)
-    ustar = cm.number_input('ustar (friction velocity, m/s)',key='ustar1', value=1.0, format='%0.1f', step=0.1)
-    rs = cm.number_input('r_soil (soil resistance)',key='rs1', value=100, format='%d', step=30)
+    asn = cm.number_input('asn',key='asn1', value=0.2, format='%0.1f', step=0.1)
+    sai = cm.number_input('SAI',key='sai1', value=2.0, format='%0.1f', step=0.5)
+    hveg = cm.number_input('hveg (m)',key='hveg1', value=20.0, format='%0.1f', step=1.0)
+    ustar = cm.number_input('ustar (m/s)',key='ustar1', value=1.0, format='%0.1f', step=0.1)
+    rs = cm.number_input('r_soil',key='rs1', value=100, format='%d', step=30)
     return ts, asn, sai, ustar, hveg, rs
 
 def select_variables_for_SAI(state,cm):
     ts = cm.number_input('Ts (Kelvin)', value=280.0,key='ts2', format='%0.1f', step=1.0)
     rh = cm.number_input('RH (%)', value=80.0,key='rh2', format='%0.1f', step=2.0)
-    asn = cm.number_input('asn (acidity ratio)',key='asn2', value=0.2, format='%0.1f', step=0.1)
+    asn = cm.number_input('asn',key='asn2', value=0.2, format='%0.1f', step=0.1)
     # sai = cm.number_input('SAI (surface area index, dimensionless)', value=2.0, format='%0.1f', step=0.5)
-    hveg = cm.number_input('hveg (height of vegetation in m)',key='hveg2', value=20.0, format='%0.1f', step=1.0)
-    ustar = cm.number_input('ustar (friction velocity, m/s)',key='ustar2', value=1.0, format='%0.1f', step=0.1)
-    rs = cm.number_input('r_soil (soil resistance)',key='rs2', value=100, format='%d', step=30)
+    hveg = cm.number_input('hveg (m)',key='hveg2', value=20.0, format='%0.1f', step=1.0)
+    ustar = cm.number_input('ustar (m/s)',key='ustar2', value=1.0, format='%0.1f', step=0.1)
+    rs = cm.number_input('r_soil',key='rs2', value=100, format='%d', step=30)
     return ts, asn, rh, ustar, hveg, rs
 
 
