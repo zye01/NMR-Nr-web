@@ -36,6 +36,7 @@ def plot_dependence(state):
     plot_for_SAI(state)
 
 def plot_for_RH(state):
+    st.markdown('### Relationship with RH')
     c1, c2 = st.columns([1,4])
     ts, asn, sai, ustar, hveg, rs = select_variables_for_RH(state,c1)
 
@@ -73,6 +74,8 @@ def select_variables_for_SAI(state,cm):
 
 
 def plot_for_SAI(state):
+    st.markdown('### Relationship with SAI')
+    
     c1, c2 = st.columns([1,4])
     ts, asn, rh, ustar, hveg, rs = select_variables_for_SAI(state,c1)
 
@@ -122,9 +125,9 @@ def lineplot(state, cm, data, diff=False):
         font=dict(size=15)
         ),
         xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
-            ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
+            ticks='inside',title_font=dict(size=26),tickfont=dict(size=15), showgrid=False),
         yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
-            ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
+            ticks='inside',title_font=dict(size=26),tickfont=dict(size=15), showgrid=False),
         )
 
     # cunit = par_dict[state.sel_1]['units']
