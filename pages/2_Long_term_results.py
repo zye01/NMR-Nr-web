@@ -323,7 +323,7 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None):
     fig.update_layout(
         xaxis_title='Hour',
         yaxis_title=f'{state.par} ({par_dict[state.par]["units"]})',
-        margin=dict(l=2, r=2, t=30, b=2),
+        margin=dict(l=2, r=2, t=30, b=20),
         # width=1200,
         height=400,
         legend=dict(
@@ -332,7 +332,7 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None):
         y=-0.4,
         xanchor="left",
         x=0.01,
-        font=dict(size=13)
+        font=dict(size=12)
         ),
         xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
             ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
