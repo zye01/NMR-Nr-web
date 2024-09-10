@@ -43,8 +43,8 @@ def plot_for_RH(state):
     rns_news = [calculate_new_rnc(sai, rh, ustar, hveg, rs) for rh in rhs]
     pdata = {
         'x':{'label':'RH', 'data':rhs},
-        'y1':{'label':'rns_old', 'data':rns_olds},
-        'y2':{'label':'rns_new','data':rns_news},
+        'y2':{'label':'rns_old', 'data':rns_olds},
+        'y1':{'label':'rns_new','data':rns_news},
     }
     lineplot(state,st,pdata)
 
@@ -55,8 +55,8 @@ def plot_for_SAI(state):
     rns_news = [calculate_new_rnc(sai,rh,ustar,hveg,rs) for sai in sais]
     pdata = {
         'x':{'label':'SAI', 'data':sais},
-        'y1':{'label':'rns_old', 'data':rns_olds},
-        'y2':{'label':'rns_new','data':rns_news},
+        'y1':{'label':'rns_new', 'data':rns_news},
+        # 'y2':{'label':'rns_new','data':rns_news},
     }
     lineplot(state,st,pdata)
 
