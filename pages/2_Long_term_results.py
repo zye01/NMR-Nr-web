@@ -334,10 +334,12 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None):
         x=0.01,
         font=dict(size=12)
         ),
-        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
-            ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
-        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
-            ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
+        xaxis=dict(domain=[0,1],showline=True, linewidth=1, linecolor='lightgrey',\
+            ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False,\
+                automargin=True),
+        yaxis=dict(domain=[0.2,0.9],showline=True, linewidth=1, linecolor='lightgrey',\
+            ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False,\
+                automargin=True),
         )
     
     if title is not None:
