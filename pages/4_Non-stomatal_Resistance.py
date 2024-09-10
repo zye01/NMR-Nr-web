@@ -93,7 +93,7 @@ def display_BD(state, cm):
     cm.latex(r'\alpha = 2')
 
     state.rext = state.sai_haarweg/state.sai*state.alpha_nh3*np.exp((100-state.rh)/12)
-    cm.latex(r'{r_{ext}} = \frac{SAI_{Haarweg}{SAI}\times \alpha \times\exp(\frac{100-RH}{12}) \\ ~~~~~ = \underline{%.2f}' % state.rext)
+    cm.latex(r'{r_{ext}} = \frac{SAI_{Haarweg}}{SAI}\times \alpha \times\exp(\frac{100-RH}{12}) \\ ~~~~~ = \underline{%.2f}' % state.rext)
 
     if state.ustar > 0:
         state.rinc = min(14*state.sai*state.hveg/state.ustar, 1000)
