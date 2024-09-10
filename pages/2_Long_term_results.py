@@ -128,9 +128,9 @@ def plot_heatmaps(state,cm):
     cm.plotly_chart(fig)    
 
 def get_heatmap_correlations(state):
-    model_cases = [f'{model}_{run}' for model in state.sel_models for run in ['BD','noBD','diff']]
+    model_cases = [f'{model}_{run}' for model in state.aval_models for run in ['BD','noBD','diff']]
     if state.df_agg_merge is not None:
-        for model in state.sel_models:
+        for model in state.aval_models:
             state.df_agg_merge[f'{model}_diff'] = state.df_agg_merge[f'{model}_BD'] - state.df_agg_merge[f'{model}_noBD']
         df = state.df_agg_merge[model_cases+['Obs']]
     else:
@@ -325,7 +325,7 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None):
     fig.update_layout(
         xaxis_title='Hour',
         yaxis_title=f'{state.par} ({par_dict[state.par]["units"]})',
-        margin=dict(l=2, r=2, t=30, b=20),
+        margin=dict(l=2, r=2, t=30, b=2),
         # width=1200,
         height=400,
         legend=dict(
@@ -630,7 +630,7 @@ def get_data_agg(state):
             state.df_agg_merge = None
 
     # calculate BD and noBD difference for each model
-    for imodel in state.sel_models:
+    for imodel in state.aval_models:
         state.df_agg_sim[f'{imodel}_diff'] = state.df_agg_sim[f'{imodel}_BD'] - state.df_agg_sim[f'{imodel}_noBD']
 
 
