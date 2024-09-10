@@ -337,7 +337,7 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None):
         xaxis=dict(domain=[0,1],showline=True, linewidth=1, linecolor='lightgrey',\
             ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False,\
                 automargin=True),
-        yaxis=dict(domain=[0.3,0.95],showline=True, linewidth=1, linecolor='lightgrey',\
+        yaxis=dict(domain=[0.15,0.95],showline=True, linewidth=1, linecolor='lightgrey',\
             ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False,\
                 automargin=True),
         )
