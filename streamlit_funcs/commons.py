@@ -5,13 +5,13 @@ class common_params:
 
     source_id = {'EBAS':1,'Denmark':2,'France':3,'Holland':4}
     par_dict = {
-        'NH3': {'units': 'ug N/m3', 'hol_convf': 14 / 17, 'sunit':'ugNm-3'},
-        'O3': {'units': 'ug/m3', 'hol_convf': 1, 'sunit':'ugm-3'},
-        'SO2': {'units': 'ug S/m3', 'hol_convf': 0.5, 'sunit':'ugSm-3'},
-        'NO2': {'units': 'ug N/m3', 'hol_convf': 14 / 48, 'sunit':'ugNm-3'},
-        'NH4': {'units': 'ug N/m3', 'hol_convf': 14 / 18, 'sunit':'ugNm-3'},
-        'HNO3': {'units': 'ug N/m3', 'hol_convf': 14 / 63, 'sunit':'ugNm-3'},
-        'SO4': {'units': 'ug S/m3', 'hol_convf': 32 / 96, 'sunit':'ugSm-3'},
+        'NH3': {'units': 'μg N/m3', 'hol_convf': 14 / 17, 'sunit':'ugNm-3'},
+        'O3': {'units': 'μg/m3', 'hol_convf': 1, 'sunit':'ugm-3'},
+        'SO2': {'units': 'μg S/m3', 'hol_convf': 0.5, 'sunit':'ugSm-3'},
+        'NO2': {'units': 'μg N/m3', 'hol_convf': 14 / 48, 'sunit':'ugNm-3'},
+        'NH4': {'units': 'μg N/m3', 'hol_convf': 14 / 18, 'sunit':'ugNm-3'},
+        'HNO3': {'units': 'μg N/m3', 'hol_convf': 14 / 63, 'sunit':'ugNm-3'},
+        'SO4': {'units': 'μg S/m3', 'hol_convf': 32 / 96, 'sunit':'ugSm-3'},
     }
     seasons = {
         'MAM': 'Spring (MAM)',
