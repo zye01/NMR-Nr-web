@@ -51,12 +51,9 @@ def run():
     tab1, tab2, tab3 = st.tabs(['Time series','Diurnal cycle', 'Metrics'])
 
     load_data(state)
+    get_data_agg(state)
 
     with tab1:
-        get_data_agg(state)
-        # Time series
-        # if state.no_obs:
-        #     st.markdown(f'##### No observations available at {state.sname} for {state.par}.')
 
         plot_time_series(state, st)
         plot_ts_bias(state,st)
@@ -590,7 +587,7 @@ def select_data(state,cm):
     # Select station
     state.st_options = ['All stations'] + state.stnames
     state.station = cm.selectbox('Select station', state.st_options)
-    state.yrs = cm.slider('Select year', 2010, 2020, (2018, 2019))
+    
 
     if state.station == 'All stations':
         state.sname = 'All stations'
@@ -602,6 +599,10 @@ def select_data(state,cm):
         state.sname = state.sname.strip()
         state.sid = state.sid[:-1].strip()
         state.soid = state.soid_dict[state.sid]
+        state.snote = state.snote_dict[state.sid]
+        cm.markdown(f'Notes: {state.snote}')
+
+    state.yrs = cm.slider('Select year', 2010, 2020, (2018, 2019))
 
 
 def get_data_agg(state):
@@ -640,6 +641,7 @@ def load_stations(state):
     # build a library based on 'sid' and 'obs_id'
     state.soid_dict = dict(zip(state.sdf['sid'],state.sdf['obs_id']))
     state.sname_dict = dict(zip(state.sdf['obs_id'],state.sdf['sname']))
+    state.snote_dict = dict(zip(state.sdf['sid'],state.sdf['notes']))
     state.soids = state.sdf['obs_id'].values
     state.snames = state.sdf['sname'].values
     state.stnames = [f'{sname} ({sid})' for sid,sname in zip(state.sids,state.snames)]
