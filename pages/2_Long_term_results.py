@@ -324,7 +324,7 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None):
         )
 
     fig.update_layout(
-        xaxis_title='Hour',
+        # xaxis_title='Hour',
         yaxis_title=f'{state.par} ({par_dict[state.par]["units"]})',
         margin=dict(l=2, r=2, t=30, b=2),
         # width=1200,
@@ -423,15 +423,15 @@ def plot_ts_diff(state, cm):
         )
 
     fig.update_layout(
-        xaxis_title='Date',
+        # xaxis_title='Date',
         yaxis_title=f'{state.par} difference ({par_dict[state.par]["units"]})',
         margin=dict(l=2, r=2, t=30, b=2),
         # width=1200,
         height=400,
         legend=dict(
         orientation="h",
-        yanchor="top",
-        y=1.1,
+        yanchor="bottom",
+        y=-0.3,
         xanchor="left",
         x=0.01,
         font=dict(size=15)
@@ -471,15 +471,15 @@ def plot_ts_bias(state, cm):
         )
 
     fig.update_layout(
-        xaxis_title='Date',
+        # xaxis_title='Date',
         yaxis_title=f'{state.par} bias ({par_dict[state.par]["units"]})',
         margin=dict(l=2, r=2, t=30, b=2),
         # width=1200,
         height=400,
         legend=dict(
         orientation="h",
-        yanchor="top",
-        y=1.1,
+        yanchor="bottom",
+        y=-0.3,
         xanchor="left",
         x=0.01,
         font=dict(size=15)
@@ -531,15 +531,15 @@ def plot_time_series(state, cm):
             
     
     fig.update_layout(
-        xaxis_title='Date',
+        # xaxis_title='Date',
         yaxis_title=f'{state.par} ({par_dict[state.par]["units"]})',
         margin=dict(l=2, r=2, t=30, b=2),
         # width=1200,
         height=400,
         legend=dict(
         orientation="h",
-        yanchor="top",
-        y=1.1,
+        yanchor="bottom",
+        y=-0.3,
         xanchor="left",
         x=0.01,
         font=dict(size=15)
