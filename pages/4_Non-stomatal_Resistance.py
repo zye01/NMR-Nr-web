@@ -2,6 +2,8 @@ import os
 import pandas as pd
 import numpy as np
 import streamlit as st
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 st.set_page_config(layout="wide")
 
@@ -30,7 +32,82 @@ def run():
         plot_dependence(state)
 
 def plot_dependence(state):
-    pass
+    plot_for_RH(state)
+    plot_for_SAI(state)
+
+def plot_for_RH(state):
+    # generate rh data from 50 to 100, step=0.2
+    rhs = np.arange(50, 100, step=0.5)
+    ts, asn, sai, ustar, hveg, rs = 280, 0.2, 2, 1, 20, 100
+    rns_olds = [calculate_old_rnc(ts,rh,asn) for rh in rhs]
+    rns_news = [calculate_new_rnc(sai, rh, ustar, hveg, rs) for rh in rhs]
+    pdata = {
+        'x':{'label':'RH', 'data':rhs},
+        'y1':{'label':'rns_old', 'data':rns_olds},
+        'y2':{'label':'rns_new','data':rns_news},
+    }
+    lineplot(state,st,pdata)
+
+def plot_for_SAI(state):
+    sais = np.arange(2, 4, step=0.05)
+    ts, asn, rh, ustar, hveg, rs = 280, 0.2, 80, 1, 20, 100
+    rns_olds = [calculate_old_rnc(ts,rh,asn) for sai in sais]
+    rns_news = [calculate_new_rnc(sai,rh,ustar,hveg,rs) for sai in sais]
+    pdata = {
+        'x':{'label':'SAI', 'data':sais},
+        'y1':{'label':'rns_old', 'data':rns_olds},
+        'y2':{'label':'rns_new','data':rns_news},
+    }
+    lineplot(state,st,pdata)
+
+def lineplot(state, cm, data, diff=False):
+    if diff:
+        fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+    else:
+        fig = make_subplots(specs=[[{'secondary_y': False}]])
+
+    fig.update_layout(
+        template = 'plotly_white'
+    )
+
+    for ys in ['y1', 'y2']:
+        if ys in data.keys():
+            fig.add_trace(
+                go.Scatter(
+                x=data['x']['data'],
+                y=data[ys]['data'],
+                name=data[ys]['label'],
+                )
+            )
+
+    fig.update_layout(
+        xaxis_title=data['x']['label'],
+        margin=dict(l=2, r=2, t=30, b=2),
+        # width=1200,
+        height=400,
+        legend=dict(
+        orientation="h",
+        yanchor="top",
+        y=-0.2,
+        xanchor="left",
+        x=0.01,
+        font=dict(size=15)
+        ),
+        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+            ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
+        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+            ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
+        )
+
+    # cunit = par_dict[state.sel_1]['units']
+    fig.update_yaxes(title_text='r_ns',\
+                     showline=True, linewidth=1, linecolor='lightgrey',\
+                     ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False)
+    
+    cm.plotly_chart(fig, use_container_width=True)
+
+
 
 def calculate_old_rnc(ts, rh,asn):
     f1 = 10*np.log(2+ts-273.15)*np.exp((100-rh)/7)/np.log(10)
@@ -45,7 +122,6 @@ def calculate_new_rnc(sai, rh, ustar, hveg, rs):
         rinc = min(14*sai*hveg/ustar, 1000)
     else:
         rinc = 1000
-
     rns_new = 1/(1/rext+1/(rs+rinc))
 
     return rns_new
@@ -97,7 +173,7 @@ def display_BD(state, cm):
 
     if state.ustar > 0:
         state.rinc = min(14*state.sai*state.hveg/state.ustar, 1000)
-        cm.latex(r'{r_{inc}} = 14\times sai\times hveg/ustar \\ ~~~~~ = \underline{%.2f}' % state.rinc)
+        cm.latex(r'{r_{inc}} = \min(14\times SAI\times hveg/ustar, 1000) \\ ~~~~~ = \underline{%.2f}' % state.rinc)
     else:
         state.rinc = 1000
         cm.latex(r'{r_{inc}} = 1000')
