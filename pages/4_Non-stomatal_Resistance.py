@@ -17,8 +17,8 @@ def run():
     </style>''',
     unsafe_allow_html=True
     )
-    st.title('Non-stomatal Resistance Calculations')
-    tab1, tab2 = st.tabs(['Calculations','Plots'])
+    st.title('Non-stomatal Resistance Parameterization')
+    tab1, tab2 = st.tabs(['Parameterization','Dependency'])
 
     with tab1:
         c1, c2, c3 = st.columns([1,2,1])
@@ -37,7 +37,7 @@ def plot_dependence(state):
 
 def plot_for_RH(state):
     st.markdown('### Relationship with RH')
-    c1, c2 = st.columns([1,4])
+    c1, c2 = st.columns([1,3])
     ts, asn, sai, ustar, hveg, rs = select_variables_for_RH(state,c1)
 
     # generate rh data from 50 to 100, step=0.2
@@ -76,7 +76,7 @@ def select_variables_for_SAI(state,cm):
 def plot_for_SAI(state):
     st.markdown('### Relationship with SAI')
 
-    c1, c2 = st.columns([1,4])
+    c1, c2 = st.columns([1,3])
     ts, asn, rh, ustar, hveg, rs = select_variables_for_SAI(state,c1)
 
     sais = np.arange(2, 4, step=0.05)
@@ -108,6 +108,7 @@ def lineplot(state, cm, data, diff=False):
                 x=data['x']['data'],
                 y=data[ys]['data'],
                 name=data[ys]['label'],
+                line=dict(width=3),
                 )
             )
 
@@ -182,7 +183,7 @@ def display_variables(state, cm):
     state.rs = cm.number_input('r_soil (soil resistance)',key='rs0', value=100, format='%d', step=30)
 
 def display_no_BD(state, cm):
-    cm.markdown('### no-BD (Old)')
+    cm.markdown('### DEHM no-BD (Old)')
     state.f1 = 10*np.log(2+state.ts-273.15)*np.exp((100-state.rh)/7)/np.log(10)
     cm.latex(r'f1=10\times\frac{\log(2+ts-273.15)\times\exp(\frac{100-rh}{7})}{\log(10)} \\ ~~~~~~ = \underline{%.2f}' % state.f1)
     state.f2 = 10**(-1.1099*state.asn+1.6769)
@@ -192,7 +193,7 @@ def display_no_BD(state, cm):
 
     
 def display_BD(state, cm):
-    cm.markdown('### BD (New)')
+    cm.markdown('### DEHM BD (New)')
     state.sai_haarweg = 3.5
     cm.latex(r'SAI_{Haarweg} = 3.5')
     state.alpha_nh3 = 2

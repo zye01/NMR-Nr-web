@@ -416,6 +416,7 @@ def plot_ts_diff(state, cm):
                 y=state.df_agg_sim[f'{model}_diff'],
                 name=model,
                 line=line_props[icase],
+                opacity=0.8,
             )
         )
 
@@ -464,6 +465,7 @@ def plot_ts_bias(state, cm):
                 y=diff,
                 name=icase,
                 line=line_props[icase],
+                opacity=0.6,
             )
         )
 
@@ -510,6 +512,7 @@ def plot_time_series(state, cm):
                         y=state.df_agg_merge[icase],
                         name=icase,
                         line=ldict,
+                        opacity=0.6,
                     ))
         elif state.sid == 'All stations':
             fig.add_trace(go.Scatter(
@@ -517,6 +520,7 @@ def plot_time_series(state, cm):
                         y=state.df_agg_merge[icase],
                         name=icase,
                         line=ldict,
+                        opacity=0.6,
                     ))
         elif icase != 'Obs':
             fig.add_trace(go.Scatter(
@@ -524,6 +528,7 @@ def plot_time_series(state, cm):
                         y=state.df_agg_sim[icase],
                         name=icase,
                         line=ldict,
+                        opacity=0.6,
                     ))
             
     
