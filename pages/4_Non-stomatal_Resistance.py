@@ -121,7 +121,7 @@ def display_BD(state, cm):
     cm.latex(r'SAI_{Haarweg} = 3.5')
     cm.latex(r'\alpha = 2')
     state.rw_min = calc_rw_min(state.sai, state.rh)
-    cm.latex(r'r_{w,min} = \frac{SAI}{SAI_{Haarweg}}\times\alpha\times\exp(\frac{100-RH}{12}) = \underline{%.2f}' % state.rw_min)
+    cm.latex(r'r_{w,min} = \frac{SAI_{Haarweg}}{SAI}\times\alpha\times\exp(\frac{100-RH}{12}) = \underline{%.2f}' % state.rw_min)
 
     cm.latex(r'Ra = 50')
     cm.latex(r'Rb = 30')
