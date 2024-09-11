@@ -86,6 +86,7 @@ def plot_scatters(state,cm):
     fig.update_layout(
         template = 'plotly_white'
     )
+    min_val, max_val = 0, max(state.df_agg_merge[state.aval_cases].values.flatten().max())
 
     for model in state.aval_models:
         fig.add_trace(go.Scatter(
@@ -103,10 +104,10 @@ def plot_scatters(state,cm):
     # add a 1:1 line
     fig.add_shape(
         type="line",
-        x0=state.df_agg_merge['Obs'].min(),
-        y0=state.df_agg_merge['Obs'].min(),
-        x1=state.df_agg_merge['Obs'].max(),
-        y1=state.df_agg_merge['Obs'].max(),
+        x0=min_val,
+        y0=min_val,
+        x1=max_val,
+        y1=max_val,
         line=dict(
             color="black",
             width=1,
@@ -127,9 +128,9 @@ def plot_scatters(state,cm):
         x=0.01,
         font=dict(size=15)
         ),
-        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey', range=[min_val, max_val] ,\
             ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
-        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey', range=[min_val, max_val],\
             ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
         )
     
