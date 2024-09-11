@@ -86,18 +86,33 @@ def plot_scatters(state,cm):
     fig.update_layout(
         template = 'plotly_white'
     )
-    min_val, max_val = 0, state.df_agg_merge[state.aval_cases].max().max()
+    min_val, max_val = 0, state.df_agg_merge[state.aval_cases].max().max()*1.1
 
     for model in state.aval_models:
+        x = state.df_agg_merge['Obs']
+        y = state.df_agg_merge[f'{model}_BD']
         fig.add_trace(go.Scatter(
-            x=state.df_agg_merge['Obs'],
-            y=state.df_agg_merge[f'{model}_BD'],
+            x=x,
+            y=y,
             mode='markers',
             name=model,
             marker=dict(
                 size=5,
                 color=line_props[model]['color'],
                 opacity=0.6
+            )
+        ))
+        # Add trend line
+        m, b = np.polyfit(x, y, 1)
+        fig.add_trace(go.Scatter(
+            x=x,
+            y=m*x+b,
+            mode='lines',
+            name=f'{model} trend',
+            line=dict(
+                color=line_props[model]['color'],
+                width=2,
+                dash='dash'
             )
         ))
 
