@@ -106,8 +106,7 @@ def display_no_BD(state, cm):
     
 def display_BD(state, cm):
     cm.markdown('### DEHM BD (New)')
-    cm.latex(r'SAI_{Haarweg} = 3.5')
-    cm.latex(r'\alpha = 2')
+    
 
     state.fasn = calc_fasn(state.asn)
     cm.latex(r'f_{asn} = 1.12-1.32\times asn = \underline{%.2f}' % state.fasn)
@@ -118,6 +117,8 @@ def display_BD(state, cm):
     state.X_w = calc_Xw(state.ts, state.asn, state.X_a)
     cm.latex(r'X_w = \frac{2.75\times 10^{15}}{Ts}\times\exp(-1.04\times 10^4/Ts)\times\Gamma_w = \underline{%.2f}' % state.X_w)
 
+    cm.latex(r'SAI_{Haarweg} = 3.5')
+    cm.latex(r'\alpha = 2')
     state.rw_min = calc_rw_min(state.sai, state.rh)
     cm.latex(r'r_{w,min} = \frac{SAI}{SAI_{Haarweg}}\times\alpha\times\exp(\frac{100-RH}{12}) = \underline{%.2f}' % state.rw_min)
 
