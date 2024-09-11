@@ -69,13 +69,14 @@ def run():
 
         if state.df_agg_merge is None:
             st.markdown('### Correlations between models')
-            plot_heatmaps(state,st)
         else:
             st.markdown('### Correlations between models and observations')
-            c1, c2 = st.columns(2)
-            plot_heatmaps(state,c1)
+            # c1, c2 = st.columns(2)
+            # plot_heatmaps(state,c1)
             # c2.markdown('Scatter plots')
-            plot_scatters(state,c2)
+            # plot_scatters(state,c2)
+
+        plot_heatmaps(state,st)
 
         if state.sid != 'All stations':
             plot_landuse(state,st)
@@ -88,9 +89,12 @@ def plot_scatters(state,cm):
     )
     min_val, max_val = 0, state.df_agg_merge[state.aval_cases].max().max()*1.1
 
+
     for model in state.aval_models:
-        x = state.df_agg_merge['Obs'].values
-        y = state.df_agg_merge[f'{model}_BD'].values
+        df = state.df_agg_merge[[model+'_BD','Obs']].dropna()
+        x = df[model+'_BD'].values
+        y = df['Obs'].values
+
         fig.add_trace(go.Scatter(
             x=x,
             y=y,
@@ -198,8 +202,8 @@ def plot_heatmaps(state,cm):
     
     fig.update_layout(
         margin=dict(l=20, r=2, t=30, b=2),
-        # width=700,
-        height=500,
+        width=700,
+        height=600,
         font=dict(size=18),
         xaxis=dict(showline=False, title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
         yaxis=dict(showline=False, title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
@@ -208,7 +212,7 @@ def plot_heatmaps(state,cm):
     
     # move x-axis to the top
     # fig.update_xaxes(side='top')
-    cm.plotly_chart(fig, use_container_width=True)  
+    cm.plotly_chart(fig)  
 
 def get_heatmap_correlations(state):
     model_cases = [f'{model}_{run}' for model in state.aval_models for run in ['BD','noBD','diff']]
