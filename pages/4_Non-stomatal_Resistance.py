@@ -124,7 +124,7 @@ def display_BD(state, cm):
     cm.latex(r'f_T = \frac{2.75\times 10^{15}}{Ts}\times\exp(-1.04\times 10^4/Ts) = \underline{%.2f}' % state.fT)
 
     state.X_w = calc_Xw(state.ts, state.asn, state.X_a)
-    cm.latex(r'X_w = \frac{2.75\times 10^{15}}{Ts}\times\exp(-1.04\times 10^4/Ts)\times\Gamma_w = \underline{%.2f}' % state.X_w)
+    cm.latex(r'X_w = f_T\times\Gamma_w = \underline{%.2f}' % state.X_w)
 
     cm.latex(r'SAI_{Haarweg} = 3.5')
     cm.latex(r'\alpha = 2')
