@@ -89,8 +89,8 @@ def plot_scatters(state,cm):
     min_val, max_val = 0, state.df_agg_merge[state.aval_cases].max().max()*1.1
 
     for model in state.aval_models:
-        x = state.df_agg_merge['Obs']
-        y = state.df_agg_merge[f'{model}_BD']
+        x = state.df_agg_merge['Obs'].values
+        y = state.df_agg_merge[f'{model}_BD'].values
         fig.add_trace(go.Scatter(
             x=x,
             y=y,
@@ -103,6 +103,9 @@ def plot_scatters(state,cm):
             )
         ))
         # Add trend line
+        #remove nan values
+        x = x[~np.isnan(x)]
+        y = y[~np.isnan(x)]
         m, b = np.polyfit(x, y, 1)
         fig.add_trace(go.Scatter(
             x=x,
@@ -749,6 +752,7 @@ def very_median(array_like):
 def load_simulations(state):
     # Load simulation data
     dfs = []
+    print(state.sid)
     for yr in range(state.yrs[0],state.yrs[1]+1):
         for imodel in state.sel_models:
             simfile = os.path.join(datapath,'models', f'{imodel}_{yr}_{state.par}.csv')
