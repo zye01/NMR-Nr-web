@@ -598,6 +598,7 @@ def select_data(state,cm):
         state.sname = 'All stations'
         state.sid = 'All stations'
         state.soid = 'All stations'
+        state.ast_median = cm.checkbox('Median', value=False)
 
     else:  
         state.sname, state.sid = state.station.split('(')
@@ -659,6 +660,12 @@ def very_mean(array_like):
     else:
         return array_like.mean()
 
+def very_median(array_like):
+    if any(pd.isnull(array_like)):
+        return np.nan
+    else:
+        return array_like.median()
+
 def load_simulations(state):
     # Load simulation data
     dfs = []
@@ -669,7 +676,10 @@ def load_simulations(state):
                 continue
             df = pd.read_csv(simfile, header=0)
             # Calculate mean of all station columns to get the 'All stations' column
-            df['All stations'] = df[state.sids].apply(very_mean, axis=1)
+            if state.ast_median:
+                df['All stations'] = df[state.sids].apply(very_median, axis=1)
+            else:
+                df['All stations'] = df[state.sids].apply(very_mean, axis=1)
             df = df[['Time','Case',state.sid]]
             dfs.append(df)
     state.df_sim = pd.concat(dfs)
@@ -718,7 +728,11 @@ def load_merged_data(state):
         state.dths = sel_df['dtH'].unique()
         # Calculate mean by 'st' and 'ed'
         sel_df = sel_df[['st','ed','Obs']+state.aval_simcases]
-        state.df_merge = sel_df.groupby(['st','ed']).mean().reset_index()
+        if state.ast_median:
+            state.df_merge = sel_df.groupby(['st','ed']).median().reset_index()
+        else:
+            state.df_merge = sel_df.groupby(['st','ed']).mean().reset_index()
+        del sel_df
     else:
         sel_df = df_merge[df_merge.site==state.soid]
         state.osites = sel_df['site'].unique()
