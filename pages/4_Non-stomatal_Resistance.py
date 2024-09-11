@@ -51,7 +51,7 @@ def calculate_new_rnc(sai, rh, ts, asn, X_a):
     X_w = calc_Xw(ts,asn, X_a)
     rw_min = calc_rw_min(sai, rh)
     # rns_new = 1/(1/rext+1/(rs+rinc))
-    rns_new = (X_w/(X_a-X_w))*(Ra+Rb)+(X_a/(X_a-X_w))*rw_min
+    rns_new = (X_a/(X_a-X_w))*(rw_min+Ra+Rb) - Ra - Rb
     return rns_new
 
 def calc_rw_min(sai,rh):
@@ -113,7 +113,7 @@ def display_BD(state, cm):
     cm.latex(r'f_{asn} = 1.12-1.32\times asn = \underline{%.2f}' % state.fasn)
 
     state.gamma_w = calc_gamma_w(state.ts, state.asn, state.X_a)
-    cm.latex(r'\gamma_w = 1.84\times 10^3\times\exp(-0.11\times Ts)\times X_a-850\times f_{asn} = \underline{%.2f}' % state.gamma_w)
+    cm.latex(r'\Gamma_w = 1.84\times 10^3\times\exp(-0.11\times Ts)\times X_a-850\times f_{asn} = \underline{%.2f}' % state.gamma_w)
 
     state.X_w = calc_Xw(state.ts, state.asn, state.X_a)
     cm.latex(r'X_w = \frac{2.75\times 10^{15}}{Ts}\times\exp(-1.04\times 10^4/Ts)\times\Gamma_w = \underline{%.2f}' % state.X_w)
@@ -125,7 +125,8 @@ def display_BD(state, cm):
     cm.latex(r'Rb = 30')
 
     state.rns_new = calculate_new_rnc(state.sai, state.rh, state.ts, state.asn, state.X_a)
-    cm.latex(r'\large{r_{ns}} = \frac{X_w}{X_a-X_w}\times(Ra+Rb)+\frac{X_a}{X_a-X_w}\times r_{w,min} \\ ~~~~~ = \underline{%.2f}' % state.rns_new)
+    # cm.latex(r'\large{r_{ns}} = \frac{X_w}{X_a-X_w}\times(Ra+Rb)+\frac{X_a}{X_a-X_w}\times r_{w,min} \\ ~~~~~ = \underline{%.2f}' % state.rns_new)
+    cm.latex(r'\large{r_{ns}} = \frac{X_a}{X_a-X_w}\times(r_{w,min}+Ra+Rb)-Ra-Rb \\ ~~~~~ = \underline{%.2f}' % state.rns_new)
 
     # state.rext = calc_rext(state.sai, state.rh)
     # cm.latex(r'{r_{ext}} = \frac{SAI_{Haarweg}}{SAI}\times \alpha \times\exp(\frac{100-RH}{12}) \\ ~~~~~ = \underline{%.2f}' % state.rext)
