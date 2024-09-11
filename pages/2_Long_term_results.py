@@ -100,6 +100,19 @@ def plot_scatters(state,cm):
             )
         ))
 
+    # add a 1:1 line
+    fig.add_shape(
+        type="line",
+        x0=state.df_agg_merge['Obs'].min(),
+        y0=state.df_agg_merge['Obs'].min(),
+        x1=state.df_agg_merge['Obs'].max(),
+        y1=state.df_agg_merge['Obs'].max(),
+        line=dict(
+            color="black",
+            width=1,
+        ),
+    )
+
     fig.update_layout(
         xaxis_title=f'Observed {state.par} ({par_dict[state.par]["units"]})',
         yaxis_title=f'Simulated {state.par} ({par_dict[state.par]["units"]})',
