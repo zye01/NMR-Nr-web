@@ -21,7 +21,7 @@ def run():
     tab1, tab2 = st.tabs(['Parameterization','Dependency'])
 
     with tab1:
-        c1, c2, c3 = st.columns([1,2,1])
+        c1, c2, c3 = st.columns([1,3,1])
         display_variables(state, c1)
         display_no_BD(state, c2)
         display_BD(state, c2)
@@ -257,7 +257,7 @@ def lineplot(state, cm, data, diff=False):
         )
 
     # cunit = par_dict[state.sel_1]['units']
-    fig.update_yaxes(title_text='r_ns',\
+    fig.update_yaxes(title_text='r_ns', range=[0, 150],
                      showline=True, linewidth=1, linecolor='lightgrey',\
                      ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False)
     
