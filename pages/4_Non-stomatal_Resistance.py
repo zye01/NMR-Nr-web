@@ -6,9 +6,13 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 st.set_page_config(layout="wide")
+# generate a list of colors with 10 distinguishable colors
+colors = ['rgb(31, 119, 180)', 'rgb(255, 127, 14)', 'rgb(44, 160, 44)', 'rgb(214, 39, 40)', 'rgb(148, 103, 189)', 'rgb(140, 86, 75)', 'rgb(227, 119, 194)', 'rgb(127, 127, 127)', 'rgb(188, 189, 34)', 'rgb(23, 190, 207)']
+
 
 def run():
     state = st.session_state
+    initiate_state(state)
     st.markdown('''
     <style>
     .katex-html {
@@ -153,12 +157,53 @@ def display_BD(state, cm):
 
 
 def plot_dependence(state):
+    plot_for_Ts(state)
     plot_for_RH(state)
     plot_for_SAI(state)
 
+def plot_for_Ts(state):
+    st.markdown('### Relationship with Ts')
+    c1, c2 = st.columns([1,6])
+    rh, asn, sai, X_a = select_variables_for_Ts(state,c1)
+
+    tss = np.arange(270, 310, step=0.5)
+    rns_olds = [calculate_old_rnc(ts,rh,asn) for ts in tss]
+    rns_news = [calculate_new_rnc(sai, rh, ts, asn, X_a) for ts in tss]
+    pdata = {
+        'x':{'label':'Ts', 'data':tss},
+        'y2':{'label':'old', 'data':rns_olds},
+        'y1':{'label':'new','data':rns_news},
+    }
+    line_text = f'rh={rh:.1f},asn={asn:.1f},sai={sai:.1f},Xa={X_a:.1f}'
+    if state.nts == 0:
+        add_lines(state,pdata,state.fig_ts,line_text,colors[state.nts])
+        state.nts += 1
+
+    if c1.button('Add lines',key='add_line_ts'):
+        if state.nts>9:
+            st.warning('Maximum 10 lines can be added.')
+        else:
+            add_lines(state,pdata,state.fig_ts,line_text,colors[state.nts])
+        state.nts += 1
+
+    if c1.button('Reset',key='reset_ts'):
+        state.nts = 0
+        state.fig_ts = new_lineplot(state, 'Ts')
+        add_lines(state,pdata,state.fig_ts,line_text,colors[state.nts])
+        state.nts += 1
+
+    c2.plotly_chart(state.fig_ts, use_container_width=True)
+
+def select_variables_for_Ts(state,cm):
+    rh = cm.number_input('RH (%)', value=80.0,key='rh3', format='%0.1f', step=2.0)
+    asn = cm.number_input('asn', value=0.2,key='asn3', format='%0.1f', step=0.1)
+    sai = cm.number_input('SAI', value=2.0,key='sai3', format='%0.1f', step=0.5)
+    X_a = cm.number_input('X_a', value=5.0,key='X_a3', format='%0.1f', step=0.1)
+    return rh, asn, sai, X_a
+
 def plot_for_RH(state):
     st.markdown('### Relationship with RH')
-    c1, c2 = st.columns([1,3])
+    c1, c2 = st.columns([1,6])
     ts, asn, sai, X_a = select_variables_for_RH(state,c1)
 
     # generate rh data from 50 to 100, step=0.2
@@ -167,10 +212,28 @@ def plot_for_RH(state):
     rns_news = [calculate_new_rnc(sai, rh, ts, asn, X_a) for rh in rhs]
     pdata = {
         'x':{'label':'RH', 'data':rhs},
-        'y2':{'label':'rns_old', 'data':rns_olds},
-        'y1':{'label':'rns_new','data':rns_news},
+        'y2':{'label':'old', 'data':rns_olds},
+        'y1':{'label':'new','data':rns_news},
     }
-    lineplot(state,c2,pdata)
+    line_text = f'ts={ts:.1f},asn={asn:.1f},sai={sai:.1f},Xa={X_a:.1f}'
+    if state.nrh == 0:
+        add_lines(state,pdata,state.fig_rh,line_text,colors[state.nrh])
+        state.nrh += 1
+
+    if c1.button('Add lines',key='add_line_rh'):
+        if state.nrh>9:
+            st.warning('Maximum 10 lines can be added.')
+        else:
+            add_lines(state,pdata,state.fig_rh,line_text,colors[state.nrh])
+        state.nrh += 1
+
+    if c1.button('Reset',key='reset_rh'):
+        state.nrh = 0
+        state.fig_rh = new_lineplot(state, 'RH')
+        add_lines(state,pdata,state.fig_rh,line_text,colors[state.nrh])
+        state.nrh += 1
+
+    c2.plotly_chart(state.fig_rh, use_container_width=True)
     
 
 def select_variables_for_RH(state,cm):
@@ -200,8 +263,7 @@ def select_variables_for_SAI(state,cm):
 
 def plot_for_SAI(state):
     st.markdown('### Relationship with SAI')
-
-    c1, c2 = st.columns([1,3])
+    c1, c2 = st.columns([1,6])
     ts, asn, rh, X_a = select_variables_for_SAI(state,c1)
 
     sais = np.arange(2, 4, step=0.05)
@@ -209,63 +271,74 @@ def plot_for_SAI(state):
     rns_news = [calculate_new_rnc(sai,rh, ts, asn, X_a) for sai in sais]
     pdata = {
         'x':{'label':'SAI', 'data':sais},
-        'y1':{'label':'rns_new', 'data':rns_news},
-        'y2':{'label':'rns_old','data':rns_olds},
+        'y1':{'label':'new', 'data':rns_news},
+        'y2':{'label':'old','data':rns_olds},
     }
+    line_text = f'ts={ts:.1f},asn={asn:.1f},rh={rh:.1f},Xa={X_a:.1f}'
+    if state.nsai == 0:
+        add_lines(state,pdata,state.fig_sai,line_text,colors[state.nsai])
+        state.nsai += 1
 
-    lineplot(state,c2,pdata)
+    if c1.button('Add lines',key='add_line_sai'):
+        if state.nsai>9:
+            st.warning('Maximum 10 lines can be added.')
+        else:
+            add_lines(state,pdata,state.fig_sai,line_text,colors[state.nsai])
+        state.nsai += 1
 
-def lineplot(state, cm, data, diff=False):
-    if diff:
-        fig = make_subplots(specs=[[{"secondary_y": True}]])
+    if c1.button('Reset',key='reset_sai'):
+        state.nsai = 0
+        state.fig_sai = new_lineplot(state, 'SAI')
+        add_lines(state,pdata,state.fig_sai,line_text,colors[state.nsai])
+        state.nsai += 1
 
-    else:
-        fig = make_subplots(specs=[[{'secondary_y': False}]])
+    c2.plotly_chart(state.fig_sai, use_container_width=True)
+
+def add_lines(state,data,fig,line_label,color):
+    for ys in ['y1', 'y2']:
+        if ys in data.keys():
+            caselabel = data[ys]['label']
+            dash = 'solid' if caselabel=='new' else 'dash'
+            casename = f'{caselabel}({line_label})'
+            fig.add_trace(
+                go.Scatter(
+                x=data['x']['data'],
+                y=data[ys]['data'],
+                name=casename,
+                line=dict(width=3,dash=dash,color=color),
+                )
+            )
+    return fig
+
+def new_lineplot(state, xlabel):
+    fig = make_subplots(specs=[[{'secondary_y': False}]])
 
     fig.update_layout(
         template = 'plotly_white'
     )
 
-    for ys in ['y1', 'y2']:
-        if ys in data.keys():
-            fig.add_trace(
-                go.Scatter(
-                x=data['x']['data'],
-                y=data[ys]['data'],
-                name=data[ys]['label'],
-                line=dict(width=3),
-                )
-            )
-
+    yrange = [0, 150] if xlabel == 'SAI' else [0, 200]
     fig.update_layout(
-        xaxis_title=data['x']['label'],
-        margin=dict(l=2, r=2, t=30, b=2),
+        xaxis_title=xlabel,
+        margin=dict(l=0, r=0, t=30, b=0),
         # width=1200,
         height=500,
         legend=dict(
-        orientation="h",
+        orientation="v",
         yanchor="top",
-        y=-0.2,
+        y=1.0,
         xanchor="left",
-        x=0.01,
+        x=1.03,
         font=dict(size=15)
         ),
-        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
-            ticks='inside',title_font=dict(size=20),tickfont=dict(size=15), showgrid=False),
-        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
-            ticks='inside',title_font=dict(size=26),tickfont=dict(size=15), showgrid=False),
+        xaxis=dict(showline=True, linewidth=1, linecolor='black',ticks='inside',\
+            title_font=dict(size=20),tickfont=dict(size=15), showgrid=False, mirror=True),
+        yaxis=dict(title_text='r_ns', range=[0, 200],zeroline=False, mirror=True, \
+                showline=True, linewidth=1, linecolor='black',\
+                title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
         )
-
-    # cunit = par_dict[state.sel_1]['units']
-    fig.update_yaxes(title_text='r_ns', range=[0, 150],
-                     showline=True, linewidth=1, linecolor='lightgrey',\
-                     ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False)
     
-    cm.plotly_chart(fig, use_container_width=True)
-
-
-
-
+    return fig
 
 
 def display_results(state, cm):
@@ -306,6 +379,19 @@ def display_notes(state,cm):
     cm.markdown('SAI=LAI+1 for forests, SAI = LAI for the grassland, SAI is parameterized with LAI for crops in the growing season.')
     # cm.markdown('Applies when ustar > 0 ')
 
+def initiate_state(state):
+    if 'nsai' not in state:
+        state.nsai = 0
+    if 'nrh' not in state:
+        state.nrh = 0
+    if 'fig_sai' not in state:
+        state.fig_sai = new_lineplot(state, 'SAI')
+    if 'fig_rh' not in state:
+        state.fig_rh = new_lineplot(state, 'RH')
+    if 'nts' not in state:
+        state.nts = 0
+    if 'fig_ts' not in state:
+        state.fig_ts = new_lineplot(state, 'Ts')
 
 if __name__ == '__main__':
     run()
