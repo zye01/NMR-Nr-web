@@ -268,9 +268,9 @@ def display_results(state, cm):
     # ratio of the two
     cm.latex(r'\color{red}\text{Old/New } \large= %.2f' % (state.rns_old/state.rns_new))
 
-    cm.markdown('**In bi-dir:**')
-    # ratio of state.rext and state.rns_new
-    cm.latex(r'\frac{r_{ext}}{r_{ns}} \large= %.2f' % (state.rext/state.rns_new))
+    # cm.markdown('**In bi-dir:**')
+    # # ratio of state.rext and state.rns_new
+    # cm.latex(r'\frac{r_{ext}}{r_{ns}} \large= %.2f' % (state.rext/state.rns_new))
 
 
 def display_variables(state, cm):
@@ -284,7 +284,7 @@ def display_variables(state, cm):
     # state.rs = cm.number_input('r_soil (soil resistance)',key='rs0', value=100, format='%d', step=30)
     # state.ra = cm.number_input('r_a',key='ra0', value=50.0, format='%0.1f', step=5.0)
     # state.rb = cm.number_input('r_b',key='rb0', value=30.0, format='%0.1f', step=2.0)
-    state.X_a = cm.number_input('X_a (NH3 air concentration in μg/m3)',key='X_a0', value=0.6, format='%0.1f', step=0.1)
+    state.X_a = cm.number_input('X_a (NH3 air concentration in μg/m3)',key='X_a0', value=5.0, format='%0.1f', step=0.1)
     # state.const = cm.number_input('constant', value=0.0455, format='%0.4f', step=0.01)
 
 
