@@ -74,7 +74,7 @@ def run():
             st.markdown('### Correlations between models and observations')
             c1, c2 = st.columns(2)
             plot_heatmaps(state,c1)
-            c2.markdown('Scatter plots')
+            # c2.markdown('Scatter plots')
             plot_scatters(state,c2)
 
         if state.sid != 'All stations':
@@ -118,7 +118,7 @@ def plot_scatters(state,cm):
         yaxis_title=f'Simulated {state.par} ({par_dict[state.par]["units"]})',
         margin=dict(l=2, r=2, t=30, b=2),
         # width=1200,
-        height=400,
+        height=500,
         legend=dict(
         orientation="h",
         yanchor="bottom",
@@ -176,7 +176,7 @@ def plot_heatmaps(state,cm):
     
     fig.update_layout(
         margin=dict(l=20, r=2, t=30, b=2),
-        width=700,
+        # width=700,
         height=500,
         font=dict(size=18),
         xaxis=dict(showline=False, title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
@@ -186,7 +186,7 @@ def plot_heatmaps(state,cm):
     
     # move x-axis to the top
     # fig.update_xaxes(side='top')
-    cm.plotly_chart(fig)    
+    cm.plotly_chart(fig, use_container_width=True)  
 
 def get_heatmap_correlations(state):
     model_cases = [f'{model}_{run}' for model in state.aval_models for run in ['BD','noBD','diff']]
