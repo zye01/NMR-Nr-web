@@ -117,7 +117,7 @@ def plot_scatters(state,cm):
     fig.update_layout(
         xaxis_title=f'Observed {state.par} ({par_dict[state.par]["units"]})',
         yaxis_title=f'Simulated {state.par} ({par_dict[state.par]["units"]})',
-        margin=dict(l=2, r=2, t=30, b=2),
+        margin=dict(l=20, r=20, t=30, b=20),
         # width=1200,
         height=500,
         legend=dict(
