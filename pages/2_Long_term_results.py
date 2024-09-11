@@ -74,6 +74,7 @@ def run():
             st.markdown('### Correlations between models and observations')
             c1, c2 = st.columns(2)
             plot_heatmaps(state,c1)
+            c2.markdown('Scatter plots')
             plot_scatters(state,c2)
 
         if state.sid != 'All stations':
