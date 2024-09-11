@@ -31,6 +31,71 @@ def run():
     with tab2:
         plot_dependence(state)
 
+def calculate_old_rnc(ts, rh,asn):
+    f1 = calc_f1(ts, rh)
+    f2 = calc_f2(asn)
+    rns_old = min(max(10,0.0455*f1*f2),100)
+    rns_old = min(max(10, 0.0455*f1*f2),200)
+    return rns_old
+
+def calc_f1(ts, rh):
+    f1 = 10*np.log(2+ts-273.15)*np.exp((100-rh)/7)/np.log(10)
+    return f1
+
+def calc_f2(asn):
+    f2 = 10**(-1.1099*asn+1.6769)
+    return f2
+
+def calculate_new_rnc(sai, rh, ustar, hveg, rs):
+    rext = calc_rext(sai, rh)
+    rinc = calc_rinc(sai, hveg, ustar)
+    rns_new = 1/(1/rext+1/(rs+rinc))
+    return rns_new
+
+def calc_rext(sai, rh):
+    sai_haarweg = 3.5
+    alpha_nh3 = 2
+    rext = sai_haarweg/sai*alpha_nh3*np.exp((100-rh)/12)
+    return rext
+
+def calc_rinc(sai, hveg, ustar):
+    if ustar > 0:
+        rinc = min(14*sai*hveg/ustar, 1000)
+    else:
+        rinc = 1000
+    return rinc
+
+def display_no_BD(state, cm):
+    cm.markdown('### DEHM no-BD (Old)')
+    # state.f1 = 10*np.log(2+state.ts-273.15)*np.exp((100-state.rh)/7)/np.log(10)
+    state.f1 = calc_f1(state.ts, state.rh)
+    cm.latex(r'f1=10\times\frac{\log(2+Ts-273.15)\times\exp(\frac{100-RH}{7})}{\log(10)} \\ ~~~~~~ = \underline{%.2f}' % state.f1)
+    # state.f2 = 10**(-1.1099*state.asn+1.6769)
+    state.f2 = calc_f2(state.asn)
+    cm.latex(r'f2=10^{-1.1099\times asn+1.6769} = \underline{%.2f}' % state.f2)
+    state.rns_old = calculate_old_rnc(state.ts, state.rh, state.asn)
+    cm.latex(r'\large{r_{ns}} = \min(\max(10,0.0455\times f1\times f2),200) \\ ~~~~~ = \underline{%.1f} ' % state.rns_old)
+    # cm.latex(r'\large{r_{ns}} = \max(10, 0.0455\times f1\times f2) \\ ~~~~~ = \underline{%.1f} ' % state.rns_old)
+    
+def display_BD(state, cm):
+    cm.markdown('### DEHM BD (New)')
+    cm.latex(r'SAI_{Haarweg} = 3.5')
+    cm.latex(r'\alpha = 2')
+
+    state.rext = calc_rext(state.sai, state.rh)
+    cm.latex(r'{r_{ext}} = \frac{SAI_{Haarweg}}{SAI}\times \alpha \times\exp(\frac{100-RH}{12}) \\ ~~~~~ = \underline{%.2f}' % state.rext)
+
+    state.rinc = calc_rinc(state.sai, state.hveg, state.ustar)
+    if state.ustar > 0:
+        cm.latex(r'{r_{inc}} = \min(14\times SAI\times hveg/ustar, 1000) \\ ~~~~~ = \underline{%.2f}' % state.rinc)
+    else:
+        cm.latex(r'{r_{inc}} = 1000')
+
+    state.rns_new = calculate_new_rnc(state.sai, state.rh, state.ustar, state.hveg, state.rs)
+    cm.latex(r'\large{r_{ns}} = \frac{1}{\frac{1}{r_{ext}}+\frac{1}{r_{soil}+r_{inc}}} \\ ~~~~~ = \underline{%.2f}' % state.rns_new)
+
+
+
 def plot_dependence(state):
     plot_for_RH(state)
     plot_for_SAI(state)
@@ -142,39 +207,7 @@ def lineplot(state, cm, data, diff=False):
 
 
 
-def calculate_old_rnc(ts, rh,asn):
-    f1 = calc_f1(ts, rh)
-    f2 = calc_f2(asn)
-    rns_old = min(max(10,0.0455*f1*f2),100)
-    rns_old = max(10, 0.0455*f1*f2)
-    return rns_old
 
-def calc_f1(ts, rh):
-    f1 = 10*np.log(2+ts-273.15)*np.exp((100-rh)/7)/np.log(10)
-    return f1
-
-def calc_f2(asn):
-    f2 = 10**(-1.1099*asn+1.6769)
-    return f2
-
-def calculate_new_rnc(sai, rh, ustar, hveg, rs):
-    rext = calc_rext(sai, rh)
-    rinc = calc_rinc(sai, hveg, ustar)
-    rns_new = 1/(1/rext+1/(rs+rinc))
-    return rns_new
-
-def calc_rext(sai, rh):
-    sai_haarweg = 3.5
-    alpha_nh3 = 2
-    rext = sai_haarweg/sai*alpha_nh3*np.exp((100-rh)/12)
-    return rext
-
-def calc_rinc(sai, hveg, ustar):
-    if ustar > 0:
-        rinc = min(14*sai*hveg/ustar, 1000)
-    else:
-        rinc = 1000
-    return rinc
 
 
 def display_results(state, cm):
@@ -200,34 +233,6 @@ def display_variables(state, cm):
     state.ustar = cm.number_input('ustar (friction velocity, m/s)',key='ustar0', value=1.0, format='%0.1f', step=0.1)
     state.rs = cm.number_input('r_soil (soil resistance)',key='rs0', value=100, format='%d', step=30)
 
-def display_no_BD(state, cm):
-    cm.markdown('### DEHM no-BD (Old)')
-    # state.f1 = 10*np.log(2+state.ts-273.15)*np.exp((100-state.rh)/7)/np.log(10)
-    state.f1 = calc_f1(state.ts, state.rh)
-    cm.latex(r'f1=10\times\frac{\log(2+Ts-273.15)\times\exp(\frac{100-RH}{7})}{\log(10)} \\ ~~~~~~ = \underline{%.2f}' % state.f1)
-    # state.f2 = 10**(-1.1099*state.asn+1.6769)
-    state.f2 = calc_f2(state.asn)
-    cm.latex(r'f2=10^{-1.1099\times asn+1.6769} = \underline{%.2f}' % state.f2)
-    state.rns_old = calculate_old_rnc(state.ts, state.rh, state.asn)
-    # cm.latex(r'\large{r_{ns}} = \min(\max(10,0.0455\times f1\times f2),100) \\ ~~~~~ = \underline{%.1f} ' % state.rns_old)
-    cm.latex(r'\large{r_{ns}} = \max(10, 0.0455\times f1\times f2) \\ ~~~~~ = \underline{%.1f} ' % state.rns_old)
-    
-def display_BD(state, cm):
-    cm.markdown('### DEHM BD (New)')
-    cm.latex(r'SAI_{Haarweg} = 3.5')
-    cm.latex(r'\alpha = 2')
-
-    state.rext = calc_rext(state.sai, state.rh)
-    cm.latex(r'{r_{ext}} = \frac{SAI_{Haarweg}}{SAI}\times \alpha \times\exp(\frac{100-RH}{12}) \\ ~~~~~ = \underline{%.2f}' % state.rext)
-
-    state.rinc = calc_rinc(state.sai, state.hveg, state.ustar)
-    if state.ustar > 0:
-        cm.latex(r'{r_{inc}} = \min(14\times SAI\times hveg/ustar, 1000) \\ ~~~~~ = \underline{%.2f}' % state.rinc)
-    else:
-        cm.latex(r'{r_{inc}} = 1000')
-
-    state.rns_new = calculate_new_rnc(state.sai, state.rh, state.ustar, state.hveg, state.rs)
-    cm.latex(r'\large{r_{ns}} = \frac{1}{\frac{1}{r_{ext}}+\frac{1}{r_{soil}+r_{inc}}} \\ ~~~~~ = \underline{%.2f}' % state.rns_new)
 
 
 def display_notes(state,cm):
