@@ -116,7 +116,7 @@ def display_BD(state, cm):
     cm.latex(r'\gamma_w = 1.84\times 10^3\times\exp(-0.11\times Ts)\times X_a-850\times f_{asn} = \underline{%.2f}' % state.gamma_w)
 
     state.X_w = calc_Xw(state.ts, state.asn, state.X_a)
-    cm.latex(r'X_w = \frac{2.75\times 10^{15}}{Ts}\times\exp(-1.04\times 10^4/Ts)\times\gamma_w = \underline{%.2f}' % state.X_w)
+    cm.latex(r'X_w = \frac{2.75\times 10^{15}}{Ts}\times\exp(-1.04\times 10^4/Ts)\times\Gamma_w = \underline{%.2f}' % state.X_w)
 
     state.rw_min = calc_rw_min(state.sai, state.rh)
     cm.latex(r'r_{w,min} = \frac{SAI}{SAI_{Haarweg}}\times\alpha\times\exp(\frac{100-RH}{12}) = \underline{%.2f}' % state.rw_min)
