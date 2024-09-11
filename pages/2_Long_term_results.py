@@ -113,8 +113,10 @@ def plot_scatters(state,cm):
                 color=line_props[model]['color'],
                 width=2,
                 dash='dash'
-            )
-        ))
+            ),
+            legend=False,
+        )
+        )
 
     # add a 1:1 line
     fig.add_shape(
