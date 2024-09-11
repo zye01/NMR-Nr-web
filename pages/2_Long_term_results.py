@@ -113,7 +113,8 @@ def plot_scatters(state,cm):
                 color=line_props[model]['color'],
                 width=2,
                 dash='dash'
-            ))
+            )
+            ),
             showlegend=False,
         )
 
