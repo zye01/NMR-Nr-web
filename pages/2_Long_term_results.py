@@ -66,10 +66,61 @@ def run():
 
     with tab3:
         plot_metrics(state,st)
-        plot_heatmaps(state,st)
+
+        if state.df_agg_merge is None:
+            st.markdown('### Correlations between models')
+            plot_heatmaps(state,st)
+        else:
+            st.markdown('### Correlations between models and observations')
+            c1, c2 = st.columns(2)
+            plot_heatmaps(state,c1)
+            plot_scatters(state,c2)
 
         if state.sid != 'All stations':
             plot_landuse(state,st)
+
+def plot_scatters(state,cm):
+
+    fig = go.Figure()
+    fig.update_layout(
+        template = 'plotly_white'
+    )
+
+    for model in state.aval_models:
+        fig.add_trace(go.Scatter(
+            x=state.df_agg_merge['Obs'],
+            y=state.df_agg_merge[f'{model}_BD'],
+            mode='markers',
+            name=model,
+            marker=dict(
+                size=5,
+                color=line_props[model]['color'],
+                opacity=0.6
+            )
+        ))
+
+    fig.update_layout(
+        xaxis_title=f'Observed {state.par} ({par_dict[state.par]["units"]})',
+        yaxis_title=f'Simulated {state.par} ({par_dict[state.par]["units"]})',
+        margin=dict(l=2, r=2, t=30, b=2),
+        # width=1200,
+        height=400,
+        legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=-0.3,
+        xanchor="left",
+        x=0.01,
+        font=dict(size=15)
+        ),
+        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+            ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
+        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+            ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
+        )
+    
+    cm.plotly_chart(fig, use_container_width=True)
+
 
 def print_available_stations(state, cm):
     if state.sid == 'All stations':
@@ -82,10 +133,6 @@ def print_available_stations(state, cm):
             cm.markdown(f'**No observations available at {state.sname} for {state.par}.**')
         
 def plot_heatmaps(state,cm):
-    if state.df_agg_merge is None:
-        cm.markdown('### Correlations between models')
-    else:
-        cm.markdown('### Correlations between models and observations')
     cm.markdown('Note: diff = BD - noBD')
 
 
@@ -744,7 +791,6 @@ def load_merged_data(state):
 
     # get the station names, convert state.osites to station names
     state.available_stations = [state.sname_dict[site] for site in state.osites]
-
 
 
 def initiate_state(state):
