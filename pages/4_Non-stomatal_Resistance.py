@@ -360,8 +360,8 @@ def display_variables(state, cm):
     state.alpha = cm.number_input('alpha',key='alpha0', value=2.0, format='%0.1f', step=0.5)
     state.sai_haarweg = cm.number_input('SAI_Haarweg',key='sai_haarweg0', value=3.5, format='%0.1f', step=0.5)
     state.beta = cm.number_input('beta',key='beta0', value=1.0, format='%0.1f', step=0.5)
-    state.ra = cm.number_input('R_a',key='ra0', value=50.0, format='%0.1f', step=5.0)
-    state.rb = cm.number_input('R_b',key='rb0', value=30.0, format='%0.1f', step=2.0)
+    state.ra = cm.number_input('Ra',key='ra0', value=50.0, format='%0.1f', step=5.0)
+    state.rb = cm.number_input('Rb',key='rb0', value=30.0, format='%0.1f', step=2.0)
     # state.const = cm.number_input('constant', value=0.0455, format='%0.4f', step=0.01)
 
 
