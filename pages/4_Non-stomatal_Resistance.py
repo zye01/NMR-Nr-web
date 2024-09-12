@@ -129,7 +129,7 @@ def display_BD(state, cm):
     cm.latex(r'X_w = f_T\times\Gamma_w = \underline{%.2f}' % state.X_w)
 
     state.rw_min = calc_rw_min(state.sai, state.rh, state.sai_haarweg, state.alpha, state.beta)
-    cm.latex(r'r_{w,min} = \frac{SAI_{Haarweg}}{SAI}\times\alpha\times\exp(\frac{100-RH}{12}) = \underline{%.2f}' % state.rw_min)
+    cm.latex(r'r_{w,min} = \frac{SAI_{Haarweg}}{SAI}\times\alpha\times\exp(\frac{100-RH}{\beta}) = \underline{%.2f}' % state.rw_min)
 
     state.rns_new = calculate_new_rnc(state.sai, state.rh, state.ts, state.asn, state.X_a, state.ra, state.rb, state.sai_haarweg, state.alpha, state.beta)
     # cm.latex(r'\large{r_{ns}} = \frac{X_w}{X_a-X_w}\times(Ra+Rb)+\frac{X_a}{X_a-X_w}\times r_{w,min} \\ ~~~~~ = \underline{%.2f}' % state.rns_new)
@@ -359,7 +359,7 @@ def display_variables(state, cm):
     state.X_a = cm.number_input('X_a (NH3 air concentration in μg/m3)',key='X_a0', value=5.0, format='%0.1f', step=0.1)
     state.alpha = cm.number_input('alpha',key='alpha0', value=2.0, format='%0.1f', step=0.5)
     state.sai_haarweg = cm.number_input('SAI_Haarweg',key='sai_haarweg0', value=3.5, format='%0.1f', step=0.5)
-    state.beta = cm.number_input('beta',key='beta0', value=1.0, format='%0.1f', step=0.5)
+    state.beta = cm.number_input('beta',key='beta0', value=12.0, format='%0.1f', step=1.0)
     state.ra = cm.number_input('Ra',key='ra0', value=50.0, format='%0.1f', step=5.0)
     state.rb = cm.number_input('Rb',key='rb0', value=30.0, format='%0.1f', step=2.0)
     # state.const = cm.number_input('constant', value=0.0455, format='%0.4f', step=0.01)
