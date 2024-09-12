@@ -549,7 +549,7 @@ def plot_ts_bias(state, cm):
     # aval_cases = [icase for icase in all_cases if icase in state.df_agg_merge.columns]
     # aval_cases.remove('Obs')
 
-    plot_df = state.df_agg_merge[['st', 'ed']].copy()
+    plot_df = state.df_agg_merge[['ed']].copy()
 
     for icase in state.aval_simcases:
     
