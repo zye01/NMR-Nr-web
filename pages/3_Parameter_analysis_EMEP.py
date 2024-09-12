@@ -159,6 +159,10 @@ def lineplot(state, cm, df, xlabel, cases,diff=False,title=None,y1_range=None,y2
     
     cm.plotly_chart(fig, use_container_width=True)
 
+    if cm.button('Download data'):
+        cm.write(df)
+
+    
 def align_yaxis(y1_arr, y2_arr):
     y1_min, y1_max = y1_arr.min(), y1_arr.max()
     y1_max = 0 if y1_max < 0 else y1_max # set y1_max to 0
