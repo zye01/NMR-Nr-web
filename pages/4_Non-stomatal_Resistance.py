@@ -125,7 +125,7 @@ def display_BD(state, cm):
     cm.latex(r'\Gamma_w = \max(0,(1.84\times 10^3\times\exp(-0.11\times (Ts-273.15))\times X_a-850)\times f_{asn}) = \underline{%.2f}' % state.gamma_w)
 
     state.fT = calc_fT(state.ts)
-    cm.latex(r'f_T = \frac{2.75\times 10^{15}}{Ts}\times\exp(-1.04\times 10^4/Ts) = \underline{%.5f}' % state.fT)
+    cm.latex(r'f_T = \frac{2.75\times 10^{15}}{Ts}\times\exp(\frac{-1.04\times 10^4}{Ts}) = \underline{%.5f}' % state.fT)
 
     state.X_w = calc_Xw(state.ts, state.asn, state.X_a)
     cm.latex(r'X_w = f_T\times\Gamma_w = \underline{%.2f}' % state.X_w)
