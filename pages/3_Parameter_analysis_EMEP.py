@@ -159,8 +159,11 @@ def lineplot(state, cm, df, xlabel, cases,diff=False,title=None,y1_range=None,y2
     
     cm.plotly_chart(fig, use_container_width=True)
 
-    if cm.button('Download data', key=figkey):
-        cm.write(df)
+    cm.download_button(
+        label='Download plot data',
+        data = df.to_csv(index=False),
+        key=figkey,
+        file_name=f'Parameter_data_{figkey}.csv')
 
     
 def align_yaxis(y1_arr, y2_arr):
