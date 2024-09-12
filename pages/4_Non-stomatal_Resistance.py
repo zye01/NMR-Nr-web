@@ -50,18 +50,16 @@ def calc_f2(asn):
     f2 = 10**(-1.1099*asn+1.6769)
     return f2
 
-def calculate_new_rnc(sai, rh, ts, asn, X_a):
-    Ra, Rb = 50, 30
+def calculate_new_rnc(sai, rh, ts, asn, X_a, Ra=50, Rb=30, sai_haarweg=3.5, alpha_nh3=2, beta=12):
+    # Ra, Rb = 50, 30
     X_w = calc_Xw(ts,asn, X_a)
-    rw_min = calc_rw_min(sai, rh)
+    rw_min = calc_rw_min(sai, rh, sai_haarweg, alpha_nh3, beta)
     # rns_new = 1/(1/rext+1/(rs+rinc))
     rns_new = (X_a/(X_a-X_w))*(rw_min+Ra+Rb) - Ra - Rb
     return rns_new
 
-def calc_rw_min(sai,rh):
-    sai_haarweg = 3.5
-    alpha_nh3 = 2
-    rw_min = sai_haarweg/sai*alpha_nh3*np.exp((100-rh)/12)
+def calc_rw_min(sai,rh, sai_haarweg=3.5, alpha_nh3=2, beta=12):
+    rw_min = sai_haarweg/sai*alpha_nh3*np.exp((100-rh)/beta)
     return rw_min
 
 def calc_Xw(ts,asn, X_a):
@@ -130,15 +128,10 @@ def display_BD(state, cm):
     state.X_w = calc_Xw(state.ts, state.asn, state.X_a)
     cm.latex(r'X_w = f_T\times\Gamma_w = \underline{%.2f}' % state.X_w)
 
-    cm.latex(r'SAI_{Haarweg} = 3.5')
-    cm.latex(r'\alpha = 2')
-    state.rw_min = calc_rw_min(state.sai, state.rh)
+    state.rw_min = calc_rw_min(state.sai, state.rh, state.sai_haarweg, state.alpha, state.beta)
     cm.latex(r'r_{w,min} = \frac{SAI_{Haarweg}}{SAI}\times\alpha\times\exp(\frac{100-RH}{12}) = \underline{%.2f}' % state.rw_min)
 
-    cm.latex(r'Ra = 50')
-    cm.latex(r'Rb = 30')
-
-    state.rns_new = calculate_new_rnc(state.sai, state.rh, state.ts, state.asn, state.X_a)
+    state.rns_new = calculate_new_rnc(state.sai, state.rh, state.ts, state.asn, state.X_a, state.ra, state.rb, state.sai_haarweg, state.alpha, state.beta)
     # cm.latex(r'\large{r_{ns}} = \frac{X_w}{X_a-X_w}\times(Ra+Rb)+\frac{X_a}{X_a-X_w}\times r_{w,min} \\ ~~~~~ = \underline{%.2f}' % state.rns_new)
     cm.latex(r'\large{r_{ns}} = \frac{X_a}{X_a-X_w}\times(r_{w,min}+Ra+Rb)-Ra-Rb \\ ~~~~~ = \underline{%.2f}' % state.rns_new)
 
@@ -363,9 +356,12 @@ def display_variables(state, cm):
     # state.hveg = cm.number_input('hveg (height of vegetation in m)',key='hveg0', value=20.0, format='%0.1f', step=1.0)
     # state.ustar = cm.number_input('ustar (friction velocity, m/s)',key='ustar0', value=1.0, format='%0.1f', step=0.1)
     # state.rs = cm.number_input('r_soil (soil resistance)',key='rs0', value=100, format='%d', step=30)
-    # state.ra = cm.number_input('r_a',key='ra0', value=50.0, format='%0.1f', step=5.0)
-    # state.rb = cm.number_input('r_b',key='rb0', value=30.0, format='%0.1f', step=2.0)
     state.X_a = cm.number_input('X_a (NH3 air concentration in μg/m3)',key='X_a0', value=5.0, format='%0.1f', step=0.1)
+    state.alpha = cm.number_input('alpha',key='alpha0', value=2.0, format='%0.1f', step=0.5)
+    state.sai_haarweg = cm.number_input('SAI_Haarweg',key='sai_haarweg0', value=3.5, format='%0.1f', step=0.5)
+    state.beta = cm.number_input('beta',key='beta0', value=1.0, format='%0.1f', step=0.5)
+    state.ra = cm.number_input('R_a',key='ra0', value=50.0, format='%0.1f', step=5.0)
+    state.rb = cm.number_input('R_b',key='rb0', value=30.0, format='%0.1f', step=2.0)
     # state.const = cm.number_input('constant', value=0.0455, format='%0.4f', step=0.01)
 
 
