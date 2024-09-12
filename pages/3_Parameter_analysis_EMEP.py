@@ -47,16 +47,16 @@ def plot_diurnal(state,cm):
 
 
     # Plot for the whole period
-    lineplot(state, c1, state.df_diurnal, 'Hour', state.cases_all,y1_range=c1_y1_range,y2_range=c1_y2_range)
-    lineplot(state, c2, state.df_diurnal, 'Hour', state.cases_diff,diff=True,y1_range=c2_y1_range,y2_range=c2_y2_range)
+    lineplot(state, c1, state.df_diurnal, 'Hour', state.cases_all,y1_range=c1_y1_range,y2_range=c1_y2_range, figkey='diurnal_all')
+    lineplot(state, c2, state.df_diurnal, 'Hour', state.cases_diff,diff=True,y1_range=c2_y1_range,y2_range=c2_y2_range, figkey='diurnal_diff_all')
 
     # Plot for the seasons
     for iseason, sseason in seasons.items():
         c1.markdown(f"<h4 style='text-align: center; color: black;'>{sseason}</h4>", unsafe_allow_html=True)
         c2.markdown(f"<h4 style='text-align: center; color: black;'>{f'{sseason} diff'}</h4>", unsafe_allow_html=True)
         df = state.df_diurnal_season[state.df_diurnal_season['Season']==iseason]
-        lineplot(state, c1, df, 'Hour', state.cases_all,y1_range=c1_y1_range,y2_range=c1_y2_range)
-        lineplot(state, c2, df, 'Hour', state.cases_diff,diff=True,y1_range=c2_y1_range,y2_range=c2_y2_range)
+        lineplot(state, c1, df, 'Hour', state.cases_all,y1_range=c1_y1_range,y2_range=c1_y2_range, figkey=f'diurnal_{iseason}')
+        lineplot(state, c2, df, 'Hour', state.cases_diff,diff=True,y1_range=c2_y1_range,y2_range=c2_y2_range, figkey=f'diurnal_diff_{iseason}')
 
 
 
@@ -73,14 +73,14 @@ def get_data_diurnal(state):
 def plot_ts(state,cm):
     # Plot the time series of all cases
     st.markdown('## Time series of all cases')
-    lineplot(state, cm, state.df_agg_merge, 'Time', state.cases_all)
+    lineplot(state, cm, state.df_agg_merge, 'Time', state.cases_all,figkey='ts_all')
 
     # Plot the difference between BDT and BDF
     st.markdown('## Difference between BDT and BDF (BDT - BDF)')
-    lineplot(state, cm, state.df_agg_merge, 'Time', state.cases_diff,diff=True)
+    lineplot(state, cm, state.df_agg_merge, 'Time', state.cases_diff,diff=True,figkey='ts_diff')
 
 
-def lineplot(state, cm, df, xlabel, cases,diff=False,title=None,y1_range=None,y2_range=None):
+def lineplot(state, cm, df, xlabel, cases,diff=False,title=None,y1_range=None,y2_range=None, figkey=None):
     fig = make_subplots(specs=[[{"secondary_y": True}]])
 
     fig.update_layout(
@@ -159,7 +159,7 @@ def lineplot(state, cm, df, xlabel, cases,diff=False,title=None,y1_range=None,y2
     
     cm.plotly_chart(fig, use_container_width=True)
 
-    if cm.button('Download data'):
+    if cm.button('Download data', key=figkey):
         cm.write(df)
 
     
