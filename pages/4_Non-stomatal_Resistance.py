@@ -33,7 +33,9 @@ def run():
         display_notes(state,st)
 
     with tab2:
-        plot_dependence(state)
+        plot_for_Ts(state)
+        plot_for_RH(state)
+        plot_for_SAI(state)
 
 def calculate_old_rnc(ts, rh,asn, constant=0.0455):
     f1 = calc_f1(ts, rh)
@@ -148,26 +150,55 @@ def display_BD(state, cm):
     # cm.latex(r'\large{r_{ns}} = \frac{1}{\frac{1}{r_{ext}}+\frac{1}{r_{soil}+r_{inc}}} \\ ~~~~~ = \underline{%.2f}' % state.rns_new)
 
 
+def select_variables_for_Ts(state,cm):
+    rh = cm.number_input('RH (%)', value=80.0,key='rh3', format='%0.1f', step=2.0)
+    asn = cm.number_input('asn', value=0.2,key='asn3', format='%0.1f', step=0.1)
+    sai = cm.number_input('SAI', value=2.0,key='sai3', format='%0.1f', step=0.5)
+    X_a = cm.number_input('X_a', value=5.0,key='X_a3', format='%0.1f', step=0.1)
+    alpha = cm.number_input('alpha', value=2.0,key='alpha3', format='%0.1f', step=0.5)
+    beta = cm.number_input('beta', value=12.0,key='beta3', format='%0.1f', step=1.0)
+    return rh, asn, sai, X_a, alpha, beta
 
-def plot_dependence(state):
-    plot_for_Ts(state)
-    plot_for_RH(state)
-    plot_for_SAI(state)
+def select_variables_for_RH(state,cm):
+    ts = cm.number_input('Ts (Kelvin)',key='ts1', value=280.0, format='%0.1f', step=1.0)
+    # rh = cm.number_input('RH (%)', value=85.0, format='%0.1f', step=2.0)
+    asn = cm.number_input('asn',key='asn1', value=0.2, format='%0.1f', step=0.1)
+    sai = cm.number_input('SAI',key='sai1', value=2.0, format='%0.1f', step=0.5)
+    X_a = cm.number_input('X_a',key='X_a1', value=5.0, format='%0.1f', step=0.1)
+    alpha = cm.number_input('alpha',key='alpha1', value=2.0, format='%0.1f', step=0.5)
+    beta = cm.number_input('beta',key='beta1', value=12.0, format='%0.1f', step=1.0)
+    # hveg = cm.number_input('hveg (m)',key='hveg1', value=20.0, format='%0.1f', step=1.0)
+    # ustar = cm.number_input('ustar (m/s)',key='ustar1', value=1.0, format='%0.1f', step=0.1)
+    # rs = cm.number_input('r_soil',key='rs1', value=100, format='%d', step=30)
+    return ts, asn, sai, X_a, alpha, beta
+
+def select_variables_for_SAI(state,cm):
+    ts = cm.number_input('Ts (Kelvin)', value=280.0,key='ts2', format='%0.1f', step=1.0)
+    rh = cm.number_input('RH (%)', value=80.0,key='rh2', format='%0.1f', step=2.0)
+    asn = cm.number_input('asn',key='asn2', value=0.2, format='%0.1f', step=0.1)
+    X_a = cm.number_input('X_a',key='X_a2', value=5.0, format='%0.1f', step=0.1)
+    alpha = cm.number_input('alpha',key='alpha2', value=2.0, format='%0.1f', step=0.5)
+    beta = cm.number_input('beta',key='beta2', value=12.0, format='%0.1f', step=1.0)
+    # sai = cm.number_input('SAI (surface area index, dimensionless)', value=2.0, format='%0.1f', step=0.5)
+    # hveg = cm.number_input('hveg (m)',key='hveg2', value=20.0, format='%0.1f', step=1.0)
+    # ustar = cm.number_input('ustar (m/s)',key='ustar2', value=1.0, format='%0.1f', step=0.1)
+    # rs = cm.number_input('r_soil',key='rs2', value=100, format='%d', step=30)
+    return ts, asn, rh, X_a, alpha, beta
 
 def plot_for_Ts(state):
     st.markdown('### Relationship with Ts')
     c1, c2 = st.columns([1,6])
-    rh, asn, sai, X_a = select_variables_for_Ts(state,c1)
+    rh, asn, sai, X_a, alpha, beta = select_variables_for_Ts(state,c1)
 
     tss = np.arange(270, 310, step=0.5)
     rns_olds = [calculate_old_rnc(ts,rh,asn) for ts in tss]
-    rns_news = [calculate_new_rnc(sai, rh, ts, asn, X_a) for ts in tss]
+    rns_news = [calculate_new_rnc(sai, rh, ts, asn, X_a, alpha_nh3=alpha, beta=beta) for ts in tss]
     pdata = {
         'x':{'label':'Ts', 'data':tss},
         'y2':{'label':'old', 'data':rns_olds},
         'y1':{'label':'new','data':rns_news},
     }
-    line_text = f'rh={rh:.1f},asn={asn:.1f},sai={sai:.1f},Xa={X_a:.1f}'
+    line_text = f'rh={rh:.1f},asn={asn:.1f},sai={sai:.1f},Xa={X_a:.1f},$\alpha$={alpha:.1f},$\beta$={beta:.1f}'
     if state.nts == 0:
         add_lines(state,pdata,state.fig_ts,line_text,colors[state.nts])
         state.nts += 1
@@ -187,28 +218,21 @@ def plot_for_Ts(state):
 
     c2.plotly_chart(state.fig_ts, use_container_width=True)
 
-def select_variables_for_Ts(state,cm):
-    rh = cm.number_input('RH (%)', value=80.0,key='rh3', format='%0.1f', step=2.0)
-    asn = cm.number_input('asn', value=0.2,key='asn3', format='%0.1f', step=0.1)
-    sai = cm.number_input('SAI', value=2.0,key='sai3', format='%0.1f', step=0.5)
-    X_a = cm.number_input('X_a', value=5.0,key='X_a3', format='%0.1f', step=0.1)
-    return rh, asn, sai, X_a
-
 def plot_for_RH(state):
     st.markdown('### Relationship with RH')
     c1, c2 = st.columns([1,6])
-    ts, asn, sai, X_a = select_variables_for_RH(state,c1)
+    ts, asn, sai, X_a, alpha, beta = select_variables_for_RH(state,c1)
 
     # generate rh data from 50 to 100, step=0.2
     rhs = np.arange(50, 100, step=0.5)
     rns_olds = [calculate_old_rnc(ts,rh,asn) for rh in rhs]
-    rns_news = [calculate_new_rnc(sai, rh, ts, asn, X_a) for rh in rhs]
+    rns_news = [calculate_new_rnc(sai, rh, ts, asn, X_a, alpha_nh3=alpha, beta=beta) for rh in rhs]
     pdata = {
         'x':{'label':'RH', 'data':rhs},
         'y2':{'label':'old', 'data':rns_olds},
         'y1':{'label':'new','data':rns_news},
     }
-    line_text = f'ts={ts:.1f},asn={asn:.1f},sai={sai:.1f},Xa={X_a:.1f}'
+    line_text = f'ts={ts:.1f},asn={asn:.1f},sai={sai:.1f},Xa={X_a:.1f},$\alpha$={alpha:.1f},$\beta$={beta:.1f}'
     if state.nrh == 0:
         add_lines(state,pdata,state.fig_rh,line_text,colors[state.nrh])
         state.nrh += 1
@@ -229,45 +253,21 @@ def plot_for_RH(state):
     c2.plotly_chart(state.fig_rh, use_container_width=True)
     
 
-def select_variables_for_RH(state,cm):
-    ts = cm.number_input('Ts (Kelvin)',key='ts1', value=280.0, format='%0.1f', step=1.0)
-    # rh = cm.number_input('RH (%)', value=85.0, format='%0.1f', step=2.0)
-    asn = cm.number_input('asn',key='asn1', value=0.2, format='%0.1f', step=0.1)
-    sai = cm.number_input('SAI',key='sai1', value=2.0, format='%0.1f', step=0.5)
-    X_a = cm.number_input('X_a',key='X_a1', value=5.0, format='%0.1f', step=0.1)
-    # hveg = cm.number_input('hveg (m)',key='hveg1', value=20.0, format='%0.1f', step=1.0)
-    # ustar = cm.number_input('ustar (m/s)',key='ustar1', value=1.0, format='%0.1f', step=0.1)
-    # rs = cm.number_input('r_soil',key='rs1', value=100, format='%d', step=30)
-    return ts, asn, sai, X_a
-
-
-
-def select_variables_for_SAI(state,cm):
-    ts = cm.number_input('Ts (Kelvin)', value=280.0,key='ts2', format='%0.1f', step=1.0)
-    rh = cm.number_input('RH (%)', value=80.0,key='rh2', format='%0.1f', step=2.0)
-    asn = cm.number_input('asn',key='asn2', value=0.2, format='%0.1f', step=0.1)
-    X_a = cm.number_input('X_a',key='X_a2', value=5.0, format='%0.1f', step=0.1)
-    # sai = cm.number_input('SAI (surface area index, dimensionless)', value=2.0, format='%0.1f', step=0.5)
-    # hveg = cm.number_input('hveg (m)',key='hveg2', value=20.0, format='%0.1f', step=1.0)
-    # ustar = cm.number_input('ustar (m/s)',key='ustar2', value=1.0, format='%0.1f', step=0.1)
-    # rs = cm.number_input('r_soil',key='rs2', value=100, format='%d', step=30)
-    return ts, asn, rh, X_a
-
 
 def plot_for_SAI(state):
     st.markdown('### Relationship with SAI')
     c1, c2 = st.columns([1,6])
-    ts, asn, rh, X_a = select_variables_for_SAI(state,c1)
+    ts, asn, rh, X_a, alpha, beta = select_variables_for_SAI(state,c1)
 
     sais = np.arange(2, 4, step=0.05)
     rns_olds = [calculate_old_rnc(ts,rh,asn) for sai in sais]
-    rns_news = [calculate_new_rnc(sai,rh, ts, asn, X_a) for sai in sais]
+    rns_news = [calculate_new_rnc(sai,rh, ts, asn, X_a, alpha_nh3=alpha, beta=beta) for sai in sais]
     pdata = {
         'x':{'label':'SAI', 'data':sais},
         'y1':{'label':'new', 'data':rns_news},
         'y2':{'label':'old','data':rns_olds},
     }
-    line_text = f'ts={ts:.1f},asn={asn:.1f},rh={rh:.1f},Xa={X_a:.1f}'
+    line_text = f'ts={ts:.1f},asn={asn:.1f},rh={rh:.1f},Xa={X_a:.1f},$\alpha$={alpha:.1f},$\beta$={beta:.1f}'
     if state.nsai == 0:
         add_lines(state,pdata,state.fig_sai,line_text,colors[state.nsai])
         state.nsai += 1
