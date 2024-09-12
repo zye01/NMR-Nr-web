@@ -353,17 +353,17 @@ def plot_diurnal_cycle(state):
 
 
     # plot for the whole period
-    diurnal_fig(state, c1, state.df_dc, state.dc_cases,y_range=c1_range)
-    diurnal_fig(state, c2, state.df_dc_diff, state.aval_models,diff=True,y_range=c2_range)
+    diurnal_fig(state, c1, state.df_dc, state.dc_cases,y_range=c1_range,figkey='Diurnal_all')
+    diurnal_fig(state, c2, state.df_dc_diff, state.aval_models,diff=True,y_range=c2_range,figkey='Diurnal_diff_all')
     
     # plot for each season
     for iseason, sseason in seasons.items():
         c1.markdown(f"<h4 style='text-align: center; color: black;'>{sseason}</h4>", unsafe_allow_html=True)
         c2.markdown(f"<h4 style='text-align: center; color: black;'>{f'{sseason} diff'}</h4>", unsafe_allow_html=True)
         df = state.df_dc_sn[state.df_dc_sn['Season']==iseason]
-        diurnal_fig(state, c1, df, state.dc_cases, y_range=c1_range)
+        diurnal_fig(state, c1, df, state.dc_cases, y_range=c1_range,figkey=f'Diurnal_{iseason}')
         df = state.df_dc_sn_diff[state.df_dc_sn_diff['Season']==iseason]
-        diurnal_fig(state, c2, df, state.aval_models,diff=True, y_range=c2_range)
+        diurnal_fig(state, c2, df, state.aval_models,diff=True, y_range=c2_range, figkey=f'Diurnal_diff_{iseason}')
 
 def get_range(arr,zero=False):
     min_val, max_val = arr.min(), arr.max()
@@ -379,7 +379,7 @@ def get_range(arr,zero=False):
     return [min_val,max_val]
 
 
-def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None):
+def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None,figkey=None):
     fig = go.Figure()
     fig.update_layout(
         template = 'plotly_white'
@@ -435,7 +435,7 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None):
     
     cm.plotly_chart(fig, use_container_width=True)
 
-    
+    download_button(df,figkey,cm)
 
 def get_diurnal_data(state):
     # Calculate diurnal cycle for the simulation data, state.df_sim
@@ -492,6 +492,7 @@ def plot_ts_diff(state, cm):
         template = 'plotly_white'
     )
 
+
     for model in state.aval_models:
         icase = f'{model}_BD'
         if icase not in state.df_agg_sim.columns:
@@ -529,6 +530,9 @@ def plot_ts_diff(state, cm):
     
     cm.plotly_chart(fig, use_container_width=True)
 
+    cols = ['Time'] + [f'{model}_diff' for model in state.aval_models]
+    download_button(state.df_agg_sim[cols],f'TS_BidirDiff_{state.time_agg}',cm)
+
 
 def plot_ts_bias(state, cm):
     # The difference between BD and noBD for each model
@@ -544,9 +548,13 @@ def plot_ts_bias(state, cm):
 
     # aval_cases = [icase for icase in all_cases if icase in state.df_agg_merge.columns]
     # aval_cases.remove('Obs')
+
+    plot_df = state.df_agg_merge[['st', 'ed']].copy()
+
     for icase in state.aval_simcases:
     
         diff = state.df_agg_merge[icase] - state.df_agg_merge['Obs']
+        plot_df[icase] = diff
         fig.add_trace(go.Scatter
             (   x=state.df_agg_merge['ed'],
                 y=diff,
@@ -578,6 +586,7 @@ def plot_ts_bias(state, cm):
     
     cm.plotly_chart(fig, use_container_width=True)
 
+    download_button(plot_df,f'TS_bias_{state.time_agg}',cm)
 
 
 def plot_time_series(state, cm):
@@ -640,8 +649,24 @@ def plot_time_series(state, cm):
         )
 
     cm.plotly_chart(fig, use_container_width=True)  
-        
+    
+    if state.sid == 'All stations':
+        download_button(state.df_agg_merge,f'TS_all_{state.time_agg}',cm)
+    else:
+        if state.df_agg_merge is None:
+            download_button(state.df_agg_sim,f'TS_{state.sid}_{state.time_agg}',cm)
+        else:
+            # combine the simulation on time and observation data on ed
+            df = state.df_agg_sim.merge(state.df_agg_merge, left_on='Time', right_on='ed', how='outer')
+            download_button(df,f'TS_{state.sid}_{state.time_agg}',cm)
+            del df
 
+def download_button(df,figkey,cm):
+    cm.download_button(
+        label='Download plot data',
+        data = df.to_csv(index=False),
+        key=figkey,
+        file_name=f'Parameter_data_{figkey}.csv')
 
 def plot_station_map(state,cm):
     px.set_mapbox_access_token(open(".mapbox_token").read())
