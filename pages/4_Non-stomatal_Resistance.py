@@ -198,7 +198,7 @@ def plot_for_Ts(state):
         'y2':{'label':'old', 'data':rns_olds},
         'y1':{'label':'new','data':rns_news},
     }
-    line_text = f'rh={rh:.1f},asn={asn:.1f},sai={sai:.1f},Xa={X_a:.1f},$\alpha$={alpha:.1f},$\beta$={beta:.1f}'
+    line_text = f'rh={rh:.1f},asn={asn:.1f},sai={sai:.1f},Xa={X_a:.1f},α={alpha:.1f},β={beta:.1f}'
     if state.nts == 0:
         add_lines(state,pdata,state.fig_ts,line_text,colors[state.nts])
         state.nts += 1
@@ -232,7 +232,7 @@ def plot_for_RH(state):
         'y2':{'label':'old', 'data':rns_olds},
         'y1':{'label':'new','data':rns_news},
     }
-    line_text = f'ts={ts:.1f},asn={asn:.1f},sai={sai:.1f},Xa={X_a:.1f},$\alpha$={alpha:.1f},$\beta$={beta:.1f}'
+    line_text = f'ts={ts:.1f},asn={asn:.1f},sai={sai:.1f},Xa={X_a:.1f},α={alpha:.1f},β={beta:.1f}'
     if state.nrh == 0:
         add_lines(state,pdata,state.fig_rh,line_text,colors[state.nrh])
         state.nrh += 1
@@ -267,7 +267,7 @@ def plot_for_SAI(state):
         'y1':{'label':'new', 'data':rns_news},
         'y2':{'label':'old','data':rns_olds},
     }
-    line_text = f'ts={ts:.1f},asn={asn:.1f},rh={rh:.1f},Xa={X_a:.1f},$\alpha$={alpha:.1f},$\beta$={beta:.1f}'
+    line_text = f'ts={ts:.1f},asn={asn:.1f},rh={rh:.1f},Xa={X_a:.1f},α={alpha:.1f},β={beta:.1f}'
     if state.nsai == 0:
         add_lines(state,pdata,state.fig_sai,line_text,colors[state.nsai])
         state.nsai += 1
