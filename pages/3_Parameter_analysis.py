@@ -134,20 +134,20 @@ def lineplot(state, cm, df, xlabel, cases,diff=False,title=None,aligh_axis=True,
 
     fig.update_layout(
         xaxis_title=xlabel,
-        margin=dict(l=2, r=2, t=2, b=2),
+        margin=dict(l=20, r=20, t=20, b=20),
         # width=1200,
-        height=400,
+        height=600,
         legend=dict(
         orientation="h",
         yanchor="bottom",
-        y=-0.4,
+        y=-0.6,
         xanchor="left",
         x=0.01,
         font=dict(size=15)
         ),
-        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',mirror=True,\
             ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
-        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',mirror=True,\
             ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
         )
     
@@ -162,14 +162,14 @@ def lineplot(state, cm, df, xlabel, cases,diff=False,title=None,aligh_axis=True,
             y1_arr,y2_arr = np.array(df[y1cols]).flatten(),np.array(df[y2cols]).flatten()
             y1_range, y2_range = align_yaxis(y1_arr, y2_arr)
         
-        fig.update_yaxes(title_text=y1_title_text, secondary_y=False,range=y1_range)
-        fig.update_yaxes(title_text=y2_title_text, secondary_y=True,range=y2_range,\
+        fig.update_yaxes(title_text=y1_title_text, secondary_y=False,range=y1_range,mirror=True)
+        fig.update_yaxes(title_text=y2_title_text, secondary_y=True,range=y2_range,mirror=True,\
                         showline=True, linewidth=1, linecolor='lightgrey',\
                         ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False)
 
     else:
-        fig.update_yaxes(title_text=y1_title_text, secondary_y=False)
-        fig.update_yaxes(title_text=y2_title_text, secondary_y=True,\
+        fig.update_yaxes(title_text=y1_title_text, secondary_y=False,mirror=True)
+        fig.update_yaxes(title_text=y2_title_text, secondary_y=True,mirror=True,\
                         showline=True, linewidth=1, linecolor='lightgrey',\
                         ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False)
 
@@ -312,12 +312,12 @@ def load_data(state):
                 for iyear in state.years:
                     infile = os.path.join(datapath,'parameters',f'{iyear}_{state.sid}_{imodel}_{icase}.csv')
                     df0 = pd.read_csv(infile)
-                    overlap_pars = list(set(allpars).intersection(df.columns))
+                    overlap_pars = list(set(allpars).intersection(df0.columns))
                     df0 = df0[['Time']+overlap_pars]
                     if iyear == state.years[0]:
                         df = df0.copy()
                     else:
-                        df = pd.merge(df,df0,on='Time')
+                        df = pd.concat([df,df0],axis=0)
 
             if 'Time' not in res.keys():
                 res['Time'] = df['Time']
