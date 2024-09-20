@@ -151,39 +151,42 @@ def display_BD(state, cm):
 
 
 def select_variables_for_Ts(state,cm):
-    rh = cm.number_input('RH (%)', value=80.0,key='rh3', format='%0.1f', step=2.0)
-    asn = cm.number_input('asn', value=0.2,key='asn3', format='%0.1f', step=0.1)
-    sai = cm.number_input('SAI', value=2.0,key='sai3', format='%0.1f', step=0.5)
-    X_a = cm.number_input('X_a', value=5.0,key='X_a3', format='%0.1f', step=0.1)
-    alpha = cm.number_input('alpha', value=2.0,key='alpha3', format='%0.1f', step=0.5)
-    beta = cm.number_input('beta', value=12.0,key='beta3', format='%0.1f', step=1.0)
-    return rh, asn, sai, X_a, alpha, beta
+    cm.number_input('RH (%)', value=80.0,key='rh3', format='%0.1f', step=2.0)
+    cm.number_input('asn', value=0.2,key='asn3', format='%0.1f', step=0.1)
+    cm.number_input('SAI', value=2.0,key='sai3', format='%0.1f', step=0.5)
+    cm.number_input('X_a', value=5.0,key='X_a3', format='%0.1f', step=0.1)
+    cm.number_input('alpha', value=2.0,key='alpha3', format='%0.1f', step=0.5)
+    cm.number_input('beta', value=12.0,key='beta3', format='%0.1f', step=1.0)
+    # return rh, asn, sai, X_a, alpha, beta
+    return state.rh3, state.asn3, state.sai3, state.X_a3, state.alpha3, state.beta3
 
 def select_variables_for_RH(state,cm):
-    ts = cm.number_input('Ts (Kelvin)',key='ts1', value=280.0, format='%0.1f', step=1.0)
+    cm.number_input('Ts (Kelvin)',key='ts1', value=280.0, format='%0.1f', step=1.0)
     # rh = cm.number_input('RH (%)', value=85.0, format='%0.1f', step=2.0)
-    asn = cm.number_input('asn',key='asn1', value=0.2, format='%0.1f', step=0.1)
-    sai = cm.number_input('SAI',key='sai1', value=2.0, format='%0.1f', step=0.5)
-    X_a = cm.number_input('X_a',key='X_a1', value=5.0, format='%0.1f', step=0.1)
-    alpha = cm.number_input('alpha',key='alpha1', value=2.0, format='%0.1f', step=0.5)
-    beta = cm.number_input('beta',key='beta1', value=12.0, format='%0.1f', step=1.0)
+    cm.number_input('asn',key='asn1', value=0.2, format='%0.1f', step=0.1)
+    cm.number_input('SAI',key='sai1', value=2.0, format='%0.1f', step=0.5)
+    cm.number_input('X_a',key='X_a1', value=5.0, format='%0.1f', step=0.1)
+    cm.number_input('alpha',key='alpha1', value=2.0, format='%0.1f', step=0.5)
+    cm.number_input('beta',key='beta1', value=12.0, format='%0.1f', step=1.0)
     # hveg = cm.number_input('hveg (m)',key='hveg1', value=20.0, format='%0.1f', step=1.0)
     # ustar = cm.number_input('ustar (m/s)',key='ustar1', value=1.0, format='%0.1f', step=0.1)
     # rs = cm.number_input('r_soil',key='rs1', value=100, format='%d', step=30)
-    return ts, asn, sai, X_a, alpha, beta
+    # return ts, asn, sai, X_a, alpha, beta
+    return state.ts1, state.asn1, state.sai1, state.X_a1, state.alpha1, state.beta1
 
 def select_variables_for_SAI(state,cm):
-    ts = cm.number_input('Ts (Kelvin)', value=280.0,key='ts2', format='%0.1f', step=1.0)
-    rh = cm.number_input('RH (%)', value=80.0,key='rh2', format='%0.1f', step=2.0)
-    asn = cm.number_input('asn',key='asn2', value=0.2, format='%0.1f', step=0.1)
-    X_a = cm.number_input('X_a',key='X_a2', value=5.0, format='%0.1f', step=0.1)
-    alpha = cm.number_input('alpha',key='alpha2', value=2.0, format='%0.1f', step=0.5)
-    beta = cm.number_input('beta',key='beta2', value=12.0, format='%0.1f', step=1.0)
+    cm.number_input('Ts (Kelvin)', value=280.0,key='ts2', format='%0.1f', step=1.0)
+    cm.number_input('RH (%)', value=80.0,key='rh2', format='%0.1f', step=2.0)
+    cm.number_input('asn',key='asn2', value=0.2, format='%0.1f', step=0.1)
+    cm.number_input('X_a',key='X_a2', value=5.0, format='%0.1f', step=0.1)
+    cm.number_input('alpha',key='alpha2', value=2.0, format='%0.1f', step=0.5)
+    cm.number_input('beta',key='beta2', value=12.0, format='%0.1f', step=1.0)
     # sai = cm.number_input('SAI (surface area index, dimensionless)', value=2.0, format='%0.1f', step=0.5)
     # hveg = cm.number_input('hveg (m)',key='hveg2', value=20.0, format='%0.1f', step=1.0)
     # ustar = cm.number_input('ustar (m/s)',key='ustar2', value=1.0, format='%0.1f', step=0.1)
     # rs = cm.number_input('r_soil',key='rs2', value=100, format='%d', step=30)
-    return ts, asn, rh, X_a, alpha, beta
+    return state.ts2, state.asn2, state.X_a2, state.alpha2, state.beta2
+
 
 def plot_for_Ts(state):
     st.markdown('### Relationship with Ts')
@@ -349,19 +352,19 @@ def display_results(state, cm):
 
 def display_variables(state, cm):
     cm.markdown('### Variables')
-    state.ts = cm.number_input('Ts (Kelvin)',key='ts0', value=280.0, format='%0.1f', step=0.5)
-    state.rh = cm.number_input('RH (%)',key='rh0', value=80.0, format='%0.1f', step=2.0)
-    state.asn = cm.number_input('asn (acidity ratio)',key='asn0', value=0.2, format='%0.1f', step=0.1)
-    state.sai = cm.number_input('SAI (surface area index, dimensionless)',key='sai0', value=2.0, format='%0.1f', step=0.5)
+    cm.number_input('Ts (Kelvin)',key='ts', value=280.0, format='%0.1f', step=0.5)
+    cm.number_input('RH (%)',key='rh', value=80.0, format='%0.1f', step=2.0)
+    cm.number_input('asn (acidity ratio)',key='asn', value=0.2, format='%0.1f', step=0.1)
+    cm.number_input('SAI (surface area index, dimensionless)',key='sai', value=2.0, format='%0.1f', step=0.5)
     # state.hveg = cm.number_input('hveg (height of vegetation in m)',key='hveg0', value=20.0, format='%0.1f', step=1.0)
     # state.ustar = cm.number_input('ustar (friction velocity, m/s)',key='ustar0', value=1.0, format='%0.1f', step=0.1)
     # state.rs = cm.number_input('r_soil (soil resistance)',key='rs0', value=100, format='%d', step=30)
-    state.X_a = cm.number_input('X_a (NH3 air concentration in μg/m3)',key='X_a0', value=5.0, format='%0.1f', step=0.1)
-    state.alpha = cm.number_input('alpha',key='alpha0', value=2.0, format='%0.1f', step=0.5)
-    state.beta = cm.number_input('beta',key='beta0', value=12.0, format='%0.1f', step=1.0)
-    state.sai_haarweg = cm.number_input('SAI_Haarweg',key='sai_haarweg0', value=3.5, format='%0.1f', step=0.5)
-    state.ra = cm.number_input('Ra',key='ra0', value=50.0, format='%0.1f', step=5.0)
-    state.rb = cm.number_input('Rb',key='rb0', value=30.0, format='%0.1f', step=2.0)
+    cm.number_input('X_a (NH3 air concentration in μg/m3)',key='X_a', value=5.0, format='%0.1f', step=0.1)
+    cm.number_input('alpha',key='alpha', value=2.0, format='%0.1f', step=0.5)
+    cm.number_input('beta',key='beta', value=12.0, format='%0.1f', step=1.0)
+    cm.number_input('SAI_Haarweg',key='sai_haarweg', value=3.5, format='%0.1f', step=0.5)
+    cm.number_input('Ra',key='ra', value=50.0, format='%0.1f', step=5.0)
+    cm.number_input('Rb',key='rb', value=30.0, format='%0.1f', step=2.0)
     # state.const = cm.number_input('constant', value=0.0455, format='%0.4f', step=0.01)
 
 

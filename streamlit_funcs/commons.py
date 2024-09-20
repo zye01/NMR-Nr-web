@@ -20,44 +20,44 @@ class common_params:
         'DJF': 'Winter (DJF)',
     }
     parameters = {
-        'PS':{'EMEP':'PS', 'MATCH':'PS'}, # surface pressure
-        'T2':{'EMEP':'T2','MATCH':'T2',},
-        'RH':{'EMEP':'RH','MATCH':'RH',}, #relative humidity'
-        'UREF':{'EMEP':'UREF', 'MATCH':'UV10'}, # reference wind speed
-        'LE':{'EMEP':'LE','MATCH':'LE',},   # latent heat flux
+        'NH3_ppb':{'EMEP':'NH3_ppb','MATCH':'NH3_ppb', 'Note':'NH3 concentration (ppbv)'}, # ammonia concentration, MATCH is in ug/m3
+        'Vg': {'EMEP':'Vg3NH3','MATCH':'Vg', 'Note':'NH3 deposition velocity, EMEP is velocity at 3m'}, # deposition velocity, EMEP is velocity at 3m
+        'Gns':{'EMEP':'Gns','MATCH':'Gns', 'Note':'non-stomatal conductance'}, # non-stomatal conductance
+        'Rsur':{'EMEP':'Rsur','MATCH':'Rsur', 'Note':'surface resistance'}, # surface resistance
+        'PS':{'EMEP':'PS', 'MATCH':'PS','Note':'surface pressure (hPa)'}, # surface pressure
+        'T2':{'EMEP':'T2','MATCH':'T2','Note':'2m air temperature (degC)' }, # 2m temperature in degree C
+        'RH':{'EMEP':'RH','MATCH':'RH','Note':'relative humidity'}, #relative humidity'
+        'UREF':{'EMEP':'UREF', 'MATCH':'UV10','Note':'reference wind speed'}, # reference wind speed
+        'LE':{'EMEP':'LE','MATCH':'LE','Note':'latent heat flux'},   # latent heat flux
         'RAIN':{'EMEP':'RAIN','MATCH':'RAIN'}, # raining rate
         'SNOW':{'EMEP':'dsnow','MATCH':'dsnow'}, # snowing rate
-        'USTmod':{'EMEP':'USTmod','MATCH':'USTmod'}, # ustar friction velocity modified by landuse etc.
-        'PARsun':{'EMEP':'PARsun','MATCH':'PARsun'}, #photosynthetically active radiation in sunlit canopy
-        'PARshade':{'EMEP':'PARshade','MATCH':'PARshade'}, #photosynthetically active radiation in shaded canopy
-        'Ra':{'EMEP':'Ra','MATCH':'Ra'}, # aerodynamic resistance
-        'Rb':{'EMEP':'Rb','MATCH':'Rb'}, # quasi-laminar boundary layer resistance
-        'Gns':{'EMEP':'Gns','MATCH':'Gns'}, # non-stomatal conductance
-        'LAI':{'EMEP':'LAI','MATCH':'LAI'}, # leaf area index
-        'LAIsun':{'EMEP':'LAIsunfrac','MATCH':'LAIsun'}, # sunlit leaf area index
-        'SAI':{'EMEP':'SAI','MATCH':'SAI'}, # surface area index
-        'Fphen':{'EMEP':'Fphen','MATCH':'Fphen'}, # phenology parameter
-        'Flight':{'EMEP':'Flight','MATCH':'Flight'}, # light response parameter
-        'Ft':{'EMEP':'Ftemp','MATCH':'Ft'}, # temperature parameter do
-        'Fvpd':{'EMEP':'Fvpd','MATCH':'Fvpd'}, # vapor pressure deficit parameter
-        'Vg': {'EMEP':'Vg3NH3','MATCH':'Vg'}, # deposition velocity, EMEP is velocity at 3m
-        'Rsur':{'EMEP':'Rsur','MATCH':'Rsur'}, # surface resistance
-        'NH3_ppb':{'EMEP':'NH3_ppb','MATCH':'NH3_ppb'}, # ammonia concentration, MATCH is in ug/m3
+        'USTmod':{'EMEP':'USTmod','MATCH':'USTmod', 'Note':'ustar modified by landuse'}, # ustar friction velocity modified by landuse etc.
+        'PARsun':{'EMEP':'PARsun','MATCH':'PARsun', 'Note': 'photoactive radiation in sunlight areas'}, #photoactive radiation in sunlight areas
+        'PARshade':{'EMEP':'PARshade','MATCH':'PARshade', 'Note':'photoactive radiation in shaded areas'}, #photosynthetically active radiation in shaded canopy
+        'Ra':{'EMEP':'Ra','MATCH':'Ra', 'Note':'aerodynamic resistance'}, # aerodynamic resistance
+        'Rb':{'EMEP':'Rb','MATCH':'Rb', 'Note':'quasi-laminar boundary layer resistance'}, # quasi-laminar boundary layer resistance
+        'LAI':{'EMEP':'LAI','MATCH':'LAI', 'Note':'leaf area index'}, # leaf area index
+        'LAIsun':{'EMEP':'LAIsunfrac','MATCH':'LAIsun', 'Note':'sunlit leaf area index'}, # sunlit leaf area index
+        'SAI':{'EMEP':'SAI','MATCH':'SAI', 'Note':'surface area index'}, # surface area index
+        'Fphen':{'EMEP':'Fphen','MATCH':'Fphen', 'Note':'phenology parameter for gsto calculation'}, # phenology parameter for gsto calculation
+        'Flight':{'EMEP':'Flight','MATCH':'Flight', 'Note':'light parameter'}, # light response parameter
+        'Ft':{'EMEP':'Ftemp','MATCH':'Ft', 'Note':'temperature parameter'}, # temperature parameter do
+        'Fvpd':{'EMEP':'Fvpd','MATCH':'Fvpd', 'Note':'vapor pressure parameter'}, # vapor pressure deficit parameter
+        'HF':{'MATCH':'H0', 'EMEP':'Hd', 'Note':'sensible heat flux'}, # sensible heat flux
 
-        'SO2_ppb':{'MATCH':'SO2_ppb'}, # sulphur dioxide concentration, MATCH is in ug/m3
-        'HF':{'MATCH':'H0',}, # sensible heat flux
-        'HMIX':{'MATCH':'HMIX',}, # mixing height
-        'MOL':{'MATCH':'MOL'}, # Monin-Obukhov length
-        'Rinc':{'MATCH':'Rinc'}, # in-canopy resistance
-        'Rext':{'MATCH':'Rext'}, # external leaf area resistance
-        'X_tot':{'MATCH':'X_tot'}, # total compensation point
+        'SO2_ppb':{'MATCH':'SO2_ppb', 'Note':'SO2 concentration (ppbv)'}, # sulphur dioxide concentration, MATCH is in ug/m3
+        'HMIX':{'MATCH':'HMIX','Note':'mixing height'}, # mixing height
+        'MOL':{'MATCH':'MOL','Note':'Monin-Obukhov length'}, # Monin-Obukhov length
+        'Rinc':{'MATCH':'Rinc', 'Note':'in-canopy resistance'}, # in-canopy resistance
+        'Rext':{'MATCH':'Rext','Note':'external leaf area resistance'}, # external leaf area resistance
+        'X_tot':{'MATCH':'X_tot','Note':'total compensation point'}, # total compensation point
 
-        'LC':{'EMEP':'LC'}, # land cover
+        # 'LC':{'EMEP':'LC','Note':'land use type'}, # land cover
         'VPD':{'EMEP':'VPD'}, # vapor pressure deficit
         'ZEN':{'EMEP':'ZEN'}, # solar zenith angle
         'PARdbh':{'EMEP':'PARdbh'}, # PAR above canopy
         'PARdif':{'EMEP':'PARdif'}, # PAR diffuse
-        'Hd':{'EMEP':'Hd'}, # sensible heat flux
+        # 'Hd':{'EMEP':'Hd'}, # sensible heat flux
         'UST':{'EMEP':'UST'}, # ustar from met input
         'Fsun':{'EMEP':'Fsun'}, # sunlit fraction
         'FSW':{'EMEP':'FSW'}, # soil wetness

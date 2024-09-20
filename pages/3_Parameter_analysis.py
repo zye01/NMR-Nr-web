@@ -37,6 +37,8 @@ def run():
         get_data_diurnal(state)
         plot_diurnal(state,st)
 
+    # update_selections(state)
+
 def plot_diurnal(state,cm):
     c1, c2 = cm.columns(2)
     c1.markdown("<h2 style='text-align: center; color: black;'>Diurnal </h2>", unsafe_allow_html=True)
@@ -107,7 +109,10 @@ def lineplot(state, cm, df, xlabel, cases,diff=False,title=None,aligh_axis=True,
             x=df[xlabel],
             y=df[icase],
             name=icase,
-            line=props['line']),
+            line=props['line'],
+            opacity=0.7,
+            ),
+            
             secondary_y=props['secondary_y'],
         )
         
@@ -140,7 +145,7 @@ def lineplot(state, cm, df, xlabel, cases,diff=False,title=None,aligh_axis=True,
         legend=dict(
         orientation="h",
         yanchor="bottom",
-        y=-0.6,
+        y=-0.3,
         xanchor="left",
         x=0.01,
         font=dict(size=15)
@@ -223,26 +228,27 @@ def align_yaxis(y1_arr, y2_arr):
 def setup_props(state,icase):
     line_props = {}
 
-    if '_BD' in icase:
-        line_props['width'] = 2
-    elif '_noBD' in icase:
-        line_props['width'] = 2
+    if '_noBD' in icase:
         line_props['dash'] = 'dot'
-    else:
-        line_props['width'] = 2
+
 
     if state.sel_2 in icase:
+        line_props['width'] = 3
         if 'MATCH' in icase:
-            line_props['color'] = '#b8e186'  # light green
+            # line_props['color'] = '#b8e186'  # light green
+            line_props['color'] = '#80cdc1'  # light cyan
         elif 'EMEP' in icase:
-            line_props['color'] = '#f1b6da' # light pink
+            # line_props['color'] = '#f1b6da' # light pink
+            line_props['color'] = '#dfc27d' # light brown
         secondary_y = True
     else:
+        line_props['width'] = 2
         if 'MATCH' in icase:
-            line_props['color'] = '#4dac26'  # dark green
-            
+            # line_props['color'] = '#4dac26'  # dark green
+            line_props['color'] = '#018571' # dark cyan
         elif 'EMEP' in icase:
-            line_props['color'] = '#d01c8b' # dark pink
+            # line_props['color'] = '#d01c8b' # dark pink
+            line_props['color'] = '#a6611a' # dark brown
         secondary_y = False
 
     # use different line styles for EMEP (solid) and MATCH (line with symbol) models
@@ -267,18 +273,31 @@ def get_data_agg(state,cm):
     else:
         state.df_agg_merge = state.df_merge.resample(state.tagg, on='Time').mean().reset_index()
 
+
 def select_data(state, cm):
-    state.ysel = cm.selectbox('Select year', years+['All'])
+    state.year_list = years+['All']
+    cm.selectbox('Select year', state.year_list, key='ysel')
+    # state.ysel_i = state.year_list.index(state.ysel)
     state.years = years if state.ysel == 'All' else [int(state.ysel)]
-    sname = cm.selectbox('Select site', state.stnames)
-    state.sid = sname.split(' ')[-1][1:-1]
-    state.models = cm.multiselect('Select models', models, default=models)
-    state.sel_1 = cm.selectbox('Select first component', state.allpars)
-    # change the order of the second component
-    pars = state.allpars.copy()
-    pars.remove(state.sel_1)
     
-    state.sel_2 = cm.selectbox('Select second component', ['None']+pars)
+    cm.selectbox('Select site', state.stnames, key='sname')
+    # state.sname_i = state.stnames.index(state.sname)
+    state.sid = state.sname.split(' ')[-1][1:-1]
+    
+    cm.multiselect('Select models', models, default=models, key='models')
+    
+    cm.selectbox('Select first component', state.allpars1, key='sel_1')
+    # state.sel_1_i = state.allpars1.index(state.sel_1)
+    if 'Note' in parameters_dict[state.sel_1].keys():
+        cm.markdown(parameters_dict[state.sel_1]["Note"])
+    
+    cm.selectbox('Select second component', options=state.allpars, key='sel_2')
+    # state.sel_2_0 = state.sel_2
+    # cm.markdown(f'{state.sel_2}, {state.sel_2_0}')
+    # cm.markdown(f'{state.count}')
+    # state.sel_2_i = state.allpars.index(state.sel_2)
+    if 'Note' in parameters_dict[state.sel_2].keys():
+        cm.markdown(parameters_dict[state.sel_2]["Note"])
 
     load_data(state)
 
@@ -429,14 +448,38 @@ def load_data(state):
 
 
 def initiate_state(state):
-    state.allpars = list(parameters_dict.keys())
-    state.allpars.remove('None')
+    state.allpars1 = list(parameters_dict.keys())
+    state.allpars1.remove('None')
+
+    state.allpars = ['None'] + state.allpars1
 
     # Get the station names
     sdf = pd.read_csv(os.path.join(datapath,'sites.csv'))
     stname_dict = dict(zip(sdf['sid'],sdf['sname']))
     state.stnames = [f'{stname_dict[i]} ({i})' for i in sites]
+    # if 'ysel_i0' not in state:
+    #     state.ysel_i0 = 0
+    # if 'sname_i0' not in state:
+    #     state.sname_i0 = 0
+    # if 'models_0' not in state:
+    #     state.models_0 = ['EMEP', 'MATCH']
+    # if 'sel_1_i0' not in state:
+    #     state.sel_1_i0 = 0
+    # if 'sel_2_i' not in state:
+    #     state.sel_2_i = 0
+    #     state.sel_2 = state.allpars[state.sel_2_i]
+    # if 'sel_2_0' not in state:
+    #     state.sel_2_0 = state.allpars[0]
+    # if 'count' not in state:
+    #     state.count = 0
 
+# def update_selections(state):
+#     state.ysel_i0 = state.ysel_i
+#     state.sname_i0 = state.sname_i
+#     state.models_0 = state.models
+#     state.sel_1_i0 = state.sel_1_i
+#     state.sel_2_0 = state.sel_2
+    # state.sel_2_i0 = state.sel_2_i
 
 if __name__ == "__main__":
     run()

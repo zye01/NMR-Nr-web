@@ -410,9 +410,9 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None,figkey=
     fig.update_layout(
         # xaxis_title='Hour',
         yaxis_title=f'{state.par} ({par_dict[state.par]["units"]})',
-        margin=dict(l=2, r=2, t=30, b=2),
+        margin=dict(l=2, r=20, t=30, b=2),
         # width=1200,
-        height=400,
+        height=500,
         legend=dict(
         orientation="h",
         yanchor="bottom",
@@ -421,9 +421,9 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None,figkey=
         x=0.01,
         font=dict(size=13)
         ),
-        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',mirror=True,\
             ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
-        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',mirror=True,\
             ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
         )
     
@@ -511,7 +511,7 @@ def plot_ts_diff(state, cm):
     fig.update_layout(
         # xaxis_title='Date',
         yaxis_title=f'{state.par} difference ({par_dict[state.par]["units"]})',
-        margin=dict(l=2, r=2, t=30, b=2),
+        margin=dict(l=2, r=20, t=30, b=2),
         # width=1200,
         height=400,
         legend=dict(
@@ -522,9 +522,9 @@ def plot_ts_diff(state, cm):
         x=0.01,
         font=dict(size=15)
         ),
-        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',mirror=True,\
             ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
-        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',mirror=True,\
             ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
         )
     
@@ -578,9 +578,9 @@ def plot_ts_bias(state, cm):
         x=0.01,
         font=dict(size=15)
         ),
-        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',mirror=True,\
             ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
-        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',mirror=True,\
             ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
         )
     
@@ -642,9 +642,9 @@ def plot_time_series(state, cm):
         x=0.01,
         font=dict(size=15)
         ),
-        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+        xaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',mirror=True,\
             ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
-        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',\
+        yaxis=dict(showline=True, linewidth=1, linecolor='lightgrey',mirror=True,\
             ticks='inside',title_font=dict(size=18),tickfont=dict(size=15), showgrid=False),
         )
 
@@ -696,21 +696,21 @@ def plot_station_map(state,cm):
     cm.plotly_chart(fig, use_container_width=True)
 
 def select_data(state,cm):
-    state.sel_models = cm.multiselect('Select models', models, ['DEHM','EMEP','MATCH'])
-    state.time_agg = cm.selectbox('Time interval', ['Hourly','Daily','Monthly'],1)
-    state.par = cm.selectbox('Select component', list(par_dict.keys()))
+    cm.multiselect('Select models', models, ['DEHM','EMEP','MATCH'], key='sel_models')
+    cm.selectbox('Time interval', ['Hourly','Daily','Monthly'],1, key='time_agg')
+    cm.selectbox('Select component', list(par_dict.keys()), key='par')
     state.par_sunit = par_dict[state.par]['sunit']
 
     # Select station
     state.st_options = ['All stations'] + state.stnames
-    state.station = cm.selectbox('Select station', state.st_options)
+    cm.selectbox('Select station', state.st_options,key='station')
     
 
     if state.station == 'All stations':
         state.sname = 'All stations'
         state.sid = 'All stations'
         state.soid = 'All stations'
-        state.ast_median = cm.checkbox('Median', value=False)
+        cm.checkbox('Median', value=False, key='ast_median')
 
     else:  
         state.sname, state.sid = state.station.split('(')
@@ -720,7 +720,7 @@ def select_data(state,cm):
         state.snote = state.snote_dict[state.sid]
         cm.markdown(f'Notes: {state.snote}')
 
-    state.yrs = cm.slider('Select year', 2010, 2020, (2018, 2019))
+    cm.slider('Select year', 2010, 2020, (2018, 2019), key='yrs')
 
 
 def get_data_agg(state):
@@ -789,10 +789,12 @@ def load_simulations(state):
                 continue
             df = pd.read_csv(simfile, header=0)
             # Calculate mean of all station columns to get the 'All stations' column
-            if state.ast_median:
-                df['All stations'] = df[state.sids].apply(very_median, axis=1)
-            else:
-                df['All stations'] = df[state.sids].apply(very_mean, axis=1)
+            if 'ast_median' in state:
+                if state.ast_median:
+                    df['All stations'] = df[state.sids].apply(very_median, axis=1)
+                else:
+                    df['All stations'] = df[state.sids].apply(very_mean, axis=1)
+
             df = df[['Time','Case',state.sid]]
             dfs.append(df)
     state.df_sim = pd.concat(dfs)
