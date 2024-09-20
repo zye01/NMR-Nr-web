@@ -20,7 +20,7 @@ class common_params:
         'DJF': 'Winter (DJF)',
     }
     parameters = {
-        'NH3_ppb':{'EMEP':'NH3_ppb','MATCH':'NH3_ppb', 'Note':'NH3 concentration (ppbv)'}, # ammonia concentration, MATCH is in ug/m3
+        'NH3ppb':{'EMEP':'NH3_ppb','MATCH':'NH3_ppb', 'Note':'NH3 concentration (ppbv)'}, # ammonia concentration, MATCH is in ug/m3
         'Vg': {'EMEP':'Vg3NH3','MATCH':'Vg', 'Note':'NH3 deposition velocity, EMEP is velocity at 3m'}, # deposition velocity, EMEP is velocity at 3m
         'Gns':{'EMEP':'Gns','MATCH':'Gns', 'Note':'non-stomatal conductance'}, # non-stomatal conductance
         'Rsur':{'EMEP':'Rsur','MATCH':'Rsur', 'Note':'surface resistance'}, # surface resistance
@@ -50,7 +50,7 @@ class common_params:
         'MOL':{'MATCH':'MOL','Note':'Monin-Obukhov length'}, # Monin-Obukhov length
         'Rinc':{'MATCH':'Rinc', 'Note':'in-canopy resistance'}, # in-canopy resistance
         'Rext':{'MATCH':'Rext','Note':'external leaf area resistance'}, # external leaf area resistance
-        'X_tot':{'MATCH':'X_tot','Note':'total compensation point'}, # total compensation point
+        'Xtot':{'MATCH':'X_tot','Note':'total compensation point'}, # total compensation point
 
         # 'LC':{'EMEP':'LC','Note':'land use type'}, # land cover
         'VPD':{'EMEP':'VPD'}, # vapor pressure deficit

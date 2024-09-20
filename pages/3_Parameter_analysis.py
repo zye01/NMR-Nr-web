@@ -231,8 +231,10 @@ def setup_props(state,icase):
     if '_noBD' in icase:
         line_props['dash'] = 'dot'
 
+    icase_split = icase.split('_')
+    par = icase_split[-1]
 
-    if state.sel_2 in icase:
+    if par==state.sel_2:
         line_props['width'] = 3
         if 'MATCH' in icase:
             # line_props['color'] = '#b8e186'  # light green
@@ -241,7 +243,7 @@ def setup_props(state,icase):
             # line_props['color'] = '#f1b6da' # light pink
             line_props['color'] = '#dfc27d' # light brown
         secondary_y = True
-    else:
+    elif par==state.sel_1:
         line_props['width'] = 2
         if 'MATCH' in icase:
             # line_props['color'] = '#4dac26'  # dark green
@@ -250,6 +252,8 @@ def setup_props(state,icase):
             # line_props['color'] = '#d01c8b' # dark pink
             line_props['color'] = '#a6611a' # dark brown
         secondary_y = False
+    else:
+        st.warning(f'Parameter {par} not found in the selection')
 
     # use different line styles for EMEP (solid) and MATCH (line with symbol) models
     # if 'MATCH' in icase:
