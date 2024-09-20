@@ -19,6 +19,56 @@ class common_params:
         'SON': 'Fall (SON)',
         'DJF': 'Winter (DJF)',
     }
+    parameters = {
+        'PS':{'EMEP':'PS', 'MATCH':'PS'}, # surface pressure
+        'T2':{'EMEP':'T2','MATCH':'T2',},
+        'RH':{'EMEP':'RH','MATCH':'RH',}, #relative humidity'
+        'UREF':{'EMEP':'UREF', 'MATCH':'UV10'}, # reference wind speed
+        'LE':{'EMEP':'LE','MATCH':'LE',},   # latent heat flux
+        'RAIN':{'EMEP':'RAIN','MATCH':'RAIN'}, # raining rate
+        'SNOW':{'EMEP':'dsnow','MATCH':'dsnow'}, # snowing rate
+        'USTmod':{'EMEP':'USTmod','MATCH':'USTmod'}, # ustar friction velocity modified by landuse etc.
+        'PARsun':{'EMEP':'PARsun','MATCH':'PARsun'}, #photosynthetically active radiation in sunlit canopy
+        'PARshade':{'EMEP':'PARshade','MATCH':'PARshade'}, #photosynthetically active radiation in shaded canopy
+        'Ra':{'EMEP':'Ra','MATCH':'Ra'}, # aerodynamic resistance
+        'Rb':{'EMEP':'Rb','MATCH':'Rb'}, # quasi-laminar boundary layer resistance
+        'Gns':{'EMEP':'Gns','MATCH':'Gns'}, # non-stomatal conductance
+        'LAI':{'EMEP':'LAI','MATCH':'LAI'}, # leaf area index
+        'LAIsun':{'EMEP':'LAIsunfrac','MATCH':'LAIsun'}, # sunlit leaf area index
+        'SAI':{'EMEP':'SAI','MATCH':'SAI'}, # surface area index
+        'Fphen':{'EMEP':'Fphen','MATCH':'Fphen'}, # phenology parameter
+        'Flight':{'EMEP':'Flight','MATCH':'Flight'}, # light response parameter
+        'Ft':{'EMEP':'Ftemp','MATCH':'Ft'}, # temperature parameter do
+        'Fvpd':{'EMEP':'Fvpd','MATCH':'Fvpd'}, # vapor pressure deficit parameter
+        'Vg': {'EMEP':'Vg3NH3','MATCH':'Vg'}, # deposition velocity, EMEP is velocity at 3m
+        'Rsur':{'EMEP':'Rsur','MATCH':'Rsur'}, # surface resistance
+        'NH3_ppb':{'EMEP':'NH3_ppb','MATCH':'NH3_ppb'}, # ammonia concentration, MATCH is in ug/m3
+
+        'SO2_ppb':{'MATCH':'SO2_ppb'}, # sulphur dioxide concentration, MATCH is in ug/m3
+        'HF':{'MATCH':'H0',}, # sensible heat flux
+        'HMIX':{'MATCH':'HMIX',}, # mixing height
+        'MOL':{'MATCH':'MOL'}, # Monin-Obukhov length
+        'Rinc':{'MATCH':'Rinc'}, # in-canopy resistance
+        'Rext':{'MATCH':'Rext'}, # external leaf area resistance
+        'X_tot':{'MATCH':'X_tot'}, # total compensation point
+
+        'LC':{'EMEP':'LC'}, # land cover
+        'VPD':{'EMEP':'VPD'}, # vapor pressure deficit
+        'ZEN':{'EMEP':'ZEN'}, # solar zenith angle
+        'PARdbh':{'EMEP':'PARdbh'}, # PAR above canopy
+        'PARdif':{'EMEP':'PARdif'}, # PAR diffuse
+        'Hd':{'EMEP':'Hd'}, # sensible heat flux
+        'UST':{'EMEP':'UST'}, # ustar from met input
+        'Fsun':{'EMEP':'Fsun'}, # sunlit fraction
+        'FSW':{'EMEP':'FSW'}, # soil wetness
+        'Fenv':{'EMEP':'Fenv'}, # environmental factor
+        'gsto':{'EMEP':'gsto'}, # stomatal conductance
+        'gsun':{'EMEP':'gsun'}, # sunlit stomatal conductance
+        'FstO3':{'EMEP':'FstO3'}, # stomatal O3 flux
+        'Gsto':{'EMEP':'Gsto'}, # stomatal conductance
+
+        'None':{},
+    }
     
 class common_funcs:
     
