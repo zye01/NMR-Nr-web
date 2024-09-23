@@ -284,9 +284,9 @@ def select_data(state, cm):
     # state.ysel_i = state.year_list.index(state.ysel)
     state.years = years if state.ysel == 'All' else [int(state.ysel)]
     
-    cm.selectbox('Select site', state.stnames, key='sname')
-    # state.sname_i = state.stnames.index(state.sname)
-    state.sid = state.sname.split(' ')[-1][1:-1]
+    cm.selectbox('Select site', state.stnames, key='p3_sname')
+    # state.p3_sname_i = state.stnames.index(state.p3_sname)
+    state.p3_sid = state.p3_sname.split(' ')[-1][1:-1]
     
     cm.multiselect('Select models', models, default=models, key='models')
     
@@ -326,14 +326,14 @@ def load_data(state):
             # Get the data for the model and case
             if len(state.years) == 1:
                 iyear = state.years[0]
-                infile = os.path.join(datapath,'parameters',f'{iyear}_{state.sid}_{imodel}_{icase}.csv')
+                infile = os.path.join(datapath,'parameters',f'{iyear}_{state.p3_sid}_{imodel}_{icase}.csv')
                 df = pd.read_csv(infile)
                 # get the overlap parameters with df.columns
                 overlap_pars = list(set(allpars).intersection(df.columns))
                 df = df[['Time']+overlap_pars]
             else:
                 for iyear in state.years:
-                    infile = os.path.join(datapath,'parameters',f'{iyear}_{state.sid}_{imodel}_{icase}.csv')
+                    infile = os.path.join(datapath,'parameters',f'{iyear}_{state.p3_sid}_{imodel}_{icase}.csv')
                     df0 = pd.read_csv(infile)
                     overlap_pars = list(set(allpars).intersection(df0.columns))
                     df0 = df0[['Time']+overlap_pars]
@@ -427,7 +427,7 @@ def load_data(state):
 
 # def read_parameter_year(state,year,par):
 #     for icase in cases.keys():
-#         infile = os.path.join(datapath,'EMEP_CSV',f'{state.sid}_{icase}{year}.csv')
+#         infile = os.path.join(datapath,'EMEP_CSV',f'{state.p3_sid}_{icase}{year}.csv')
 #         df0 = pd.read_csv(infile,sep=',',skiprows=1,names=state.cols)
 #         # merge date and hour to datetime
 #         df0['Time'] = np.array(pd.to_datetime(df0['date'] + ' ' + df0['hour'],format='%d/%m/%Y %H:%M'))
@@ -444,8 +444,8 @@ def load_data(state):
 # def read_concentration_year(state,year,par):
 #     infile = os.path.join(datapath,'models',f'EMEP_{year}_{par}.csv')
 #     df = pd.read_csv(infile)
-#     df = df[['Time','Case',state.sid]]
-#     df = df.pivot(index='Time',columns='Case',values=state.sid).reset_index()
+#     df = df[['Time','Case',state.p3_sid]]
+#     df = df.pivot(index='Time',columns='Case',values=state.p3_sid).reset_index()
 #     df['Time'] = np.array(pd.to_datetime(df['Time']))
 #     df = df.rename(columns={'EMEP_BD': f'BDT_{par}', 'EMEP_noBD': f'BDF_{par}'})
 #     return df
@@ -479,7 +479,7 @@ def initiate_state(state):
 
 # def update_selections(state):
 #     state.ysel_i0 = state.ysel_i
-#     state.sname_i0 = state.sname_i
+#     state.p3_sname_i0 = state.p3_sname_i
 #     state.models_0 = state.models
 #     state.sel_1_i0 = state.sel_1_i
 #     state.sel_2_0 = state.sel_2

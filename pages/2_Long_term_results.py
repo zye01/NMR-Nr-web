@@ -407,6 +407,8 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None,figkey=
                 width=1,
             ),
         )
+
+    # Show legend for even a single case
     fig['data'][0]['showlegend'] = True
 
     fig.update_layout(
