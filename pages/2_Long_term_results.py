@@ -391,7 +391,7 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None,figkey=
                 name=icase,
                 line=line_props[icase],
                 showlegend=True,
-            )
+            ),
         )
     
     if diff:
@@ -407,6 +407,7 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None,figkey=
                 width=1,
             ),
         )
+    fig['data'][0]['showlegend'] = True
 
     fig.update_layout(
         # xaxis_title='Hour',
