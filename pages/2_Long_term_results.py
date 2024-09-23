@@ -390,6 +390,7 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None,figkey=
                 y=df[icase],
                 name=icase,
                 line=line_props[icase],
+                showlegend=True,
             )
         )
     
@@ -416,7 +417,7 @@ def diurnal_fig(state, cm, df, cases, title=None,diff=False,y_range=None,figkey=
         legend=dict(
         orientation="h",
         yanchor="bottom",
-        y=-0.55,
+        y=-0.3,
         xanchor="left",
         x=0.01,
         font=dict(size=13)
