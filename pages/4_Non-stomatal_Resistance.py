@@ -185,7 +185,7 @@ def select_variables_for_SAI(state,cm):
     # hveg = cm.number_input('hveg (m)',key='hveg2', value=20.0, format='%0.1f', step=1.0)
     # ustar = cm.number_input('ustar (m/s)',key='ustar2', value=1.0, format='%0.1f', step=0.1)
     # rs = cm.number_input('r_soil',key='rs2', value=100, format='%d', step=30)
-    return state.ts2, state.asn2, state.X_a2, state.alpha2, state.beta2
+    return state.ts2, state.rh2, state.asn2, state.X_a2, state.alpha2, state.beta2
 
 
 def plot_for_Ts(state):
@@ -260,7 +260,7 @@ def plot_for_RH(state):
 def plot_for_SAI(state):
     st.markdown('### Relationship with SAI')
     c1, c2 = st.columns([1,6])
-    ts, asn, rh, X_a, alpha, beta = select_variables_for_SAI(state,c1)
+    ts, rh, asn, X_a, alpha, beta = select_variables_for_SAI(state,c1)
 
     sais = np.arange(2, 4, step=0.05)
     rns_olds = [calculate_old_rnc(ts,rh,asn) for sai in sais]
