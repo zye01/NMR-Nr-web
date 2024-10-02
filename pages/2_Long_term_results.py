@@ -724,7 +724,7 @@ def select_data(state,cm):
         state.snote = state.snote_dict[state.sid]
         cm.markdown(f'Notes: {state.snote}')
 
-    cm.slider('Select year', 2010, 2020, (2018, 2019), key='yrs')
+    cm.slider('Select year', 2018, 2019, (2018, 2019), key='yrs')
 
 
 def get_data_agg(state):
