@@ -35,7 +35,7 @@ par_dict = common_params.par_dict
 
 def run():
 
-    st.title('Long term model runs 2010-2020')
+    st.title('Long term model runs')
 
     # Initiate the state
     state = st.session_state
