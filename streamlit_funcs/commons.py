@@ -24,10 +24,12 @@ class common_params:
         'Vg': {'EMEP':'Vg3NH3','MATCH':'Vg', 'Note':'NH3 deposition velocity, EMEP is velocity at 3m'}, # deposition velocity, EMEP is velocity at 3m
         'Gns':{'EMEP':'Gns','MATCH':'Gns', 'Note':'non-stomatal conductance'}, # non-stomatal conductance
         'Rsur':{'EMEP':'Rsur','MATCH':'Rsur', 'Note':'surface resistance'}, # surface resistance
-        'PS':{'EMEP':'PS', 'MATCH':'PS','Note':'surface pressure (hPa)'}, # surface pressure
+        # 'PS':{'EMEP':'PS', 'MATCH':'PS','Note':'surface pressure (hPa)'}, # surface pressure
+        'PS':{'EMEP':'PS', 'Note':'surface pressure (hPa)'}, # surface pressure
         'T2':{'EMEP':'T2','MATCH':'T2','Note':'2m air temperature (degC)' }, # 2m temperature in degree C
         'RH':{'EMEP':'RH','MATCH':'RH','Note':'relative humidity'}, #relative humidity'
-        'UREF':{'EMEP':'UREF', 'MATCH':'UV10','Note':'reference wind speed'}, # reference wind speed
+        # 'UREF':{'EMEP':'UREF', 'MATCH':'UV10','Note':'reference wind speed'}, # reference wind speed
+        'UREF':{'EMEP':'UREF', 'Note':'reference wind speed'}, # reference wind speed
         'LE':{'EMEP':'LE','MATCH':'LE','Note':'latent heat flux'},   # latent heat flux
         'RAIN':{'EMEP':'RAIN','MATCH':'RAIN'}, # raining rate
         'SNOW':{'EMEP':'dsnow','MATCH':'dsnow'}, # snowing rate
