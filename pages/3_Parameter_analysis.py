@@ -181,7 +181,7 @@ def lineplot(state, cm, df, xlabel, cases,diff=False,title=None,aligh_axis=True,
     if title is not None:
         fig.update_layout(title=title,title_x=0.15, title_xanchor='left', title_y=0.95)
     
-    cm.plotly_chart(fig, use_container_width=True)
+    cm.plotly_chart(fig, use_container_width=True, key=figkey+'_chart')
 
     cm.download_button(
         label='Download plot data',
