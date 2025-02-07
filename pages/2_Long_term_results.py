@@ -48,7 +48,7 @@ def run():
     # Plot the station map
     plot_station_map(state, st.sidebar)
 
-    tab1, tab2, tab3 = st.tabs(['Time series','Diurnal cycle', 'Metrics'])
+    tab1, tab2, tab3, tab4 = st.tabs(['Time series','Diurnal cycle', 'Metrics', 'Landuse'])
 
     load_data(state)
     get_data_agg(state)
@@ -78,6 +78,9 @@ def run():
 
         plot_heatmaps(state,st)
 
+    with tab4:
+        st.markdown('### Landuse types for DEHM and MATCH')
+        st.markdown('Note: only show when a specific station is selected')
         if state.sid != 'All stations':
             plot_landuse(state,st)
 
@@ -304,16 +307,16 @@ def get_metrics(state):
 
 
 def plot_landuse(state,cm):
-    cm.markdown(f'### Landuse types for DEHM and MATCH at {state.sname}')
+    cm.markdown(f'#### Station: {state.sname}')
     c1, c2 = cm.columns(2)
 
     # Plot for DEHM
-    # c1.markdown('### DEHM')
+    c1.markdown('#### DEHM')
     f_dehm = os.path.join(datapath, 'landuse_DEHM.csv')
     plot_landuse_pie(state,f_dehm,c1,'DEHM')
 
     # Plot for MATCH
-    # c2.markdown('### MATCH')
+    c2.markdown('#### MATCH')
     f_match = os.path.join(datapath, 'landuse_MATCH.csv')
     plot_landuse_pie(state,f_match,c2,'MATCH')
 
