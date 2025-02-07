@@ -311,12 +311,12 @@ def plot_landuse(state,cm):
     c1, c2 = cm.columns(2)
 
     # Plot for DEHM
-    c1.markdown('#### DEHM')
+    # c1.markdown('#### DEHM')
     f_dehm = os.path.join(datapath, 'landuse_DEHM.csv')
     plot_landuse_pie(state,f_dehm,c1,'DEHM')
 
     # Plot for MATCH
-    c2.markdown('#### MATCH')
+    # c2.markdown('#### MATCH')
     f_match = os.path.join(datapath, 'landuse_MATCH.csv')
     plot_landuse_pie(state,f_match,c2,'MATCH')
 
