@@ -27,13 +27,13 @@ def run():
     plot_stations(state)
     
     
-    # st.map(state.p1_sel_sdf)
+    # st.map(state._sel_sdf)
 
 def plot_station_map(state,cm):
     px.set_mapbox_access_token(open(".mapbox_token").read())
-    fig = px.scatter_mapbox(state.p1_sel_sdf,
-                        lat=state.p1_sel_sdf.lat,
-                        lon=state.p1_sel_sdf.lon,
+    fig = px.scatter_mapbox(state._sel_sdf,
+                        lat=state._sel_sdf.lat,
+                        lon=state._sel_sdf.lon,
                         hover_name="sid",
                         zoom=1)
     fig.update_layout(
@@ -92,13 +92,13 @@ def select_1site(state):
     dmc1,dmc2 = st.columns(2)  
     st_source = dmc1.radio('Station from:',source_id.keys(),index=0)
     if st_source=='All':
-        sitename = dmc2.selectbox('Select station:',state.p1_sel_stlist,)
+        sitename = dmc2.selectbox('Select station:',state._sel_stlist,)
     else:
         state.st_source = source_id[st_source]
-        state.p1_funcs.stations_from_source(state)
-        sitename = dmc2.selectbox('Select station:',state.p1_sel_source_stlist)
+        state._funcs.stations_from_source(state)
+        sitename = dmc2.selectbox('Select station:',state._sel_source_stlist)
     state.selected_site = sitename.split(": ")[0]
-    state.p1_funcs.get_1site_data(state)
+    state._funcs.get_1site_data(state)
 
 
 
@@ -108,31 +108,31 @@ def data_selections(state):
         state.c01, state.c02= st.columns([1,3])
         date_method = state.c01.radio('Choose date based on:',['Year','Date'],index=0)
         if date_method=='Year':
-            selected_years = st.slider('Year range:',state.p1_first_date.year,\
-                state.p1_last_date.year,(2017,2019))
-            state.p1_start_date,state.p1_end_date = date(selected_years[0],1,1), date(selected_years[1],12,31)
+            selected_years = st.slider('Year range:',state._first_date.year,\
+                state._last_date.year,(2017,2019))
+            state._start_date,state._end_date = date(selected_years[0],1,1), date(selected_years[1],12,31)
         else:
             def_st,def_ed = date(2016,1,1), date(2019,12,31)
             state.c11, state.c12= st.columns(2)
-            state.p1_start_date = state.c11.date_input('Start date:', value=def_st,\
-                min_value=state.p1_first_date,max_value=state.p1_last_date)
-            state.p1_end_date = state.c12.date_input('End date:',value=def_ed,\
-                min_value=state.p1_first_date,max_value=state.p1_last_date)
+            state._start_date = state.c11.date_input('Start date:', value=def_st,\
+                min_value=state._first_date,max_value=state._last_date)
+            state._end_date = state.c12.date_input('End date:',value=def_ed,\
+                min_value=state._first_date,max_value=state._last_date)
 
         source = state.c02.multiselect('Select the data source:',source_id.keys(),\
             default=source_id.keys())
-        state.p1_source = [source_id[i] for i in source]
+        state._source = [source_id[i] for i in source]
 
     if 'start_date0' not in state:
         load_data(state)
     else:
-        state.logic1 = (state.p1_start_date0 != state.p1_start_date) or (state.p1_end_date0!=state.p1_end_date) or \
-             (state.p1_source0!=state.p1_source)
+        state.logic1 = (state._start_date0 != state._start_date) or (state._end_date0!=state._end_date) or \
+             (state._source0!=state._source)
         if state.logic1:
             load_data(state)
 
 def show_statistics(state):
-    state.p1_funcs.calculate_statistics(state)
+    state._funcs.calculate_statistics(state)
     dm1,dm2,dm3 = st.columns([4,1,1])
     st.markdown("""
         <style>
@@ -154,29 +154,29 @@ def show_statistics(state):
 
     dm2.download_button(
         label='Download data',
-        data = state.p1_sel_df.to_csv(index=False),
+        data = state._sel_df.to_csv(index=False),
         file_name='selected_nh3_data.csv')
     dm3.download_button(
         label='Site meta',
-        data = state.p1_sel_sdf.to_csv(index=False),
+        data = state._sel_sdf.to_csv(index=False),
         file_name='selected_nh3_site_meta.csv')  
     
 
 def load_data(state):
-    state.p1_funcs.read_nh3_data(state)
-    state.p1_funcs.get_nh3_stations(state)
+    state._funcs.read_nh3_data(state)
+    state._funcs.get_nh3_stations(state)
     
-    state.p1_start_date0,state.p1_end_date0 = state.p1_start_date,state.p1_end_date
-    state.p1_source0 = state.p1_source
+    state._start_date0,state._end_date0 = state._start_date,state._end_date
+    state._source0 = state._source
 
 
 def initiate_state_p1(state):
-    if 'p1_first_date' not in state:
-        state.p1_funcs = st_nh3()
-        state.p1_nh3_db = state.p1_funcs.db
-        state.p1_nh3_df = state.p1_nh3_db.read_data()
-        state.p1_first_date = state.p1_nh3_df['st'].min()
-        state.p1_last_date = state.p1_nh3_df['ed'].max()
+    if 'first_date' not in state:
+        state._funcs = st_nh3()
+        state._nh3_db = state._funcs.db
+        state._nh3_df = state._nh3_db.read_data()
+        state._first_date = state._nh3_df['st'].min()
+        state._last_date = state._nh3_df['ed'].max()
     state.autoload = True
 
 if __name__ == '__main__':
