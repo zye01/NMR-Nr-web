@@ -171,7 +171,7 @@ def load_data(state):
 
 
 def initiate_state_p1(state):
-    if 'funcs' not in state:
+    if 'p1_first_date' not in state:
         state.p1_funcs = st_nh3()
         state.p1_nh3_db = state.p1_funcs.db
         state.p1_nh3_df = state.p1_nh3_db.read_data()
