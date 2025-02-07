@@ -19,7 +19,8 @@ class nh3_database:
     def read_data(self,start_date=None,end_date=None,sources=None,methods=None):
         if not os.path.isfile(self.db_dfile):
             print('Database file not found, read from web')
-            url = 'https://drive.google.com/file/d/18W5VeYeads31dL26KggTKjiZcG_HvcBE/view?usp=sharing'
+            url = 'https://drive.google.com/file/d/1SWRioRsp98PQDy16w-mftIPUn7KWSvLB/view?usp=sharing'
+            # url = 'https://drive.google.com/file/d/18W5VeYeads31dL26KggTKjiZcG_HvcBE/view?usp=sharing'
             url='https://drive.google.com/uc?id=' + url.split('/')[-2]
             df = pd.read_csv(url)
         else:
